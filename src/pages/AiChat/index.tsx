@@ -68,7 +68,12 @@ const AiChatComponent = () => {
   const [className, setClassName] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
   const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([]);
-  const [message, setMessage] = useState("");
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Ensures code runs only on the client
+  }, []);
+
   // State for tracking the currently playing text index
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
@@ -102,13 +107,7 @@ const AiChatComponent = () => {
     }
   }, [chat_history]);
 
-  // Get Topics List from Redux store
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setMessage("This is a client-side message.");
-    }
-  }, []);
-
+ 
   const {
     transcript,
     listening,
@@ -311,6 +310,7 @@ const AiChatComponent = () => {
   console.log("chat History", chatHistory)
   return (
     <>
+    {isClient ? <>
       <HomeNavbar />
       <div className='container mt-20  mx-auto'>
         <div className="flex bg-gradient-to-r from-[#63A7D4]  to-[#F295BE] rounded-lg  justify-between items-center p-4">
@@ -462,6 +462,8 @@ const AiChatComponent = () => {
           </div>
         </div>
       </div>
+    </> :''
+}
     </>
   );
 };
