@@ -68,7 +68,7 @@ const AiChatComponent = () => {
   const [className, setClassName] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
   const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([]);
-
+  const [message, setMessage] = useState("");
   // State for tracking the currently playing text index
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
@@ -103,6 +103,11 @@ const AiChatComponent = () => {
   }, [chat_history]);
 
   // Get Topics List from Redux store
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setMessage("This is a client-side message.");
+    }
+  }, []);
 
   const {
     transcript,
