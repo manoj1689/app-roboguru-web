@@ -76,7 +76,7 @@ const SmartGrader = () => {
               <textarea
                 value={questions}
                 onChange={(e) => setQuestions(e.target.value)}
-                rows="6"
+                rows={6}
                 placeholder="Type your questions here..."
                 className="w-full p-4 border rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"
               />
@@ -87,7 +87,7 @@ const SmartGrader = () => {
               <textarea
                 value={answers}
                 onChange={(e) => setAnswers(e.target.value)}
-                rows="6"
+                rows={6}
                 placeholder="Type your answers here..."
                 className="w-full p-4 border rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"
               />
