@@ -23,7 +23,7 @@ const SessionChatComponent = () => {
       dispatch(fetchChatHistory(sessionId)); // Fetch chat history based on sessionId
     }
   }, [dispatch, sessionId]);
-
+ console.log("session Chat History",chatHistory)
   return (
     <div>
       {sessionId && (
