@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        roboto: ['raleway', 'sans-serif'], // Add Google Font here
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
