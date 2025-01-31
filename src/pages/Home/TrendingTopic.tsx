@@ -26,7 +26,8 @@ const TrendingTopicsSection = () => {
     if (userData) {
       const parsedData = JSON.parse(userData);
 
-      const user_class_id = "01b60e10-88c7-49db-afd2-a8c945317ded";
+      const user_class_id = parsedData.user_class;
+      console.log("user_class_id",user_class_id)
       // Dispatch trending topics based on class ID
       if (parsedData.user_class) {
         dispatch(fetchTrendingTopicsByClassId(user_class_id));
