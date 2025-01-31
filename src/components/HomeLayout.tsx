@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <Navbar />
 
             {/* Page Content */}
-            <main className="mt-20 px-4">
+            <main className="flex mt-20  px-4">
                 {/* Children components will render below the fixed header */}
                 {children}
             </main>

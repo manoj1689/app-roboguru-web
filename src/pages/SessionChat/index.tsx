@@ -217,8 +217,8 @@ const SessionChatComponent = () => {
       <div className='' >
 
         <Sidebar />
-        <div className='lg:container lg:ml-64  max-lg:mx-auto lg:px-4 ' >
-          <div className="flex w-full fixed  lg:container mt-20  mx-auto bg-gradient-to-r from-[#63A7D4]    to-[#F295BE] rounded-lg  justify-between items-center p-4">
+        <div className='flex flex-col container mx-auto lg:ml-64 px-4' >
+        <div className="flex  mt-20   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-lg  justify-between items-center p-4">
             <div className='text-white'>
               <p><strong>Class:</strong> {className}</p>
               <p><strong>Subject:</strong> {subjectName}</p>
@@ -228,7 +228,7 @@ const SessionChatComponent = () => {
 
           </div>
 
-          <div className=" w-full pt-48 pb-28  rounded-lg"  >
+          <div className=" w-full  pb-28  rounded-lg"  >
             <div className='flex p-4  justify-between items-center text-center  rounded-lg text-cyan-500 cursor-pointer ' onClick={goBack} >
 
               <span className='flex gap-2  justify-center items-center'><span><FaArrowLeft size={16} /></span><span>Back</span></span>

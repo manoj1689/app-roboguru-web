@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import "reactjs-popup/dist/index.css";
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { TiArrowSortedDown } from "react-icons/ti";
 const Header: React.FC = () => {
     const router = useRouter();
@@ -55,7 +56,7 @@ const Header: React.FC = () => {
                     </div>
                     {/* Center: Search Bar */}
                     <div className="hidden md:block flex-1 mx-8">
-                        {/* <ReactSearchAutocomplete
+                        <ReactSearchAutocomplete
                             items={items}
                             onSearch={handleSearch}
                             onSelect={handleOnSelect}
@@ -74,7 +75,7 @@ const Header: React.FC = () => {
                                 lineColor: "#d1d5db",
                                 placeholderColor: "#9ca3af",
                             }}
-                        /> */}
+                        />
                     </div>
                     {/* Right: Buttons / Avatar */}
                     <div className="flex items-center space-x-3">

@@ -91,11 +91,11 @@ const ChapterScreen = () => {
   return (
     <>
       <Layout>
-        <div className="">
+
+      <div >
           <Sidebar />
         </div>
-
-        <section className="w-full lg:ml-64 container mx-auto px-4">
+        <div className="flex w-full flex-col container  lg:ml-64 mx-auto px-4">
           <GreetingBar />
           {currentSubject && (
             <div className="flex gap-4   mt-4">
@@ -170,7 +170,10 @@ const ChapterScreen = () => {
 
             ))}
           </div>
-        </section>
+
+        </div>
+     
+      
       </Layout>
     </>
   );
