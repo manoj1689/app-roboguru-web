@@ -8,11 +8,13 @@ function index() {
 
   const discussions = [
     {
+      dis_image:"/images/mathematic1.png",
       title: "Most Discussed: Algebra Basics",
       description: "45 replies, last updated 1 hr ago.",
       link: "/Discussion",
     },
     {
+      dis_image:"/images/mathematic2.png",
       title: "Physics: Laws of Motion",
       description: "30 replies, last updated 2 hrs ago.",
       link: "/Discussion",
@@ -207,26 +209,26 @@ function index() {
           </section>
           {/* <!-- END SAMPLE AI CHAT --> */}
 
-          {/* <!-- ========== COMMUNITY SECTION ========== --> */}
           <section id="community" className="container mx-auto bg-white p-6 rounded shadow my-4">
             <h2 className="text-2xl font-bold mb-2">Join Our Community</h2>
             <p className="text-sm mb-4 leading-relaxed">
               Connect with peers, get tips, and share insights on our discussion forums.
             </p>
             {/* Discussion Cards */}
-            <div className="grid grid-cols-1  gap-4">
+            <div className="flex flex-col md:flex-row justify-around gap-4">
               {discussions.map((discussion, index) => (
                 <div
                   key={index}
-                  className="p-4 border rounded hover:shadow-lg transition-shadow hover:border-stone-400"
+                  className="p-4 w-full md:w-1/2 flex flex-col items-center border rounded hover:shadow-lg transition-shadow hover:border-stone-400"
                 >
-                  <h4 className="font-semibold">{discussion.title}</h4>
-                  <p className="text-sm mt-1">{discussion.description}</p>
+                  <img src={discussion.dis_image} alt="img" />
+                  <h4 className="font-semibold text-[#418BBB]">{discussion.title}</h4>
+                  <p className="text-sm mt-1"><i>{discussion.description}</i></p>
                   <a
                     href={discussion.link}
-                    className="text-pink-500 text-sm hover:underline mt-2 inline-block"
+                    className="text-[#63A7D4] hover:text-[#3c8ec5] text-sm border border-gray-300 hover:border-gray-400 px-4 py-2 mt-3 inline-block"
                   >
-                    View Discussion
+                    Discussion Here
                   </a>
                 </div>
               ))}
@@ -234,13 +236,14 @@ function index() {
           </section>
           {/* <!-- END COMMUNITY --> */}
 
-          <section id="leaderboard" className="container mx-auto bg-white p-6 rounded shadow my-4">
+          <section id="leaderboard" className="flex container mx-auto bg-white p-6 rounded shadow my-4">
+            <div className='w-full sm:w-1/2'>
             <h2 className="text-2xl font-bold mb-2">Community Leaderboard</h2>
-            <p className="text-sm mb-4 leading-relaxed">
+            <p className="text-sm mb-6 leading-relaxed">
               See who’s earning the most badges or providing top answers in the forum.
             </p>
             {/* Leaderboard List */}
-            <ol className="list-decimal list-inside text-sm space-y-2">
+            <ol className="list-decimal list-inside text-sm space-y-6">
               {leaderboard.map((user, index) => (
                 <li key={index}>
                   <strong>{user.name}</strong> – {user.points} points
@@ -250,10 +253,14 @@ function index() {
             {/* View Full Leaderboard Link */}
             <Link
               href="/Leaderboard"
-              className="text-pink-500 hover:underline text-sm block mt-3"
+              className="text-[#63A7D4] hover:text-[#3180b4] underline text-sm block mt-6 w-fit"
             >
               View Full Leaderboard
             </Link>
+            </div>
+            <div className='w-1/2 hidden sm:block'>
+              <img src="/images/leader_board.png" alt="img" />
+            </div>
           </section>
           {/* <!-- ========== TEACHER / PARENT PORTAL INFO ========== --> */}
           <section id="teacher-portal" className="container relative mx-auto bg-white p-6 rounded shadow my-4">

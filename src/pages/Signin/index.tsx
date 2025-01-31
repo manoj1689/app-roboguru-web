@@ -62,82 +62,85 @@ const auth = getAuth(app);
       <div className="flex w-full  md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-screen text-center p-6">
         <img src="/images/leftbanner.png" alt="Banner" className="max-sm:hidden w-full mx-auto px-4" />
         <h1 className="text-4xl md:text-6xl font-bold sm:mt-8 text-white">ROBO GURU</h1>
-        <p className="sm:mt-4 text-white tracking-wider text-2xl">Learn, Ask, and Grow Anytime, Anywhere.</p>
+        <p className="sm:mt-4 text-white tracking-wider text-2xl">YOUR AI LEARNING COMPANION</p>
       </div>
 
       {/* Center Circular Image */}
       <div className="relative flex max-md:h-40 md:h-full w-full md:w-2/12">
         <div className="absolute inset-0 max-md:flex-col flex">
-          <div className="max-md:h-1/2 md:w-1/2 max-md:bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#aff295]"></div>
-          <div className="max-md:h-1/2 md:w-1/2 bg-[#558585]"></div>
+          <div className="max-md:h-1/2 md:w-1/2 max-md:bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE]"></div>
+          <div className="max-md:h-1/2 md:w-1/2 bg-[#f8fafa]"></div>
         </div>
         <div className="absolute inset-0 flex justify-center items-center">
           <img src="/images/robo_circle.png" alt="RoboGuru Logo" className="w-28 md:w-40 rounded-full object-cover" />
         </div>
       </div>
 
-    {/* Right Section */}
-<div className="w-full md:w-5/12 h-full overflow-y-auto flex flex-col items-center justify-around p-4">
- 
+      {/* Right Section */}
+      <div className="w-full md:w-5/12 h-full flex p-4 flex-col items-center justify-around">
+        <div className="flex w-full text-3xl font-bold justify-center items-center">Login</div>
+          {/* Mobile Login Form */}
+        <div>
+          <FirebaseMobile/>
+          </div>
+        <div className="flex w-full gap-12 flex-col justify-between items-center">
+        
+       
+        
 
-  {/* Mobile Login Form */}
-  <div >
-    <FirebaseMobile />
-    </div>
+          {/* Divider and Social Login */}
+          <div className="flex  items-center w-full ">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-2 text-gray-500 font-bold">or sign in with</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
 
-  <div className="flex w-full gap-12 flex-col items-center">
-
-    {/* Divider and Social Login */}
-    <div className="flex items-center w-full">
-      <hr className="flex-grow border-gray-300" />
-      <span className="mx-2 text-gray-500 font-bold">OR</span>
-      <hr className="flex-grow border-gray-300" />
-    </div>
-
-    {/* Google and Facebook Buttons */}
-    <div className="flex w-full space-x-8 justify-center items-center">
-      <button
-        onClick={handleFacebookSignIn}
-        className="flex justify-center items-center rounded-full shadow-md hover:shadow-lg"
-      >
-        <span>
-          <img
-            src="/images/facebook.png"
-            alt="Facebook Logo"
-            className="w-16 rounded-full bg-white"
-          />
-        </span>
-      </button>
-      <button
-        onClick={handleGoogleSignIn}
-        className="flex p-2 justify-center items-center bg-gray-200 rounded-full shadow-md hover:shadow-lg"
-      >
-        <span>
-          <img src="/images/google.png" alt="Google Logo" className="w-12" />
-        </span>
-      </button>
-      <button
-        className="flex gap-4 p-2 justify-center items-center bg-gray-200 rounded-full shadow-md hover:shadow-lg"
-      >
-        <span>
-          <img src="/images/apple.png" alt="Apple Logo" className="w-12" />
-        </span>
-      </button>
-    </div>
-  </div>
- 
-  <div className="flex w-full  flex-col justify-center items-center">
-    <div className="flex w-full text-gray-500 text-lg gap-2 justify-center font-bold text-center pt-4">
-      <span className="font-bold">Secure Login </span><span className="font-medium">with Your Favorite Platform</span>
-    </div>
-    <div className="mt-8 space-x-2">
-      <span>Sponsored & Promoted by</span>
-      <span className="text-blue-500 text-sm font-semibold">ERAM LABS</span>
-    </div>
-    <div className="text-[#838383] text-sm text-bold">copyright @ Mobirizer2024</div>
-  </div>
-</div>
-
+          {/* Google and Facebook Buttons */}
+          <div className="flex   w-full space-x-8 justify-center items-center">
+            <button
+              onClick={handleFacebookSignIn}
+            className="flex   justify-center items-center  rounded-full shadow-md hover:shadow-lg"
+            >
+              <span>
+                <img
+                  src="/images/facebook.png"
+                  alt="Facebook Logo"
+                  className="w-12 rounded-full bg-white"
+                />
+              </span>
+  
+            </button>
+            <button
+              onClick={handleGoogleSignIn}
+              className="flex  p-2 justify-center items-center bg-gray-200 rounded-full shadow-md hover:shadow-lg"
+            >
+              <span>
+                <img src="/images/google.png" alt="Google Logo" className="w-8" />
+              </span>
+           
+            </button>
+            <button
+              //onClick={handleGoogleSignIn}
+              className="flex  gap-4 p-2 justify-center items-center bg-gray-200 rounded-full shadow-md hover:shadow-lg"
+            >
+              <span>
+                <img src="/images/apple.png" alt="Apple Logo" className="w-8" />
+              </span>
+           
+            </button>
+          </div>
+        </div>
+        <div className="flex w-full flex-col justify-center items-center">
+          <div className="flex w-full text-gray-500 text-lg justify-center font-bold text-center pt-4">
+            ALL YOUR PERSONAL DATA IS PROTECTED
+          </div>
+          <div className="mt-8 space-x-2">
+            <span>Sponsored & Promoted by</span>
+            <span className="text-blue-500 font-semibold">ERAM LABS</span>
+          </div>
+          <div className="text-sky-400 text-bold">copyright @ Mobirizer2024</div>
+        </div>
+      </div>
     </div>
   );
 };

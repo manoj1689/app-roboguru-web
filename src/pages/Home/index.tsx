@@ -65,7 +65,7 @@ const HomePage = () => {
   return (
     <div>
       <Layout>
-        <div className='flex w-full lg:w-11/12 '>
+        <div className='flex w-full  '>
           {/* Left Menu */}
           <div>
             <Sidebar />

@@ -87,7 +87,7 @@ const Sidebar: React.FC = () => {
       <div
         id="sidebar"
         className={`${isSidebarVisible ? "block" : "hidden"
-          } lg:block   fixed top-20 bottom-8 lg:bottom-32 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10  scroll-auto overflow-y-auto`}
+          } lg:block   fixed top-20  w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 `}
 
       >
         <div className="flex flex-col items-center space-x-4 bg-[#F5F5F5] py-4  rounded-t-lg ">
