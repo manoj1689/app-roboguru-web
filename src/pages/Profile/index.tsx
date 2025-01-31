@@ -104,7 +104,7 @@ const ProfilePage = () => {
       <div className="flex w-full  md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-screen scroll-auto overflow-y-auto text-center p-6">
         <img src="/images/leftbanner.png" alt="Banner " className="max-md:hidden object-fill mx-auto px-4" />
         <h1 className="text-4xl md:text-6xl font-bold sm:mt-8 text-white">ROBO GURU</h1>
-        <p className="sm:mt-4 text-white tracking-wider text-2xl">YOUR AI LEARNING COMPANION</p>
+        <p className="sm:mt-4 text-white tracking-wider text-2xl">Learn, Ask, and Grow Anytime, Anywhere.</p>
       </div>
 
       {/* Center Circular Image */}

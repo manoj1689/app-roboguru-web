@@ -67,9 +67,8 @@ const Navbar: React.FC = () => {
           {/* Middle: Navigation */}
           <nav
             id="menu"
-            className={`${
-              menuOpen ? "flex" : "hidden"
-            } md:flex flex-col md:flex-row md:space-x-8 max-md:w-11/12 bg-[#418BBB] max-md:rounded-xl md:bg-transparent md:static absolute top-20 left-4 text-center shadow-md md:shadow-none`}
+            className={`${menuOpen ? "flex" : "hidden"
+              } md:flex flex-col md:flex-row md:space-x-8 max-md:w-11/12 bg-[#418BBB] max-md:rounded-xl md:bg-transparent md:static absolute top-20 left-4 text-center shadow-md md:shadow-none`}
           >
             <ul className="flex max-md:flex-col space-y-4 md:space-y-0 sm:space-x-2 lg:space-x-6 items-center max-md:py-4 max-md:px-4">
               <li>
@@ -97,32 +96,28 @@ const Navbar: React.FC = () => {
                   FAQ
                 </a>
               </li>
-              <li>
-                <a
-                  href="#download"
-                  className="border  border-pink-300 bg-pink-200 text-[#63A7D4]   rounded-md  p-2 "
-                >
-                  Download
-                </a>
-              </li>
+            
             </ul>
           </nav>
 
           {/* Right: Auth Buttons & Download */}
           <div className="flex max-md:w-2/3 justify-end items-center space-x-4">
+           
+              <a
+                href="#download"
+                className="border  border-[#418BBB]   rounded-sm  p-2 "
+              >
+                Download
+              </a>
+         
             {/* Sign In Button */}
             <Link href="/Signin">
-              <button className="text-sm border rounded-lg border-[#63A7D4] hover:border-[#63A7D4] px-4 py-2 font-medium text-[#63A7D4] hover:text-[#63A7D4] hover:bg-[#EAF6FC]">
+              <button className="  border border-[#418BBB] rounded-sm bg-[#418BBB] px-4 py-2  text-white hover:bg-[#357AA0] ">
                 Sign In
               </button>
             </Link>
 
-            {/* Sign Up Button */}
-            <Link href="#">
-              <button className="bg-[#63A7D4] text-white text-sm font-medium px-4 py-2 rounded hover:bg-[#5793bb]">
-                Sign Up
-              </button>
-            </Link>
+
           </div>
         </div>
       </div>

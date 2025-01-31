@@ -130,70 +130,69 @@ const FirebaseMobile: React.FC = () => {
   
 
   return (
-    <div className="firebase-mobile">
-    
-     
-      <div className="w-full max-w-md mx-auto">
-      <div id="recaptcha-container"></div>
-        {!otpSent ? (
-          // Send OTP Form
-          <form onSubmit={handleSendOtp} className="space-y-4 text-center">
-            <h3 className="text-gray-700 font-medium text-lg">Enter your mobile number</h3>
-            
+<div className="firebase-mobile">
+  <div className="flex flex-col justify-between items-center  w-full max-w-md mx-auto ">
+    <div className="flex text-6xl font-semibold justify-center items-end py-4">LOGIN</div>
+
+    {!otpSent ? (
+      // Send OTP Form
+      <form onSubmit={handleSendOtp} className="space-y-8 text-center">
+        <h3 className="text-gray-700 font-medium text-lg">Enter your mobile number</h3>
+        
+        <input
+          type="text"
+          placeholder="Enter Ph No. (e.g., +919876543210)"
+          className="w-full px-4 py-2 border rounded-full text-lg"
+          value={phoneNumber}
+          onChange={handlePhoneNumberChange}
+        />
+        {/* <p className="text-gray-500 text-sm mt-2">Formatted Phone Number: <strong>{formattedPhone}</strong></p> */}
+        
+        <button
+          type="submit"
+          className="px-4 py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-bold rounded-full"
+          disabled={loading}
+        >
+          {loading ? "Sending OTP..." : "Get OTP"}
+        </button>
+        {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+        <p className="text-gray-500 text-md mt-4">We will send you a 6-digit verification code.</p>
+      </form>
+    ) : (
+      // Verify OTP Form
+      <form onSubmit={handleVerifyOtp} className="space-y-8 text-center">
+        <h3 className="text-gray-700 font-medium text-lg">Enter the OTP</h3>
+        <p className="text-gray-500 text-sm">Enter the 6-digit code sent to your mobile number.</p>
+        <div className="flex justify-center space-x-2">
+          {otp.map((digit, index) => (
             <input
+              key={index}
               type="text"
-              placeholder="Enter Ph No. (e.g., +919876543210)"
-              className="w-full px-4 py-2 border rounded-full text-lg"
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
+              id={`otp-input-${index}`}
+              maxLength={1}
+              value={digit}
+              onChange={(e) => handleOtpChange(e, index)}
+              className="w-12 h-12 text-center border border-gray-300 rounded-md text-lg font-bold"
             />
-            {/* <p className="text-gray-500 text-sm mt-2">Formatted Phone Number: <strong>{formattedPhone}</strong></p> */}
-           
-            <button
-              type="submit"
-              className="w-full px-4 py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-bold rounded-full"
-              disabled={loading}
-            >
-              {loading ? "Sending OTP..." : "Get OTP"}
-            </button>
-            {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
-            <p className="text-gray-500 text-md mt-4">We will send you a 6-digit verification code.</p>
-            <div className='flex w-full justify-center items-center'>
-           
-            </div>
-       
-          </form>
-        ) : (
-          // Verify OTP Form
-          <form onSubmit={handleVerifyOtp} className="space-y-4 text-center">
-            <h3 className="text-gray-700 font-medium text-lg">Enter the OTP</h3>
-            <p className="text-gray-500 text-sm">Enter the 6-digit code sent to your mobile number.</p>
-            <div className="flex justify-center space-x-2">
-              {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  id={`otp-input-${index}`}
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleOtpChange(e, index)}
-                  className="w-12 h-12 text-center border border-gray-300 rounded-md text-lg font-bold"
-                />
-              ))}
-            </div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-green-500 text-white rounded-md mt-4"
-              disabled={loading || otp.some((digit) => digit === '')}
-            >
-              {loading ? "Verifying OTP..." : "Verify OTP"}
-            </button>
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-          </form>
-        )}
-         
-      </div>
-    </div>
+          ))}
+        </div>
+        <button
+          type="submit"
+          className="w-full px-4 py-2 bg-green-500 text-white rounded-md mt-4"
+          disabled={loading || otp.some((digit) => digit === '')}
+        >
+          {loading ? "Verifying OTP..." : "Verify OTP"}
+        </button>
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+      </form>
+    )}
+  </div>
+
+  <div className="flex justify-center h-20 items-center">
+    <div id="recaptcha-container"></div>
+  </div>
+</div>
+
   );
 };
 

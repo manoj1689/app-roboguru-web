@@ -9,13 +9,13 @@ import Sidebar from "@/components/Sidebar";
 import GreetingBar from "@/components/GreetingBar";
 import { IoChevronForward } from "react-icons/io5";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
-import { Circle } from "rc-progress";
-
+import { Line } from "rc-progress";
+import { FaArrowLeft } from "react-icons/fa";
 const ChapterScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { subjectId } = router.query; // Get the subjectId from the query parameter
-  
+
   const { userProgress, loading: progressLoading = false, error: progressError = null } =
     useSelector((state: RootState) => state.progress || {});
 
@@ -53,7 +53,7 @@ const ChapterScreen = () => {
 
   useEffect(() => {
     if (chapters.length > 0) {
-      setVisibleChapters(chapters.slice(0, 4)); // Show first 4 chapters initially
+      setVisibleChapters(chapters.slice(0, 8)); // Show first 8 chapters initially
     }
   }, [chapters]);
 
@@ -85,7 +85,9 @@ const ChapterScreen = () => {
   if (chaptersLoading || subjectsLoading) return <div>Loading...</div>;
   if (chaptersError) return <div>Error: {chaptersError}</div>;
   if (subjectsError) return <div>Error: {subjectsError}</div>;
-
+  const goBack = () => {
+    router.back(); // Goes one step back in history
+  };
   return (
     <>
       <Layout>
@@ -96,9 +98,16 @@ const ChapterScreen = () => {
         <section className="w-full lg:ml-64 container mx-auto px-4">
           <GreetingBar />
           {currentSubject && (
-            <div className="p-4 mt-4">
-              <h2 className="text-2xl font-bold text-black">{currentSubject.name}</h2>
-              <p className="text-md text-gray-700">{currentSubject.tagline}</p>
+            <div className="flex gap-4   mt-4">
+
+              <div className="py-2">
+                <FaArrowLeft size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-black">{currentSubject.name}</h2>
+                <p className="text-md text-gray-700">{currentSubject.tagline}</p>
+              </div>
+
             </div>
           )}
           <div className="flex w-full justify-end">
@@ -119,41 +128,46 @@ const ChapterScreen = () => {
             {visibleChapters.map((chapter: any, index: number) => (
               <div
                 key={index}
-                className="flex w-full border-l-4 justify-between border-red-400 bg-red-50 border rounded-lg p-4 hover:shadow transition-shadow"
+                className="flex  w-full border-l-4 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border rounded-r-lg px-4 hover:shadow transition-shadow"
               >
-                <div className="">
-                <p>
-                  Chapter:<span className="px-2">{index + 1}</span>
-                </p>
-                <h4 className="text-xl text-black font-semibold">{chapter.name}</h4>
-                <p className="text-sm text-black">{chapter.description}</p>
-                <div className="flex-col">
+                <div className=" flex flex-col w-5/6">
+                
+                 <span className="flex bg-gray-300 w-32 justify-center items-center gap-2 rounded-b-md">
+                 <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className="italic">Chapter {index + 1}</span>
+                  </span>
+
+                
+                 
+
+                  <h4 className="text-xl mt-2 text-black font-semibold">{chapter.name}</h4>
+                  <p className="text-sm text-black">{chapter.description}</p>
+
+                  <div className="justify-center items-center">
+                  <div className="flex w-full mx-auto my-2 ">
+                    <Line
+                      percent={parseFloat(getChapterProgress(chapter.id).toFixed(2))}
+                      strokeWidth={1}
+                      trailWidth={1}
+                      strokeColor="#63A7D4"
+                      trailColor="#CDE6F7"
+                    />
+                  </div>
+                  <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm font-medium">progress achieve</span></div>
+                </div>
+                </div>
+               
+                <div className="flex flex-col justify-center items-center w-1/6">
                   <button
                     onClick={() =>
                       router.push(`/TopicList?subjectId=${subjectId}&chapterId=${chapter.id}`)
                     }
-                    className="py-2 text-sky-400 font-semibold tracking-widest underline"
+                    className=" px-4 py-2 text-sky-400  border border-[#D9D9D9] font-semibold rounded-lg tracking-widest underline"
                   >
-                    Let's Start
+                    View Topics
                   </button>
                 </div>
+              </div>
 
-                </div>
-               <div  className="justify-center items-center">
-                <div className="flex w-16 mx-auto ">
-                <Circle
-                  percent={parseFloat(getChapterProgress(chapter.id).toFixed(2))}
-                  strokeWidth={8}
-                  trailWidth={8}
-                  strokeColor="#63A7D4"
-                  trailColor="#CDE6F7"
-                />
-                </div>
-                <div className="flex w-full text-pink-500 justify-end"><span> Percentage:{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> </div>
-                </div>
-                
-               </div>
-              
             ))}
           </div>
         </section>

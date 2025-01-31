@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from '../../services/api'; // Adjust the path based on your service file
+import axios from '../../services/api'; // Adjust the path if needed
 
 // Define the ChatSession interface
 interface ChatSession {
@@ -13,16 +13,25 @@ interface ChatSession {
 }
 
 interface ChatMessage {
-  session_id: string;            // The session identifier
-  request_message: string;       // The request message
-  response_message: string;      // The response message
-  status: string;                // The status of the chat
-  timestamp: string;             // Timestamp for the message
+  role: string; // "user" or "assistant"
+  content: string; // Message content
+  timestamp: string; // Timestamp of the message
 }
+
+// Define the chat history structure
+interface ChatHistory {
+  class_name?: string;
+  subject_name?: string;
+  chapter_name?: string;
+  topic_name?: string;
+  session_id: string;
+  data: ChatMessage[];
+}
+
 // Define the state interface
 interface ChatState {
   chatSessions: ChatSession[];
-  chatHistory: ChatMessage[];
+  chatHistory: ChatHistory | null; // Store entire object instead of just an array
   loading: boolean;
   error: string | null;
 }
@@ -30,13 +39,13 @@ interface ChatState {
 // Initial state
 const initialState: ChatState = {
   chatSessions: [],
-  chatHistory: [],
+  chatHistory: null, // Set to null initially
   loading: false,
   error: null,
 };
 
 // Async thunk to fetch chat sessions
-export const fetchChatSessions = createAsyncThunk(
+export const fetchChatSessions = createAsyncThunk<ChatSession[], void, { rejectValue: string }>(
   'chat/fetchChatSessions',
   async (_, { rejectWithValue }) => {
     try {
@@ -45,41 +54,36 @@ export const fetchChatSessions = createAsyncThunk(
       });
 
       if (response.data.success) {
-        console.log('Chat sessions fetched:', response.data);
-        return response.data.data; // Return the session data
+        return response.data.data as ChatSession[]; // Ensure correct type
       } else {
-        throw new Error(response.data.message || 'Failed to fetch chat sessions');
+        return rejectWithValue(response.data.message || 'Failed to fetch chat sessions');
       }
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message || 'An unexpected error occurred'
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message || 'An unexpected error occurred');
     }
   }
 );
 
 // Async thunk to fetch chat history for a specific session
-export const fetchChatHistory = createAsyncThunk(
+export const fetchChatHistory = createAsyncThunk<ChatHistory, string, { rejectValue: string }>(
   'chat/fetchChatHistory',
-  async (sessionId: string, { rejectWithValue }) => {
+  async (sessionId, { rejectWithValue }) => {
     try {
       const response = await axios.get(`/chat/sessions/${sessionId}/chats`, {
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.data.success) {
-        console.log('Chat history fetched for session:', response.data);
-        return response.data.data; // Return the chat history data
+        return response.data as ChatHistory; // Ensure correct type
       } else {
-        throw new Error(response.data.message || 'Failed to fetch chat history');
+        return rejectWithValue(response.data.message || 'Failed to fetch chat history');
       }
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message || 'An unexpected error occurred'
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message || 'An unexpected error occurred');
     }
   }
 );
+
 // Chat slice
 const chatSlice = createSlice({
   name: 'chat',
@@ -88,14 +92,14 @@ const chatSlice = createSlice({
     // Reducer to reset all chat data
     resetChat(state) {
       state.chatSessions = [];
-      state.chatHistory = [];
+      state.chatHistory = null; // Reset chat history
       state.loading = false;
       state.error = null;
     },
   },
   extraReducers: (builder) => {
-    // Handle fetchChatSessions
     builder
+      // Handle fetchChatSessions
       .addCase(fetchChatSessions.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -104,22 +108,21 @@ const chatSlice = createSlice({
         state.loading = false;
         state.chatSessions = action.payload;
       })
-      .addCase(fetchChatSessions.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(fetchChatSessions.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to fetch chat sessions';
-      });
+      })
 
-    // Handle fetchChatHistory
-    builder
+      // Handle fetchChatHistory
       .addCase(fetchChatHistory.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchChatHistory.fulfilled, (state, action: PayloadAction<ChatMessage[]>) => {
+      .addCase(fetchChatHistory.fulfilled, (state, action: PayloadAction<ChatHistory>) => {
         state.loading = false;
         state.chatHistory = action.payload;
       })
-      .addCase(fetchChatHistory.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(fetchChatHistory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Failed to fetch chat history';
       });

@@ -14,7 +14,7 @@ const TrendingTopicsSection = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const topicsPerPage = 8; // Define the number of topics per page
+  const topicsPerPage = 4; // Define the number of topics per page
 
   // Calculate indices for paginated data
   const startIndex = (currentPage - 1) * topicsPerPage;
@@ -26,7 +26,7 @@ const TrendingTopicsSection = () => {
     if (userData) {
       const parsedData = JSON.parse(userData);
 
-      const user_class_id = "f1572e7b-f3e1-42b3-8c52-794c9b9e1d98";
+      const user_class_id = "01b60e10-88c7-49db-afd2-a8c945317ded";
       // Dispatch trending topics based on class ID
       if (parsedData.user_class) {
         dispatch(fetchTrendingTopicsByClassId(user_class_id));
@@ -43,26 +43,29 @@ const TrendingTopicsSection = () => {
         <h3 className="text-lg font-bold">Trending Topics for You</h3>
       
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
         {paginatedTopics.map((topic: any, index: number) => (
           <div
             key={index}
-            className="flex flex-col justify-between bg-blue-300 p-4 rounded-lg shadow-lg " 
+            className="flex flex-col justify-between bg-[#F7F7F7] border border-[#EAEAEA] p-4 rounded-lg shadow-lg " 
           >
+            <div className="flex w-full text-xs font-semibold justify-end">
+            <span className="px-4 py-2 rounded-full bg-[#FFB97B]">Trending</span>
+            </div>
             <div>
-              <h4 className="text-xl text-white  font-semibold mb-1">
+              <h4 className="text-xl text-black font-semibold mb-1">
                 {topic.name}
               </h4>
-              <p className="text-sm text-white mb-2">
+              <p className="text-sm text-black mb-2">
                 {topic.tagline} | Details {topic.class_name}
               </p>
-              <p className="text-md text-white line-clamp-1">
+              <p className="text-md text-black line-clamp-1">
                 {topic.subject_tagline}
               </p>
             </div>
             <div className="flex-col">
               <button
-                className="p-2 w-2/3 text-black bg-white rounded-lg "
+                className="px-8 py-2 text-white mt-4 bg-[#63A7D4] rounded-md "
                 onClick={()=>router.push(`/AiChat?trendingTopicId=${topic.id}`)}
               >
 

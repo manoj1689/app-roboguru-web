@@ -10,7 +10,7 @@ import chapterReducer from './slices/chapterSlice'
 import topicReducer from './slices/topicSlice'
 import sessionReducer from './slices/sessionSlice';
 import chatReducer from './slices/chatSlice'
-import chatHistoryReducer from './slices/chatHistorySlice';
+import chatHistoryReducer from './slices/chatHistorySessionSlice';
 import progressReducer from './slices/progressSlice'
 
 // Define the store

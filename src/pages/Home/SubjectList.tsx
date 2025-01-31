@@ -6,6 +6,7 @@ import { fetchSubjectsByClassId } from "../../redux/slices/subjectSlice";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
 import { Line } from "rc-progress";
 import ResponsivePagination from 'react-responsive-pagination';
+import { IoChevronForward } from "react-icons/io5";
 import './pagination.css'
 
 const SubjectList = () => {
@@ -63,31 +64,41 @@ const SubjectList = () => {
   return (
     <section className="bg-white rounded shadow p-5 my-4">
       <h3 className="text-lg font-bold mb-4">Subjects for Your Class</h3>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    
-          {subjectsList.map((subject: any) => (
-            <div
-              key={subject.id}
-              className="flex flex-col bg-sky-400 border rounded-lg px-4 pt-8 pb-4 mb-4 hover:shadow transition-shadow"
-            >
-              <div className="flex flex-col w-80 mb-2">
-                <span className="text-xl text-white font-semibold mb-2 text-wrap">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+
+        {subjectsList.map((subject: any) => (
+
+          <div
+            key={subject.id}
+            className="flex flex-col bg-[#F7F7F7] border border-[#EAEAEA] rounded-lg p-4 mb-4 hover:shadow transition-shadow"
+          >
+            <div className="flex flex-col w-full h-full ">
+              <div className="flex justify-end"><p className="text-sm text-black font-semibold mb-2">{subject.name}</p></div>
+              <div className="flex flex-col mb-2">
+                <span className="text-xl text-black font-semibold mb-2">
                   {subject.tagline}
                 </span>
-                <p className="text-sm text-white mb-2">{subject.name}</p>
               </div>
-
-              <div className="flex-col">
+            </div>
+            <div>
+              <div>
                 <button
                   onClick={() =>
                     router.push(`/ChapterList?subjectId=${subject.id}`)
                   }
-                  className="py-2 text-white mt-4 font-semibold tracking-widest underline"
+                  className="py-2 flex justify-center items-center text-[#63A7D4] mt-4 font-semibold tracking-widest hover:scale-105"
                 >
-                  Explore Now
+                  <span>Explore Now </span><span><div className="flex">
+                    <IoChevronForward size={16} />
+                    <IoChevronForward size={16} />
+                  </div></span>
                 </button>
               </div>
+              <div className="flex w-full justify-end gap-2 font-semibold text-gray-600 pb-2">
+                <span>{parseFloat(getSubjectProgress(subject.id).toFixed(2))}</span><span>%</span><span>Progress</span>
+              </div>
+
 
               <Line
                 percent={parseFloat(getSubjectProgress(subject.id).toFixed(2))}
@@ -97,9 +108,11 @@ const SubjectList = () => {
                 trailColor="#CDE6F7"
               />
             </div>
-          ))}
-        </div>
-    
+
+          </div>
+        ))}
+      </div>
+
 
       {/* Pagination */}
       <div className="pagination-container">
