@@ -22,7 +22,7 @@ const auth = getAuth(app);
     }
     // Save token and user info
     localStorage.setItem("social_access_token", token);
-    localStorage.setItem("userData", JSON.stringify(user));
+   // localStorage.setItem("userData", JSON.stringify(user));
     console.log("Token saved to localStorage:", token);
     console.log("User data:", user);
 
@@ -59,10 +59,15 @@ const auth = getAuth(app);
   return (
     <div className="flex max-md:flex-col justify-center items-center  h-screen scroll-auto overflow-y-auto relative">
       {/* Left Section */}
-      <div className="flex w-full  md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-screen text-center p-6">
-        <img src="/images/leftbanner.png" alt="Banner" className="max-sm:hidden w-full mx-auto px-4" />
-        <h1 className="text-4xl md:text-6xl font-bold sm:mt-8 text-white">ROBO GURU</h1>
-        <p className="sm:mt-4 text-white tracking-wider text-2xl">YOUR AI LEARNING COMPANION</p>
+      <div className="flex w-full  md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-full text-center max-md:py-12">
+      <div>
+      <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto  " />
+      </div>
+        <div >
+        <h1 className="text-2xl md:text-3xl lg:text-6xl font-bold pt-4 text-white tracking-wide md:tracking-wider lg:tracking-widest">ROBO GURU</h1>
+        <p className=" text-white tracking-wider text-lg md:text-xl lg:text-2xl  ">Learn, Ask, and Grow Anytime, Anywhere.</p>
+        </div>
+    
       </div>
 
       {/* Center Circular Image */}
@@ -72,13 +77,13 @@ const auth = getAuth(app);
           <div className="max-md:h-1/2 md:w-1/2 bg-[#f8fafa]"></div>
         </div>
         <div className="absolute inset-0 flex justify-center items-center">
-          <img src="/images/robo_circle.png" alt="RoboGuru Logo" className="w-28 md:w-40 rounded-full object-cover" />
+          <img src="/images/robo_circle.png" alt="RoboGuru Logo" className="w-16 md:w-40 rounded-full object-cover" />
         </div>
       </div>
 
       {/* Right Section */}
       <div className="w-full md:w-5/12 h-full flex p-4 flex-col items-center justify-around">
-        <div className="flex w-full text-3xl font-bold justify-center items-center">Login</div>
+        <div className="flex w-full text-3xl font-bold justify-center items-center max-md:pt-8">Login</div>
           {/* Mobile Login Form */}
         <div>
           <FirebaseMobile/>

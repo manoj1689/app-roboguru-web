@@ -13,12 +13,12 @@ const Sidebar: React.FC = () => {
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [profileData, setProfileData] = useState<any>(null);
-
+  const [className, setClassName] = useState<string>('');
   // Redux state
   const { selectedEducationLevel, loading: educationLoading } = useSelector(
     (state: RootState) => state.educationLevels
   );
-  const { selectedClass, loading: classesLoading } = useSelector(
+  const { classDetails, loading: classesLoading } = useSelector(
     (state: RootState) => state.class
   );
 
@@ -44,20 +44,24 @@ const Sidebar: React.FC = () => {
     }
   }, [dispatch]);
 
-  // Handle Logout
-  const handleLogout = () => {
-    localStorage.removeItem("mobile_access_token");
-    localStorage.removeItem("social_access_token");
-    localStorage.removeItem("access_token");
-    signOut({ redirect: false });
-    router.push("/Landing");
-  };
+  useEffect(() => {
+    const userData = localStorage.getItem("user_profile");
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      if (parsedData.user_class && classDetails?.data?.length > 0) {
+        const foundClass = classDetails.data.find(
+          (cls: any) => cls.id === parsedData.user_class
+        );
+        setClassName(foundClass ? foundClass.name : "Unknown Class");
+      }
+    }
+  }, [classDetails]);
 
   // Navigation handler
   const handleNavigation = (path: string) => {
     router.push(path);
   };
-
+console.log("class Details",classDetails)
   return (
     <>
       {/* Hamburger button for small screens */}
@@ -87,28 +91,24 @@ const Sidebar: React.FC = () => {
       <div
         id="sidebar"
         className={`${isSidebarVisible ? "block" : "hidden"
-          } lg:block   fixed top-20  w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 `}
+          } lg:block max-lg:fixed ml-4   top-20  w-56 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 `}
 
       >
-        <div className="flex flex-col items-center space-x-4 bg-[#F5F5F5] py-4  rounded-t-lg ">
+        <div className="flex flex-col items-center jus space-x-4 bg-[#F5F5F5] py-4  rounded-t-lg ">
           <img
             src={profileData?.profile_image || "./images/user.webp"}
             alt="User Avatar"
-            className="w-20 rounded-full"
+            className="w-20 h-20 rounded-full object-cover"
           />
-          <div>
-            <p className="font-semibold">Hello, {profileData?.name || "User"}!</p>
-            {selectedEducationLevel && (
-              <p className="text-xs text-gray-600">
-                Education Level: {selectedEducationLevel.name}
-              </p>
+          <div className="flex flex-col justify-center items-center">
+            <p className="font-semibold text-lg">Hello, {profileData?.name || "User"}!</p>
+            {selectedEducationLevel && classDetails && (
+              <span className="text-sm text-gray-600">
+                {selectedEducationLevel.name}-{className}
+              </span>
             )}
-            {selectedClass && (
-              <p className="text-xs text-gray-600">
-                Class: {selectedClass.name}
-              </p>
-            )}
-            <p className="text-xs text-gray-600">Class XII - Science</p>
+          
+          
           </div>
         </div>
 
@@ -116,55 +116,55 @@ const Sidebar: React.FC = () => {
         <nav className="flex flex-col p-4 full  text-sm">
           <div
             onClick={() => handleNavigation("/ChatSessionsList")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md font-normal mb-4 cursor-pointer"
           >
             Chat History
           </div>
           <div
             onClick={() => handleNavigation("/Quizme")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md font-normal mb-4 cursor-pointer"
           >
             Quiz Me
           </div>
           <div
             onClick={() => handleNavigation("/Smartgrader")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md  font-medium mb-4 cursor-pointer"
           >
             Smart Grading
           </div>
           <div
             onClick={() => handleNavigation("/Intelliquest")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md  font-medium mb-4 cursor-pointer"
           >
             IntelliQuest
           </div>
           <div
             onClick={() => handleNavigation("/Feedback")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md  font-medium mb-4 cursor-pointer"
           >
             Feedback
           </div>
           <div
             onClick={() => handleNavigation("/Subscriptiondetail")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md font-medium mb-4 cursor-pointer"
           >
             Subscription Details
           </div>
           <div
             onClick={() => handleNavigation("/FAQ")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md font-medium mb-4 cursor-pointer"
           >
             FAQ
           </div>
           <div
             onClick={() => handleNavigation("/AppSetting")}
-            className="block hover:text-[#4080aa] font-medium mb-4 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md font-medium mb-4 cursor-pointer"
           >
             App Setting
           </div>
           <div
             onClick={() => handleNavigation("#teacher-tools")}
-            className="block hover:text-[#4080aa] font-medium mb-12 cursor-pointer"
+            className="block hover:text-[#4080aa] text-md font-normal mb-8 cursor-pointer"
           >
             Teacher Tools
           </div>

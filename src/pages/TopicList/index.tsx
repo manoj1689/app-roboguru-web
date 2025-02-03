@@ -6,13 +6,12 @@ import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice"; // Ensur
 import { BsChatFill } from "react-icons/bs";
 import { GoArrowUpRight } from "react-icons/go";
 import Layout from "@/components/HomeLayout";
-import Sidebar from "@/components/Sidebar";
-import GreetingBar from "@/components/GreetingBar";
 import { IoChevronForward } from "react-icons/io5";
 import { BsChatLeftText } from "react-icons/bs";
 import { MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import { Line } from "rc-progress";
+import TestBar from "@/components/TestBar";
 const TopicScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -52,7 +51,7 @@ const TopicScreen = () => {
   // Set visible topics when topics are fetched
   useEffect(() => {
     if (topics.length > 0) {
-      setVisibleTopics(topics.slice(0, 8)); // Show first 4 topics initially
+      setVisibleTopics(topics.slice(0, 7)); // Show first 4 topics initially
     }
   }, [topics]);
   // Filter the current subject from the subject list using subjectId
@@ -86,12 +85,11 @@ const TopicScreen = () => {
 
   return (
     <Layout>
-      <div className="">
-        <Sidebar />
-      </div>
-
-      <section className="w-full lg:ml-64 container mx-auto px-4">
-        <GreetingBar />
+   
+      <section className="flex w-full flex-col container  mx-auto px-4" >
+    
+     <TestBar />
+     
         {currentChapter && (
 
 
@@ -108,20 +106,10 @@ const TopicScreen = () => {
 
           </div>
         )}
-        <div className="flex w-full justify-end mt-4 ">
+       
 
-          {/* Show View More button if there are more than 4 topics */}
-          {topics.length > 8 && visibleTopics.length < topics.length && (
-            <button
-              onClick={handleViewMore}
-              className="py-2 px-4  flex justify-center items-center text-stone font-semibold rounded-md gap-2 hover:text-sky-500 transition-all"
-            >
-              <div>View More</div> <div className="flex"> <IoChevronForward size={16} /><IoChevronForward size={16} />
-              </div>
-            </button>
-          )}
-        </div>
-        <div className="flex flex-col max-h-[800px] overflow-y-auto gap-4">
+     
+        <div className="flex flex-col mt-4 gap-4">
           {visibleTopics.map((topic: any, index: number) => (
             <div
               key={index}
@@ -147,7 +135,7 @@ const TopicScreen = () => {
                  
                  </div>
                  <div className="flex w-full md:w-1/6">
-                 <div> <span className=" text-[#418BBB]">progress:{progressValues[topic.id] || 10}%</span></div>
+                 <div> <span className=" text-[#418BBB] text-semibold">progress:{progressValues[topic.id] || 10}%</span></div>
                  </div>
                     </div>
                     

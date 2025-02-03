@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from "react";
 import Layout from "@/components/HomeLayout";
-import Sidebar from '@/components/Sidebar';
 import Link from 'next/link';
 import { MdCloudDownload } from "react-icons/md";
 import { useRouter } from "next/router";
@@ -65,18 +64,16 @@ const HomePage = () => {
   return (
     <div>
       <Layout>
-        <div className='flex w-full  '>
+        <div >
           {/* Left Menu */}
-          <div>
-            <Sidebar />
-          </div>
+          
           {/* Right Sections */}
-          <div className=' w-full lg:ml-64 container  mx-auto px-4 '>
+          <div className=' '>
             <GreetingBar />
-            <div>
+            <section>
               <TrendingTopicsSection />
-            </div>
-            <section className="rounded shadow p-5 my-4">
+            </section>
+            <section>
               <SubjectList />
             </section>
 
@@ -112,7 +109,7 @@ const HomePage = () => {
                 </div>
               ) : (
                 <div
-                  className={`border-dashed border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${dragging ? "border-[#418BBB] bg-red-50" : "border-gray-300 bg-gray-100"
+                  className={`border-dashed border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${dragging ? "border-[#418BBB] bg-white" : "border-gray-300 bg-white"
                     }`}
                   onDrop={handleFileDrop}
                   onDragOver={handleDragOver}
@@ -267,11 +264,11 @@ const HomePage = () => {
 
 
             {/* <!-- WEEKLY MISSIONS & VIRTUAL NOTEPAD --> */}
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-              {/* Weekly Missions */}
+            {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+             
               <div className="bg-white rounded shadow p-5 ">
                 <h3 className="text-lg font-bold mb-3 lg:text-xl">Your Goals</h3>
-                {/* 5 mission lines */}
+            
                 <ul className="space-y-2 text-sm lg:text-lg">
                   <li className="p-3 border rounded flex justify-between items-center">
                     <span>Complete 2 chapters or 30 mins practice</span>
@@ -294,14 +291,14 @@ const HomePage = () => {
                     <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded">0/1</span>
                   </li>
                 </ul>
-                {/* Streak info */}
+            
                 <div className="mt-4 p-3 bg-sky-50 rounded">
                   <p className="text-sm font-semibold mb-1 lg:text-lg">Weekly Streak</p>
                   <p className="text-xs text-gray-700 lg:text-sm">You’ve studied for 4 days in a row!</p>
                   <p className="text-xs text-gray-700 lg:text-sm">Streak: 4 days</p>
                 </div>
               </div>
-              {/* Virtual Notepad */}
+            
               <div className="bg-white rounded shadow p-5 ">
                 <h3 className="text-lg font-bold mb-3 lg:text-xl">Quick Notepad</h3>
                 <textarea
@@ -315,7 +312,7 @@ const HomePage = () => {
                 </button>
 
               </div>
-            </section>
+            </section> */}
             {/* <!-- ACHIEVEMENTS (5 badges) --> */}
             <section className="bg-white rounded shadow p-5">
               <h3 className="text-lg font-bold mb-3 lg:text-xl">Achievements & Badges</h3>
@@ -417,39 +414,39 @@ const HomePage = () => {
             {/* <!-- UPCOMING QUIZZES (5 items) --> */}
             <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold mb-3 lg:text-xl">Upcoming Quizzes & Tests</h3>
-              <ul className="space-y-3 text-sm lg:text-lg">
-                <li>
-                  <strong>Mar 15, 4 PM:</strong>{' '}
-                  <span className="italic">Algebra Quiz (Ch. 5-7)</span>{' '}
-                  <button className="ml-2 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+              <ul className="space-y-1 text-sm lg:text-lg">
+                <li className="flex justify-between bg-gray-100 p-3 rounded-md">
+                  <div><strong>Mar 15, 4 PM:</strong>{' '}
+                  <span className="italic">Algebra Quiz (Ch. 5-7)</span>{' '}</div>
+                  <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
-                <li>
-                  <strong>Mar 18, 2 PM:</strong>{' '}
-                  <span className="italic">Biology: Cell Structure Test</span>{' '}
-                  <button className="ml-2 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+                <li className="flex justify-between bg-gray-50 p-3 rounded-md">
+                  <div><strong>Mar 18, 2 PM:</strong>{' '}
+                  <span className="italic">Biology: Cell Structure Test</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
-                <li>
-                  <strong>Mar 20, 10 AM:</strong>{' '}
-                  <span className="italic">Geography: Maps & Regions Quiz</span>{' '}
-                  <button className="ml-2 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+                <li className="flex justify-between bg-gray-100 p-3 rounded-md">
+                  <div><strong>Mar 20, 10 AM:</strong>{' '}
+                  <span className="italic">Geography: Maps & Regions Quiz</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
-                <li>
-                  <strong>Mar 25, 1 PM:</strong>{' '}
-                  <span className="italic">Programming: Array Challenges</span>{' '}
-                  <button className="ml-2 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+                <li className="flex justify-between bg-gray-50 p-3 rounded-md">
+                  <div><strong>Mar 25, 1 PM:</strong>{' '}
+                  <span className="italic">Programming: Array Challenges</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
-                <li>
-                  <strong>Mar 28, 11 AM:</strong>{' '}
-                  <span className="italic">History: Medieval Era Test</span>{' '}
-                  <button className="ml-2 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+                <li className="flex justify-between bg-gray-100 p-3 rounded-md">
+                  <div><strong>Mar 28, 11 AM:</strong>{' '}
+                  <span className="italic">History: Medieval Era Test</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
@@ -469,12 +466,12 @@ const HomePage = () => {
                 <li><strong>CodingGuru</strong> – 900 points</li>
                 <li><strong>LiteratureLover</strong> – 850 points</li>
               </ol>
-              <a href="#" className="text-xs text-pink-600 hover:underline mt-2 inline-block lg:text-sm">
+              <a href="#" className="text-xs text-[#418BBB] font-semibold underline mt-2 inline-block lg:text-sm">
                 View Full Leaderboard
               </a>
             </section>
             {/* <!-- COLLABORATION / STUDY GROUPS --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
+            {/* <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold mb-3 lg:text-xl">Collaboration & Study Groups</h3>
               <p className="text-sm text-gray-600 mb-4 lg:text-lg">
                 Learn with friends or classmates in real time. Share notes, quizzes, and achievements.
@@ -485,9 +482,9 @@ const HomePage = () => {
                 Create / Join a Group
               </button>
 
-            </section>
+            </section> */}
             {/* <!-- QUIZ ME QUICK LAUNCH --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
+            {/* <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold mb-3 lg:text-xl">Quiz Me Quick Launch</h3>
               <div className="flex items-center space-x-2 mb-3">
                 <select className="border border-gray-300 rounded px-2 py-1 text-sm lg:text-lg">
@@ -510,9 +507,9 @@ const HomePage = () => {
                 Start Quiz
               </button>
 
-            </section>
+            </section> */}
             {/* <!-- TEACHER TOOLS --> */}
-            <section id="teacher-tools" className="bg-white rounded shadow p-5 my-4">
+            {/* <section id="teacher-tools" className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold mb-3 lg:text-xl">Teacher Tools</h3>
               <p className="text-sm text-gray-600 mb-4 lg:text-lg">
                 Assign chapters, post quizzes, and monitor class progress—ideal for educators.
@@ -523,7 +520,7 @@ const HomePage = () => {
                 Assign New Lesson
               </button>
 
-            </section>
+            </section> */}
             {/* <!-- PROMO / INFO CARDS (Pro upgrade, limited offer) --> */}
             <section className="flex flex-col md:flex-row md:space-x-4 my-4 ">
               <div className="bg-pink-50 border border-pink-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow mb-4 md:mb-0">
@@ -547,7 +544,7 @@ const HomePage = () => {
               </div>
             </section>
             {/* <!-- ========== REFERRAL / AFFILIATE SECTION ========== --> */}
-            <section id="referral" className="bg-red-50 p-6 rounded shadow my-4">
+            {/* <section id="referral" className="bg-red-50 p-6 rounded shadow my-4">
               <h2 className="text-2xl font-bold mb-2">Referral & Affiliate Program</h2>
               <p className="text-sm mb-4 leading-relaxed">
                 Spread the word and earn rewards! Share your unique link and get free premium days when friends sign up.
@@ -564,7 +561,7 @@ const HomePage = () => {
                 Get Your Referral Link
               </button>
 
-            </section>
+            </section> */}
           </div>
 
         </div>

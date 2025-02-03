@@ -10,7 +10,7 @@ import chapterReducer from './slices/chapterSlice'
 import topicReducer from './slices/topicSlice'
 import sessionReducer from './slices/sessionSlice';
 import chatReducer from './slices/chatSlice'
-import chatHistoryReducer from './slices/chatHistorySessionSlice';
+import chatHistoryReducer from './slices/chatSessionHistorySlice';
 import progressReducer from './slices/progressSlice'
 
 // Define the store
@@ -20,7 +20,7 @@ const store = configureStore({
         profile: profileReducer,
         educationLevels: educationLevelReducer,
         class:classReducer,
-        firebaseAuthReducer:firebaseAuthReducer,
+        firebaseAuth:firebaseAuthReducer,
         subjects:subjectReducer,
         trendingTopics:trendingTopicReducer,
         chapters:chapterReducer,
@@ -31,6 +31,7 @@ const store = configureStore({
         progress:progressReducer
        
     },
+    
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -14,7 +14,7 @@ const TrendingTopicsSection = () => {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const topicsPerPage = 4; // Define the number of topics per page
+  const topicsPerPage = 3; // Define the number of topics per page
 
   // Calculate indices for paginated data
   const startIndex = (currentPage - 1) * topicsPerPage;
@@ -44,7 +44,7 @@ const TrendingTopicsSection = () => {
         <h3 className="text-lg font-bold">Trending Topics for You</h3>
       
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
         {paginatedTopics.map((topic: any, index: number) => (
           <div
             key={index}

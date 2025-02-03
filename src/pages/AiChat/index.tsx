@@ -1,5 +1,5 @@
 "use client"
-import React, {useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import HomeNavbar from "@/components/HomeNavbar"
@@ -24,6 +24,7 @@ import {
 import {
   fetchTopicsByChapterId,
 } from '../../redux/slices/topicSlice';
+import { fetchChatHistory } from "../../redux/slices/chatSessionHistorySlice"; 
 import { updateUserTopicProgress } from '../../redux/slices/progressSlice';
 import { resetChat } from '../../redux/slices/chatSlice';
 import { RootState, AppDispatch } from '../../redux/store';
@@ -35,10 +36,10 @@ import { MdOutlineMicOff } from "react-icons/md";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import Markdown from 'react-markdown'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import ChatSessionsList from "@/pages/ChatSessionsList/index"
 import speakTTS from 'speak-tts'; // Import speak-tts library
 import { FaArrowLeft } from "react-icons/fa";
 import { FaShare } from "react-icons/fa";
-import Sidebar from '@/components/Sidebar';
 import { IoArrowUp } from "react-icons/io5";
 import { IoStop } from "react-icons/io5";
 import "./aiResponse.css"
@@ -57,7 +58,7 @@ speech.init({
 const AiChatComponent = () => {
   const dispatch: AppDispatch = useDispatch();
   const searchParams = useSearchParams();
-   const router = useRouter();
+  const router = useRouter();
 
   // Extract query parameters
   const chapterId = searchParams?.get('chapterId') || '';
@@ -65,7 +66,8 @@ const AiChatComponent = () => {
   const topicId = searchParams?.get('topicId') || '';
   const subtopicId = searchParams?.get('subtopicId') || ''; // Subtopic index if provided
   const trendingTopicId = searchParams?.get('trendingTopicId') || '';
-  console.log("topic id", trendingTopicId)
+  const chatSessionId = searchParams?.get('chatSessionId') || '';
+  console.log("chat session id", chatSessionId)
 
   // State for display data and input field
   const [subjectName, setSubjectName] = useState<string>('');
@@ -73,10 +75,7 @@ const AiChatComponent = () => {
   const [topicName, setTopicName] = useState<string>('');
   const [className, setClassName] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
-  const [chatHistory, setChatHistory] = useState<{ role: string; content: string }[]>([]);
- 
-
-  // State for tracking the currently playing text index
+  const [currentChatHistory, setCurrentChatHistory] = useState<{ role: string; content: string }[]>([]);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
   // Redux state selectors
@@ -89,37 +88,78 @@ const AiChatComponent = () => {
   const { trendingTopics, loading, error } = useSelector(
     (state: RootState) => state.trendingTopics
   );
+ // Fetch chat history from Redux state
+  const { chatHistory, loading: chatHistoryLoading, error: chatHistoryError } = useSelector(
+    (state: RootState) => state.chatHistory // Correct state reference
+  );
+
 
   const { classes } = useSelector((state: RootState) => state.class);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
   const { subjects } = useSelector((state: RootState) => state.subjects);
   const endOfPageRef = useRef<HTMLDivElement | null>(null);
-  
+
   console.log("origal chat Histroy", chat_history)
   // Add chat_history to chatHistory state when it updates
+
+   // Fetch chat history when sessionId is available
+    useEffect(() => {
+      if (chatSessionId) {
+        dispatch(fetchChatHistory(chatSessionId)); // Fetch chat history based on sessionId
+      }
+    }, [dispatch, chatSessionId]);
+   // Add chat_history to chatHistory state when it updates
+    useEffect(() => {
+      if (chatSessionId && chat_history && chat_history.length > 0) {
+        const lastChat = chat_history[chat_history.length - 1];
+  
+        // Add only the last chat with the role 'assistant'
+        if (lastChat.role === 'assistant') {
+          setCurrentChatHistory((prev) => [...prev, { role: 'assistant', content: lastChat.content }]);
+        }
+      }
+    }, [chat_history]);
+  
+  
   useEffect(() => {
     if (chat_history && chat_history.length > 0) {
       const lastChat = chat_history[chat_history.length - 1];
 
       // Add only the last chat with the role 'assistant'
       if (lastChat.role === 'assistant') {
-        setChatHistory((prev) => [...prev, { role: 'assistant', content: lastChat.content }]);
+        setCurrentChatHistory((prev) => [...prev, { role: 'assistant', content: lastChat.content }]);
       }
     }
   }, [chat_history]);
 
- 
+    useEffect(() => {
+      if (chatHistory) {
+        setClassName(chatHistory.class_name || '');
+        setSubjectName(chatHistory.subject_name || '');
+        setChapterName(chatHistory.chapter_name || '');
+        setTopicName(chatHistory.topic_name || '');
+      }
+      if (chatHistory && chatHistory.data && chatHistory.data.length > 0) {
+        // Map the chatHistory.data to your chatSessionHistory format
+        const updatedHistory = chatHistory.data.map((chat: { role: string; content: string }) => ({
+          role: chat.role,
+          content: chat.content,
+        }));
+  
+        // Update chatSessionHistory with the new data
+        setCurrentChatHistory(updatedHistory);
+      }
+    }, [chatHistory]);
+  
+
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
-
+ 
   // Start a new session
   useEffect(() => {
     dispatch(createSession());
@@ -158,6 +198,7 @@ const AiChatComponent = () => {
       }
     }
   }, [classes]);
+
   // Fetch chapters based on subject
   useEffect(() => {
     if (subjectId) {
@@ -198,41 +239,41 @@ const AiChatComponent = () => {
 
   console.log("topics at topic latest", trendingTopics)
 
-   // Update display names for subject, chapter, topic, and handle subtopics
-    useEffect(() => {
-      if (subjectId && subjects.length > 0) {
-        const foundSubject = subjects.find((subject) => subject.id === subjectId);
-        setSubjectName(foundSubject ? foundSubject.name : 'Unknown Subject');
-      }
-      if (chapterId && chapters.length > 0) {
-        const foundChapter = chapters.find((chapter) => chapter.id === chapterId);
-        setChapterName(foundChapter ? foundChapter.name : 'Unknown Chapter');
-      }
-      if (topicId && topics.length > 0) {
-        const foundTopic = topics.find((topic) => topic.id === topicId);
-        setTopicName(foundTopic ? foundTopic.name : 'Unknown Topic');
-  
-        // Handle subtopic selection
-        if (subtopicId && foundTopic && foundTopic.subtopics) {
-          const subtopicIndex = parseInt(subtopicId, 10); // Convert subtopicId to a number
-          if (!isNaN(subtopicIndex) && subtopicIndex >= 0 && subtopicIndex < foundTopic.subtopics.length) {
-            setQuestion(foundTopic.subtopics[subtopicIndex]); // Set the corresponding subtopic as the question
-          }
+  // Update display names for subject, chapter, topic, and handle subtopics
+  useEffect(() => {
+    if (subjectId && subjects.length > 0) {
+      const foundSubject = subjects.find((subject) => subject.id === subjectId);
+      setSubjectName(foundSubject ? foundSubject.name : 'Unknown Subject');
+    }
+    if (chapterId && chapters.length > 0) {
+      const foundChapter = chapters.find((chapter) => chapter.id === chapterId);
+      setChapterName(foundChapter ? foundChapter.name : 'Unknown Chapter');
+    }
+    if (topicId && topics.length > 0) {
+      const foundTopic = topics.find((topic) => topic.id === topicId);
+      setTopicName(foundTopic ? foundTopic.name : 'Unknown Topic');
+
+      // Handle subtopic selection
+      if (subtopicId && foundTopic && foundTopic.subtopics) {
+        const subtopicIndex = parseInt(subtopicId, 10); // Convert subtopicId to a number
+        if (!isNaN(subtopicIndex) && subtopicIndex >= 0 && subtopicIndex < foundTopic.subtopics.length) {
+          setQuestion(foundTopic.subtopics[subtopicIndex]); // Set the corresponding subtopic as the question
         }
       }
-    }, [subjectId, chapterId, topicId, subtopicId, subjects, chapters, topics]);
-  
+    }
+  }, [subjectId, chapterId, topicId, subtopicId, subjects, chapters, topics]);
+
   const handleSendQuestion = () => {
     const userMessage = { role: 'user', content: transcript || '' || question };
 
     // If there's no valid input, return early
     if (!userMessage.content.trim()) return;
 
-    const updatedChatHistory = [...chatHistory, userMessage];
-    setChatHistory(updatedChatHistory);
+    const updatedChatHistory = [...currentChatHistory, userMessage];
+    setCurrentChatHistory(updatedChatHistory);
 
     const payload = {
-      session_id: sessionId || '',
+      session_id: sessionId || chatSessionId || '',
       class_name: className,
       subject_name: subjectName,
       chapter_name: chapterName,
@@ -241,11 +282,11 @@ const AiChatComponent = () => {
       chat_history,
     };
 
-   
+
 
     console.log('Chat payload', payload);
     dispatch(sendChatQuestion(payload));
-  
+
     // Reset transcript after sending
     setQuestion('')
     resetTranscript();
@@ -254,11 +295,11 @@ const AiChatComponent = () => {
   const handleSuggestedQuestionClick = (suggestedQuestion: string) => {
     const userMessage = { role: 'user', content: suggestedQuestion };
 
-    const updatedChatHistory = [...chatHistory, userMessage];
-    setChatHistory(updatedChatHistory);
+    const updatedChatHistory = [...currentChatHistory, userMessage];
+    setCurrentChatHistory(updatedChatHistory);
 
     const payload = {
-      session_id: sessionId || '',
+      session_id: sessionId || chatSessionId || '',
       class_name: className,
       subject_name: subjectName,
       chapter_name: chapterName,
@@ -304,13 +345,13 @@ const AiChatComponent = () => {
     if (transcript) {
       setQuestion(transcript); // Update question with transcript text
     }
-  }, [transcript]); 
+  }, [transcript]);
 
   const handleStop = () => {
     speech.cancel(); // Stops the current speech
   };
   console.log("chat History", chatHistory)
-  
+
   const goBack = () => {
     router.back(); // Goes one step back in history
   };
@@ -320,139 +361,157 @@ const AiChatComponent = () => {
 
   return (
     < >
-    <div className='flex h-20 w-full  fixed bg-white' >
-      <HomeNavbar />
-    </div>
+      <div className='flex h-20 w-full  fixed ' >
+        <HomeNavbar />
+      </div>
 
-    <div  >
-
-      <Sidebar />
-      <div className='flex flex-col container mx-auto lg:ml-64 px-4' >
-        <div className="flex  mt-20   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-lg  justify-between items-center p-4">
-          <div className='text-white'>
-            <p><strong>Class:</strong> {className}</p>
-            <p><strong>Subject:</strong> {subjectName}</p>
-            <p><strong>Chapter:</strong> {chapterName}</p>
-
-          </div>
-
+      <div className='flex w-full'>
+        <div >
+          <ChatSessionsList />
         </div>
+        <div className='flex w-full flex-col container lg:ml-64 mx-auto px-4'>
 
-        <div className=" w-full pb-28   rounded-lg"  >
-          <div className='flex p-4  justify-between items-center text-center  rounded-lg text-[#418BBB] cursor-pointer ' onClick={goBack} >
 
-            <span className='flex gap-2  justify-center items-center'><span><FaArrowLeft size={16} /></span><span>Back</span></span>
-            <p><strong>Topic:</strong> <span>{topicName}</span></p>
-            <span><FaShare size={16} /></span>
-          </div>
-          {(
-            <div>
+          <div className='flex flex-col pb-32'>
 
-              <div className="space-y-4">
-                {chatHistory.map((entry, index) => (
-                  <div
-                    key={index}
-                    className={`flex ${entry.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={` px-8 py-2  mx-4 ${entry.role === 'user' ? '' : ''}`}
-                    >
-                      {entry.role === 'user' ? (
-                        <div className="flex flex-col bg-[#CAE0EF] px-4 py-2 text-black text-right rounded-t-xl rounded-l-xl">
-                          <p>
-                            <Markdown>{entry.content}</Markdown>
-                          </p>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="text-sm font-semibold text-[#4F87CC] pb-2">Ai</div>
-                          <div className='flex flex-col bg-gray-100 rounded-lg p-4 '><p>
-                            <Markdown>{entry.content}</Markdown>
-                          </p>
-                          <hr className="border-t border-gray-300 w-5/6 mt-2"/>
-
-                            <div className="flex w-full justify-start items-center gap-2  bg-[#F2F2F2] text-black rounded-t-xl rounded-r-xl p-2">
-                              {/* Play/Stop Button */}
-                              <div>
-                                {playingIndex === index ? (
-                                  <button onClick={handleStop}>
-                                    <HiMiniSpeakerXMark size={25} className="text-[#2b4a70]" />
-                                  </button>
-                                ) : (
-                                  <button onClick={() => playText(entry.content, index)}>
-                                    <HiMiniSpeakerWave size={25} className="text-[#4F87CC]" />
-                                  </button>
-                                )}
-                              </div>
-                              {/* Like Button */}
-                              <div>
-                                <AiOutlineLike size={25} className="text-[#4F87CC]" />
-                              </div>
-                              {/* Dislike Button */}
-                              <div>
-                                <AiOutlineDislike size={25} className="text-[#4F87CC]" />
-                              </div>
-                            </div>
-                          </div>
-
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
+            <div className="flex  mt-20   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-lg  justify-between items-center p-4">
+              <div className='text-white'>
+                <p><strong>Class:</strong> {className}</p>
+                <p><strong>Subject:</strong> {subjectName}</p>
+                <p><strong>Chapter:</strong> {chapterName}</p>
 
               </div>
-              <div>
-                {chatLoading ? (
-                  <div className="ai-responding px-8">
-                    <span className='text-md font-semibold text-gray-500 '> Ai is typing</span><span className="dot"></span><span className="dot"></span><span className="dot"></span>
-                  </div>
-                ) : ''}
-
-              </div>
-
-              {suggested_questions.length > 0 && (
-                <div>
-
-                  <ul className='flex flex-wrap gap-2 pt-4 px-4'>
-                    {suggested_questions.map((suggestedQuestion, index) => (
-                      <li
-                        key={index}
-                        className='border border-[#418BBB] px-4 py-2 rounded-lg bg-[#DCF1FF] cursor-pointer  hover:bg-[#cee6f7] transition'
-                        onClick={() => handleSuggestedQuestionClick(suggestedQuestion)}
-                      >
-                        {suggestedQuestion}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
 
             </div>
 
-          )}
+            <div className=" w-full    rounded-lg"  >
+              <div className='flex p-4  justify-between items-center text-center  rounded-lg text-[#418BBB] cursor-pointer ' onClick={goBack} >
 
-          <div ref={endOfPageRef} />
+                <span className='flex gap-2  justify-center items-center'><span><FaArrowLeft size={16} /></span><span>Back</span></span>
+                <p><strong>Topic:</strong> <span>{topicName}</span></p>
+                <span><FaShare size={16} /></span>
+              </div>
+              {(
+                <div>
+
+                  <div className="space-y-4 ">
+                    {currentChatHistory.map((entry, index) => (
+                      <div
+                        key={index}
+                        className={`flex ${entry.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                      >
+                        <div
+                          className={` px-8 py-2  mx-4 ${entry.role === 'user' ? '' : ''}`}
+                        >
+                          {entry.role === 'user' ? (
+                            <div className="flex flex-col bg-[#CAE0EF] px-4 py-2 text-black text-right rounded-t-xl rounded-l-xl">
+                              <p>
+                                <Markdown>{entry.content}</Markdown>
+                              </p>
+                            </div>
+                          ) : (
+                            <div>
+                              <div className="text-sm font-semibold text-[#4F87CC] pb-2">Ai</div>
+                              <div className='flex flex-col bg-gray-100 rounded-lg p-4 '><p>
+                                <Markdown>{entry.content}</Markdown>
+                              </p>
+                                <hr className="border-t border-gray-300 w-5/6 mt-2" />
+
+                                <div className="flex w-full justify-start items-center gap-2  bg-[#F2F2F2] text-black rounded-t-xl rounded-r-xl p-2">
+                                  {/* Play/Stop Button */}
+                                  <div>
+                                    {playingIndex === index ? (
+                                      <button onClick={handleStop}>
+                                        <HiMiniSpeakerXMark size={25} className="text-[#2b4a70]" />
+                                      </button>
+                                    ) : (
+                                      <button onClick={() => playText(entry.content, index)}>
+                                        <HiMiniSpeakerWave size={25} className="text-[#4F87CC]" />
+                                      </button>
+                                    )}
+                                  </div>
+                                  {/* Like Button */}
+                                  <div>
+                                    <AiOutlineLike size={25} className="text-[#4F87CC]" />
+                                  </div>
+                                  {/* Dislike Button */}
+                                  <div>
+                                    <AiOutlineDislike size={25} className="text-[#4F87CC]" />
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+
+                  </div>
+                  <div>
+                    {chatLoading ? (
+                      <div className="ai-responding px-8">
+                        <span className='text-md font-semibold text-gray-500 '> Ai is typing</span><span className="dot"></span><span className="dot"></span><span className="dot"></span>
+                      </div>
+                    ) : ''}
+
+                  </div>
+
+                  {suggested_questions.length > 0 && (
+                    <div>
+
+                      <ul className='flex flex-wrap gap-2 pt-4 px-4'>
+                        {suggested_questions.map((suggestedQuestion, index) => (
+                          <li
+                            key={index}
+                            className='border border-[#418BBB] px-4 py-2 rounded-lg bg-[#DCF1FF] cursor-pointer  hover:bg-[#cee6f7] transition'
+                            onClick={() => handleSuggestedQuestionClick(suggestedQuestion)}
+                          >
+                            {suggestedQuestion}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+
+                </div>
+
+              )}
+
+              <div ref={endOfPageRef} />
+            </div>
+
+
+
+
+          </div>
+
+
+
+
         </div>
 
-
-
-
       </div>
-      <div className='flex  lg:container mx-auto  w-full lg:ml-64  fixed justify-center  bottom-0 p-4'>
-      <button
-        onClick={scrollToBottom}
-        className="fixed bottom-28 bg-gray-300  p-3 rounded-full shadow-lg hover:bg-gray-400 text-stone-600 transition-all"
-      >
-        <RiArrowDownSLine size={30} />
-      </button>
 
+      <div className='flex w-full fixed   bottom-28 py-4'>
+      <div className='flex container mx-auto lg:ml-64  justify-center '>
+        <div>
+        <button
+          onClick={scrollToBottom}
+          className=" bg-gray-300  p-3 rounded-full shadow-lg hover:bg-gray-400 text-stone-600 transition-all"
+        >
+          <RiArrowDownSLine size={30} />
+        </button>
+        </div>
+      
+</div>
       </div>
-   
-      <div className='flex  lg:container mx-auto  w-full lg:ml-64  fixed justify-center bg-[#f8fafa] bottom-0 p-4'>
-        <div className='w-full '>
-          <div className='flex w-full bg-gray-200 p-4  rounded-3xl gap-2 justify-center  items-center'>
+
+      <div className='flex  fixed w-full bottom-0 justify-center   '>
+        
+        <div className='flex flex-col container mx-auto lg:ml-64  w-full px-4 '>
+          <div className='flex w-full bg-gray-200 p-4   rounded-3xl gap-2 justify-center  items-center'>
             <div className='flex w-full bg-white justify-center rounded-lg items-center'>
               <input
                 type="text"
@@ -484,16 +543,15 @@ const AiChatComponent = () => {
               {chatLoading ? <IoStop size={20} /> : <IoArrowUp size={20} />}
             </button>
           </div>
+          <div className='flex w-full justify-center items-center mt-2 text-sky-400'>
+            Sporesed by eramLABS
+          </div>
         </div>
-
       </div>
 
-    </div>
 
- 
-
-  </>
+    </>
   );
 };
 
-export default  AiChatComponent;
+export default AiChatComponent;

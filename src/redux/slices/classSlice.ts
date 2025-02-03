@@ -66,7 +66,7 @@ export const fetchClassDetails = createAsyncThunk(
   "classes/fetchClassDetails",
   async (class_id: any, { rejectWithValue }) => {
     try {
-      console.log("Fetching class details for class_id:", class_id);
+      
 
       const response = await axios.get(`/classes/level/${class_id}`, {
         headers: {
@@ -77,7 +77,7 @@ export const fetchClassDetails = createAsyncThunk(
       console.log("Received class details:", response.data);
 
       if (response.data.success) {
-        return response.data.data || {}; // Return the class details data
+        return response.data || {}; // Return the class details data
       } else {
         throw new Error(response.data.message || "Failed to fetch class details");
       }

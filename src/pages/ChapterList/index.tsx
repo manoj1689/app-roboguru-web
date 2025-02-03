@@ -5,7 +5,6 @@ import { RootState, AppDispatch } from "../../redux/store";
 import { fetchChaptersBySubjectId } from "../../redux/slices/chapterSlice";
 import { fetchSubjectsByClassId } from "../../redux/slices/subjectSlice";
 import Layout from "@/components/HomeLayout";
-import Sidebar from "@/components/Sidebar";
 import GreetingBar from "@/components/GreetingBar";
 import { IoChevronForward } from "react-icons/io5";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
@@ -92,13 +91,10 @@ const ChapterScreen = () => {
     <>
       <Layout>
 
-      <div >
-          <Sidebar />
-        </div>
-        <div className="flex w-full flex-col container  lg:ml-64 mx-auto px-4">
+        <div className="flex flex-col w-full ">
           <GreetingBar />
           {currentSubject && (
-            <div className="flex gap-4   mt-4">
+            <div className="flex gap-4 w-full  mt-4">
 
               <div className="py-2">
                 <FaArrowLeft size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />

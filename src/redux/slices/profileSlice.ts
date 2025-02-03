@@ -10,7 +10,7 @@ interface UserProfile {
   education_level: string;
   user_class: string;
   language: string;
-  profile_image: string; // New field added
+  profile_image: string; // Profile image URL
 }
 
 interface ProfileState {
@@ -46,8 +46,8 @@ export const fetchUserProfile = createAsyncThunk(
       });
 
       if (response.data.success) {
-        console.log('profile in function', response.data.data);
-        return response.data.data; // Return the fetched user profile
+        console.log('Profile data:', response.data.data);
+        return response.data.data;
       } else {
         throw new Error(response.data.message || 'Failed to fetch user profile');
       }
@@ -71,7 +71,7 @@ export const updateUserProfile = createAsyncThunk(
       });
 
       if (response.data.success) {
-        return response.data.data; // Return the updated profile data
+        return response.data.data;
       } else {
         throw new Error(response.data.message || 'Failed to update user profile');
       }
@@ -82,6 +82,43 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+
+export const uploadProfileImage = createAsyncThunk(
+  'profile/uploadProfileImage',
+  async (file: File, { rejectWithValue, dispatch }) => {
+    try {
+      // Create a FormData object to send the file
+      const formData = new FormData();
+      formData.append('file', file); // Append the file to the FormData
+
+      // Send the file via axios POST request
+      const response = await axios.post('/users/profile/upload-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json', // Ensures the server returns JSON
+        },
+      });
+
+      // Check if the response was successful
+      if (response.data.success) {
+        console.log('Image uploaded successfully:', response.data.data.image_url);
+        
+        // Dispatch the setProfileImage action to update the profile image in the Redux state
+        dispatch(setProfileImage(response.data.data.image_url));
+
+        // Return the image URL
+        return response.data.data.image_url;
+      } else {
+        console.log('Upload failed:', response.data.message);
+        throw new Error(response.data.message || 'Failed to upload image');
+      }
+    } catch (error: any) {
+      console.error('Error during image upload:', error);
+      return rejectWithValue(error.response?.data?.message || 'Upload failed');
+    }
+  }
+);
+
 
 const profileSlice = createSlice({
   name: 'profile',
@@ -108,7 +145,7 @@ const profileSlice = createSlice({
     setLanguage(state, action: PayloadAction<string>) {
       state.profile.language = action.payload;
     },
-    setProfileImage(state, action: PayloadAction<string>) { // New action for profile image
+    setProfileImage(state, action: PayloadAction<string>) {
       state.profile.profile_image = action.payload;
     },
   },
@@ -122,14 +159,11 @@ const profileSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profile = action.payload;
-
-        // Save the profile in localStorage after successful fetch
         localStorage.setItem('user_profile', JSON.stringify(action.payload));
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          (action.payload as string) || 'Failed to fetch user profile.';
+        state.error = action.payload as string;
       })
 
       // Update user profile
@@ -140,19 +174,34 @@ const profileSlice = createSlice({
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profile = action.payload;
-
-        // Save the updated profile in localStorage
         localStorage.setItem('user_profile', JSON.stringify(action.payload));
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          (action.payload as string) || 'Failed to update user profile.';
+        state.error = action.payload as string;
+      })
+
+      // Upload profile image
+      .addCase(uploadProfileImage.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(uploadProfileImage.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profile.profile_image = action.payload;
+        localStorage.setItem(
+          'user_profile',
+          JSON.stringify({ ...state.profile, profile_image: action.payload })
+        );
+      })
+      .addCase(uploadProfileImage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-// Export actions for local state updates
+// Export actions
 export const {
   setName,
   setEmail,
@@ -161,7 +210,7 @@ export const {
   setEducationLevel,
   setClass,
   setLanguage,
-  setProfileImage, // Export the new action
+  setProfileImage,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -1,54 +1,44 @@
 'use client'; // Required for client-side logic in the `app` directory
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Profile from '../Profile';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../redux/store';
 import { firebaseLogin } from '../../redux/slices/firebaseAuthSlice';
 
-
 const Index = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  
 
-  const { profile, loading, error } = useSelector(
-    (state: RootState) => state.profile
+  // Get the profile updated status from Redux
+  const { profile_updated, token, isLoading, error, user_profile } = useSelector(
+    (state: RootState) => state.firebaseAuth
   );
 
   // Check for the token and fetch the user profile
   useEffect(() => {
     const loginAccessToken =
-      localStorage.getItem('mobile_access_token') || localStorage.getItem('social_access_token');
+      localStorage.getItem('social_access_token') || localStorage.getItem('mobile_access_token');
 
     if (loginAccessToken) {
-      dispatch(firebaseLogin(loginAccessToken))
-      
+      dispatch(firebaseLogin(loginAccessToken));
     } else {
       router.push('/Error');
     }
   }, [dispatch]);
-
+  console.log("user profile at home",user_profile)
+  console.log("user updated at home",profile_updated)
+  // If profile is updated, redirect to Home; otherwise, redirect to Profile
   useEffect(() => {
-    // Retrieve profile from localStorage
-    const userProfile = localStorage.getItem('user_profile');
-
-    if (userProfile) {
-      const profile = JSON.parse(userProfile);
-
-      // Check if the profile contains a valid name
-      if (profile.name) {
-        router.push('/Home'); // Navigate to /home if name exists
-      } else {
-        router.push('/Error'); // Navigate to / if name is missing
-      }
+    const profileUpdated=localStorage.getItem('profile_updated')
+    if (profile_updated || profileUpdated ) {
+      router.push('/Home'); // Navigate to /home if profile_updated is true
     } else {
-      router.push('/Profile'); // Redirect to error page if no profile exists
+      router.push('/Profile'); // Redirect to /Profile if profile_updated is false or missing
     }
-  }, [router]);
+  }, [profile_updated, router]);
 
-
-}
+  return null; // or your component's JSX
+};
 
 export default Index;

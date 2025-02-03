@@ -1,13 +1,18 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import Link from "next/link";
 import Popup from "reactjs-popup";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import "reactjs-popup/dist/index.css";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { TiArrowSortedDown } from "react-icons/ti";
+import { RootState, AppDispatch } from "../redux/store";
+
 const Header: React.FC = () => {
     const router = useRouter();
+    const dispatch: AppDispatch = useDispatch();
+    const [profileData, setProfileData] = useState<any>(null);
     // Dummy data for the autocomplete suggestions
     const items = [
         { id: 1, name: "Math Basics" },
@@ -34,34 +39,58 @@ const Header: React.FC = () => {
         localStorage.removeItem("mobile_access_token");
         localStorage.removeItem("social_access_token");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("user_profile")
         signOut({ redirect: false });
         router.push("/Landing");
     };
+
+      // Load profile data from localStorage
+      useEffect(() => {
+        const userData = localStorage.getItem("user_profile");
+        if (userData) {
+          const parsedData = JSON.parse(userData);
+          setProfileData(parsedData);
+    
+        
+        }
+      }, [dispatch]);
     return (
         <header className="bg-white fixed shadow-sm w-full top-0 z-50">
-            <div className="lg:container mx-auto px-4 py-3 flex items-center justify-between">
+            <div className=" py-3 container mx-auto  ">
                 {/* Left: Logo */}
-                <div className="flex w-full justify-between items-center">
-                    <div className="flex gap-4">
+                <div className="flex w-full items-center">
+                    <div className="flex gap-4 w-1/4  ">
                         {/* Logo */}
-                        <div className="flex max-lg:ml-8 items-center space-x-2">
+                        <div className="hidden lg:flex max-lg:pl-8  items-center space-x-2">
                             <Link href="/Dashboard">
                                 <img
                                     src="/images/robologo.png"
                                     alt="RoboGuru Logo"
-                                    className="w-32 sm:w-40 cursor-pointer"
+                                    className="w-32 sm:w-48 cursor-pointer"
+                                />
+                            </Link>
+                        </div>
+                        <div className="lg:hidden flex pl-8  items-center space-x-2">
+                            <Link href="/Dashboard">
+                                <img
+                                    src="/images/robo-logo.png"
+                                    alt="RoboGuru Logo"
+                                    className="w-8 cursor-pointer"
                                 />
                             </Link>
                         </div>
                     </div>
                     {/* Center: Search Bar */}
-                    <div className="hidden md:block flex-1 mx-8">
+                    <div className="flex-1  w-2/4 sm:px-4 ">
                         <ReactSearchAutocomplete
                             items={items}
                             onSearch={handleSearch}
                             onSelect={handleOnSelect}
                             autoFocus
+                            showIcon={true}
+                            placeholder="Search..."
                             styling={{
+
                                 height: "40px",
                                 border: "1px solid #d1d5db",
                                 borderRadius: "5px",
@@ -78,8 +107,8 @@ const Header: React.FC = () => {
                         />
                     </div>
                     {/* Right: Buttons / Avatar */}
-                    <div className="flex items-center space-x-3">
-                        <button className="text-sm font-medium text-red-400 hover:text-red-500">
+                    <div className="flex items-center justify-end gap-2 w-1/4">
+                        <button className="hidden lg:block text-sm font-medium text-red-400 hover:text-red-500">
                             <img
                                 src="/images/bell.png"
                                 alt="Bell Logo"
@@ -87,15 +116,15 @@ const Header: React.FC = () => {
                             />
                         </button>
                         <Link href="/chat">
-                            <button className="px-4 py-2 text-sm font-medium text-white bg-[#63A7D4] rounded-full">
+                            <button className="hidden lg:block px-4 py-2 text-sm font-medium text-white bg-[#63A7D4] rounded-full">
                                 Live Chat
                             </button>
                         </Link>
                         <div className="flex gap-2 items-end ">
                             <img
-                                src="/images/user.webp"
+                                src={profileData?.profile_image || "./images/user.webp"}
                                 alt="User Avatar"
-                                className="w-12 h-12 rounded-full"
+                                className="w-12 h-12 rounded-full object-cover"
                             />
 
                             <div >
@@ -106,8 +135,14 @@ const Header: React.FC = () => {
                                         </button>
                                     }
                                     position="bottom right"
-                                ><div className=" px-8 py-2">
-                                        <div className="flex w-full text-[#63A7D4] justify-center items-center">
+                                ><div className=" flex flex-col  px-8 py-2">
+                                        <div className="flex lg:hidden items-center gap-2  text-[#63A7D4]">
+                                            <span>Notification</span>
+                                        </div>
+                                        <div className="flex lg:hidden text-[#63A7D4] ">
+                                            Live Chat
+                                        </div>
+                                        <div className="flex w-full text-[#63A7D4] ">
                                             Update Profile
                                         </div>
                                         <button

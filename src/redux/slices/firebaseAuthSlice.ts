@@ -6,6 +6,8 @@ interface FirebaseAuthState {
   isLoading: boolean;
   token: string | null;
   error: string | null;
+  user_profile: any | null;
+  profile_updated: boolean; // Add profile_updated to store the update status
 }
 
 // Initial state
@@ -13,6 +15,8 @@ const initialState: FirebaseAuthState = {
   isLoading: false,
   token: null,
   error: null,
+  user_profile: null,
+  profile_updated: false, // Initialize profile_updated as false
 };
 
 export const firebaseLogin = createAsyncThunk(
@@ -25,7 +29,7 @@ export const firebaseLogin = createAsyncThunk(
       });
 
       console.log('Firebase login response:', response.data);
-      return response.data; // Return the response data on success
+      return response; // Return the response data on success
     } catch (error: any) {
       console.error('Firebase login error:', error.response?.data);
       // Return the error message using rejectWithValue
@@ -47,12 +51,20 @@ const firebaseAuthSlice = createSlice({
       })
       .addCase(firebaseLogin.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.token = action.payload;
+        state.token = action.payload?.data?.data.access_token || null;
+        state.user_profile = action.payload?.data.data || null; // Save user profile
+        state.profile_updated = action.payload?.data.profile_updated || false; // Save profile update status
 
         // Save the token to localStorage on successful login
-        if (action.payload?.data.access_token) {
-          localStorage.setItem('access_token', action.payload.data.access_token);
+        if (state.token) {
+          localStorage.setItem('access_token', state.token);
         }
+
+        // Save the user profile and profile_updated to localStorage
+        if (state.user_profile) {
+          localStorage.setItem('user_profile', JSON.stringify(state.user_profile));
+        }
+        localStorage.setItem('profile_updated', JSON.stringify(state.profile_updated));
       })
       .addCase(firebaseLogin.rejected, (state, action) => {
         state.isLoading = false;

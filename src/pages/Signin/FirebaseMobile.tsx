@@ -134,7 +134,7 @@ const FirebaseMobile: React.FC = () => {
     
      
       <div className="w-full max-w-md mx-auto">
-      <div id="recaptcha-container"></div>
+     
         {!otpSent ? (
           // Send OTP Form
           <form onSubmit={handleSendOtp} className="space-y-4 text-center">
@@ -159,7 +159,7 @@ const FirebaseMobile: React.FC = () => {
             {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
             <p className="text-gray-500 text-md mt-4">We will send you a 6-digit verification code.</p>
             <div className='flex w-full justify-center items-center'>
-           
+            <div id="recaptcha-container"></div>
             </div>
        
           </form>

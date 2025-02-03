@@ -94,32 +94,34 @@ const SubjectList = () => {
               <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
 
               {/* Content */}
-              <div className="relative z-10 flex flex-col w-full h-full text-white">
-                <div className="flex justify-end">
-                  <p className="text-sm font-semibold mb-2">{subject.name}</p>
-                </div>
-                <div className="flex flex-col mb-2">
-                  <span className="text-xl font-semibold mb-2">{subject.tagline}</span>
-                </div>
-
+              <div className="relative z-10 flex flex-col w-full h-full text-white justify-between">
                 <div>
-                  <button
-                    onClick={() => router.push(`/ChapterList?subjectId=${subject.id}`)}
-                    className="py-2 flex justify-center items-center text-white mt-4 font-semibold tracking-widest hover:scale-105"
-                  >
-                    <span className="text-[#CDE6F7]">Explore Now </span>
-                    <span>
-                      <div className="flex text-[#CDE6F7]">
-                        <IoChevronForward size={16} />
-                        <IoChevronForward size={16} />
-                      </div>
-                    </span>
-                  </button>
-                </div>
+                  <div className="flex justify-end">
+                    <p className="text-sm font-semibold pb-4">{subject.name}</p>
+                  </div>
+                  <div className="flex flex-col mb-2">
+                    <span className="text-xl font-semibold mb-2">{subject.tagline}</span>
+                  </div>
 
-                <div className="flex w-full justify-end gap-2 font-semibold text-gray-200 pb-2">
+                
+
+                </div>
+                <div>
+                    <button
+                      onClick={() => router.push(`/ChapterList?subjectId=${subject.id}`)}
+                      className=" flex justify-center items-center text-white mt-4 font-semibold tracking-widest hover:scale-105"
+                    >
+                      <span className="text-[#CDE6F7]">Explore Now </span>
+                      <span>
+                        <div className="flex text-[#CDE6F7]">
+                          <IoChevronForward size={16} />
+                          <IoChevronForward size={16} />
+                        </div>
+                      </span>
+                    </button>
+                    <div className="flex w-full justify-end gap-2 font-semibold text-gray-200 pb-2">
                   <span>{parseFloat(getSubjectProgress(subject.id).toFixed(2))} %</span>
-                  
+
                   <span>Progress</span>
                 </div>
 
@@ -134,6 +136,8 @@ const SubjectList = () => {
                 ) : (
                   <div className="h-3 bg-[#CDE6F7] rounded"></div> // Blank line for 0% progress
                 )}
+                  </div>
+               
               </div>
             </div>
           );
