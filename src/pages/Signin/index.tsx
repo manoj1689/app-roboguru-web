@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import {  googleProvider, facebookProvider } from "../../lib/firebase";
+import { googleProvider, facebookProvider } from "../../lib/firebase";
 import { getAuth } from 'firebase/auth';
 import app from "../../lib/firebase";
 import { signInWithPopup, User } from "firebase/auth";
 import FirebaseMobile from './FirebaseMobile'
 
 const SignInPage: React.FC = () => {
-const auth = getAuth(app);
+  const auth = getAuth(app);
   const router = useRouter();
 
   // Helper function to save token and user data in localStorage
@@ -22,7 +22,7 @@ const auth = getAuth(app);
     }
     // Save token and user info
     localStorage.setItem("social_access_token", token);
-   // localStorage.setItem("userData", JSON.stringify(user));
+    // localStorage.setItem("userData", JSON.stringify(user));
     console.log("Token saved to localStorage:", token);
     console.log("User data:", user);
 
@@ -60,14 +60,14 @@ const auth = getAuth(app);
     <div className="flex max-md:flex-col justify-center items-center  h-screen scroll-auto overflow-y-auto relative">
       {/* Left Section */}
       <div className="flex w-full  md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-full text-center max-md:py-12">
-      <div>
-      <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto  " />
-      </div>
-        <div >
-        <h1 className="text-2xl md:text-3xl lg:text-6xl font-bold pt-4 text-white tracking-wide md:tracking-wider lg:tracking-widest">ROBO GURU</h1>
-        <p className=" text-white tracking-wider text-lg md:text-xl lg:text-2xl  ">Learn, Ask, and Grow Anytime, Anywhere.</p>
+        <div>
+          <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto  " />
         </div>
-    
+        <div >
+          <h1 className="text-2xl md:text-3xl lg:text-6xl font-sans font-extrabold pt-4 text-white tracking-wide md:tracking-wider lg:tracking-widest">ROBO GURU</h1>
+          <p className=" text-white tracking-normal text-lg font-sans font-normal md:text-xl lg:text-2xl  ">Learn, Ask, and Grow Anytime, Anywhere.</p>
+        </div>
+
       </div>
 
       {/* Center Circular Image */}
@@ -77,26 +77,26 @@ const auth = getAuth(app);
           <div className="max-md:h-1/2 md:w-1/2 bg-[#f8fafa]"></div>
         </div>
         <div className="absolute inset-0 flex justify-center items-center">
-          <img src="/images/robo_circle.png" alt="RoboGuru Logo" className="w-16 md:w-40 rounded-full object-cover" />
+          <img src="/images/robo_circle.png" alt="RoboGuru Logo" className="w-16 md:w-32 rounded-full object-cover" />
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="w-full md:w-5/12 h-full flex p-4 flex-col items-center justify-around">
-        <div className="flex w-full text-3xl font-bold justify-center items-center max-md:pt-8">Login</div>
-          {/* Mobile Login Form */}
+      <div className="w-full md:w-5/12 h-full flex p-4 flex-col items-center md:pr-20 lg:pr-28 justify-around">
+        <div></div>
+        {/* Mobile Login Form */}
         <div>
-          <FirebaseMobile/>
-          </div>
-        <div className="flex w-full gap-12 flex-col justify-between items-center">
-        
-       
-        
+          <FirebaseMobile />
+        </div>
+        <div className="flex w-full gap-8 flex-col justify-between items-center">
+
+
+
 
           {/* Divider and Social Login */}
           <div className="flex  items-center w-full ">
             <hr className="flex-grow border-gray-300" />
-            <span className="mx-2 text-gray-500 font-bold">or sign in with</span>
+            <span className="mx-2 text-gray-500 font-bold">OR</span>
             <hr className="flex-grow border-gray-300" />
           </div>
 
@@ -104,46 +104,46 @@ const auth = getAuth(app);
           <div className="flex   w-full space-x-8 justify-center items-center">
             <button
               onClick={handleFacebookSignIn}
-            className="flex   justify-center items-center  rounded-full shadow-md hover:shadow-lg"
+              className="flex   justify-center items-center  rounded-full shadow-md hover:shadow-lg"
             >
               <span>
                 <img
                   src="/images/facebook.png"
                   alt="Facebook Logo"
-                  className="w-12 rounded-full bg-white"
+                  className="w-16 rounded-full bg-white"
                 />
               </span>
-  
+
             </button>
             <button
               onClick={handleGoogleSignIn}
               className="flex  p-2 justify-center items-center bg-gray-200 rounded-full shadow-md hover:shadow-lg"
             >
               <span>
-                <img src="/images/google.png" alt="Google Logo" className="w-8" />
+                <img src="/images/google.png" alt="Google Logo" className="w-12" />
               </span>
-           
+
             </button>
             <button
               //onClick={handleGoogleSignIn}
               className="flex  gap-4 p-2 justify-center items-center bg-gray-200 rounded-full shadow-md hover:shadow-lg"
             >
               <span>
-                <img src="/images/apple.png" alt="Apple Logo" className="w-8" />
+                <img src="/images/apple.png" alt="Apple Logo" className="w-12" />
               </span>
-           
+
             </button>
           </div>
-        </div>
-        <div className="flex w-full flex-col justify-center items-center">
-          <div className="flex w-full text-gray-500 text-lg justify-center font-bold text-center pt-4">
-            ALL YOUR PERSONAL DATA IS PROTECTED
+          <div className="flex w-full text-gray-500 text-lg gap-2 justify-center text-center ">
+            <span className="font-semibold">Secure Login</span> with Your Favorite Platform
           </div>
-          <div className="mt-8 space-x-2">
-            <span>Sponsored & Promoted by</span>
+        </div>
+        <div className="flex w-full  flex-col  justify-between items-center">
+          <div className=" space-x-2 text-[10px]">
+            <span className="font-medium">Sponsored by</span>
             <span className="text-blue-500 font-semibold">ERAM LABS</span>
           </div>
-          <div className="text-sky-400 text-bold">copyright @ Mobirizer2024</div>
+          <div className="text-neutral-500 text-sm text-bold">copyright @ Mobirizer2024</div>
         </div>
       </div>
     </div>

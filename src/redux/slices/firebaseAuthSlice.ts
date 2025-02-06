@@ -6,8 +6,8 @@ interface FirebaseAuthState {
   isLoading: boolean;
   token: string | null;
   error: string | null;
-  user_profile: any | null;
-  profile_updated: boolean; // Add profile_updated to store the update status
+  profile_updated: boolean; // Store profile update status
+  user_profile: object | null; // Store user profile
 }
 
 // Initial state
@@ -15,8 +15,8 @@ const initialState: FirebaseAuthState = {
   isLoading: false,
   token: null,
   error: null,
-  user_profile: null,
   profile_updated: false, // Initialize profile_updated as false
+  user_profile: null, // Initialize user_profile as null
 };
 
 export const firebaseLogin = createAsyncThunk(
@@ -29,7 +29,7 @@ export const firebaseLogin = createAsyncThunk(
       });
 
       console.log('Firebase login response:', response.data);
-      return response; // Return the response data on success
+      return response.data; // Return the response data on success
     } catch (error: any) {
       console.error('Firebase login error:', error.response?.data);
       // Return the error message using rejectWithValue
@@ -51,20 +51,20 @@ const firebaseAuthSlice = createSlice({
       })
       .addCase(firebaseLogin.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.token = action.payload?.data?.data.access_token || null;
-        state.user_profile = action.payload?.data.data || null; // Save user profile
-        state.profile_updated = action.payload?.data.profile_updated || false; // Save profile update status
+        state.token = action.payload?.data?.access_token || null;
+        state.profile_updated = action.payload?.profile_updated || false;
+        state.user_profile = action.payload?.data || null;
 
-        // Save the token to localStorage on successful login
+        console.log("Dispatched profile_updated:", action.payload?.profile_updated);
+      
+        // Save token, profile_updated, and user_profile in localStorage
         if (state.token) {
           localStorage.setItem('access_token', state.token);
+          localStorage.setItem('profile_updated', JSON.stringify(state.profile_updated));
+          if (state.user_profile) {
+            localStorage.setItem('user_profile', JSON.stringify(state.user_profile));
+          }
         }
-
-        // Save the user profile and profile_updated to localStorage
-        if (state.user_profile) {
-          localStorage.setItem('user_profile', JSON.stringify(state.user_profile));
-        }
-        localStorage.setItem('profile_updated', JSON.stringify(state.profile_updated));
       })
       .addCase(firebaseLogin.rejected, (state, action) => {
         state.isLoading = false;

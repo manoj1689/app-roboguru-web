@@ -40,7 +40,7 @@ export const fetchEducationLevels = createAsyncThunk(
 // Async thunk to fetch a specific education level by ID
 export const fetchEducationLevelById = createAsyncThunk(
   'educationLevels/fetchEducationLevelById',
-  async (levelId: number, { rejectWithValue }) => {
+  async (levelId: string, { rejectWithValue }) => {
     try {
       console.log('Fetching education level with ID:', levelId);
 

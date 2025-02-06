@@ -31,7 +31,7 @@ function TestBar() {
                 <div className="flex w-full flex-col md:flex-row md:items-center md:justify-between px-4">
                     <div>
                         <h2 className="text-2xl font-bold mb-1">Hello, {profileData?.name || "User"}!</h2>
-                        <p className="text-sm text-black">Keep up the momentum with your daily goals and new topics!</p>
+                        <p className="text-sm text-white font-medium">Keep up the momentum with your daily goals and new topics!</p>
                     </div>
                     {/* Quick Stats Example */}
                     <div>

@@ -9,7 +9,7 @@ import GreetingBar from "@/components/GreetingBar";
 import { IoChevronForward } from "react-icons/io5";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
 import { Line } from "rc-progress";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeftLong } from "react-icons/fa6";
 const ChapterScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -96,8 +96,8 @@ const ChapterScreen = () => {
           {currentSubject && (
             <div className="flex gap-4 w-full  mt-4">
 
-              <div className="py-2">
-                <FaArrowLeft size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />
+              <div className="p-4">
+                <FaArrowLeftLong size={25} color="black" onClick={goBack} className="hover:cursor-pointer" />
               </div>
               <div>
                 <h2 className="text-2xl font-bold text-black">{currentSubject.name}</h2>
@@ -120,16 +120,16 @@ const ChapterScreen = () => {
               </button>
             )}
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pt-4">
             {visibleChapters.map((chapter: any, index: number) => (
               <div
                 key={index}
-                className="flex  w-full border-l-4 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border rounded-r-lg px-4 hover:shadow transition-shadow"
+                className="flex  w-full border-l-8 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border rounded-r-lg px-4 hover:shadow transition-shadow"
               >
-                <div className=" flex flex-col w-5/6">
+                <div className=" flex flex-col w-3/4">
                 
                  <span className="flex bg-gray-300 w-32 justify-center items-center gap-2 rounded-b-md">
-                 <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className="italic">Chapter {index + 1}</span>
+                 <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className=" font-medium italic">Chapter {index + 1}</span>
                   </span>
 
                 
@@ -142,22 +142,22 @@ const ChapterScreen = () => {
                   <div className="flex w-full mx-auto my-2 ">
                     <Line
                       percent={parseFloat(getChapterProgress(chapter.id).toFixed(2))}
-                      strokeWidth={1}
-                      trailWidth={1}
+                      strokeWidth={1.5}
+                      trailWidth={1.5}
                       strokeColor="#63A7D4"
                       trailColor="#CDE6F7"
                     />
                   </div>
-                  <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm font-medium">progress achieve</span></div>
+                  <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm  font-semibold">progress achieve</span></div>
                 </div>
                 </div>
                
-                <div className="flex flex-col justify-center items-center w-1/6">
+                <div className="flex flex-col justify-center items-center w-1/4">
                   <button
                     onClick={() =>
                       router.push(`/TopicList?subjectId=${subjectId}&chapterId=${chapter.id}`)
                     }
-                    className=" px-4 py-2 text-sky-400  border border-[#D9D9D9] font-semibold rounded-lg tracking-widest underline"
+                    className=" px-4 py-2 text-[#418BBB]  border border-[#D9D9D9] font-medium rounded-lg underline"
                   >
                     View Topics
                   </button>

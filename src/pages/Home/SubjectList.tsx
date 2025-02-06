@@ -1,3 +1,4 @@
+import Image from "next/image"; 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,20 +8,18 @@ import { fetchUserProgress } from "../../redux/slices/progressSlice";
 import { Line } from "rc-progress";
 import ResponsivePagination from 'react-responsive-pagination';
 import { IoChevronForward } from "react-icons/io5";
-import './pagination.css';
-
-// Array of 10 random images for background
-const randomImages = [
-  "/images/S1.jpg",
-  "/images/S2.jpg",
-  "/images/S3.jpg",
-  "/images/S4.jpg",
-  "/images/S5.jpg",
-  "/images/S6.jpg",
-  "/images/S7.jpg",
-  "/images/S8.jpg",
-  "/images/S9.jpg",
-  "/images/S10.jpg",
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import './pagination.css'
+// Array mapping subject names to images
+const subjectImages = [
+  { name: "Mathematics", image: "/images/subjects/math.png" },
+  { name: "Physics", image: "/images/subjects/physics.png" },
+  { name: "Chemistry", image: "/images/subjects/chemistry.png" },
+  { name: "Biology", image: "/images/subjects/biology.png" },
+  { name: "History", image: "/images/subjects/history.png" },
+  { name: "Geography", image: "/images/subjects/geography.png" },
+  { name: "English", image: "/images/subjects/english.png" },
+  { name: "Computer Science", image: "/images/subjects/computer.png" },
 ];
 
 const SubjectList = () => {
@@ -30,17 +29,8 @@ const SubjectList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const subjectsPerPage = 4;
 
-  const {
-    userProgress,
-    loading: progressLoading = false,
-    error: progressError = null,
-  } = useSelector((state: RootState) => state.progress || {});
-
-  const {
-    subjects = [],
-    loading: subjectsLoading = false,
-    error: subjectsError = null,
-  } = useSelector((state: RootState) => state.subjects || {});
+  const { userProgress } = useSelector((state: RootState) => state.progress || {});
+  const { subjects = [] } = useSelector((state: RootState) => state.subjects || {});
 
   useEffect(() => {
     const userData = localStorage.getItem("user_profile");
@@ -57,16 +47,17 @@ const SubjectList = () => {
     }
   }, [dispatch]);
 
-  if (subjectsLoading || progressLoading) return <div>Loading...</div>;
-  if (subjectsError || progressError) return <div>Error: {subjectsError || progressError}</div>;
-
   // Helper function to find progress by subject_id
   const getSubjectProgress = (subjectId: string) => {
     if (!userProgress || !userProgress.subjects) return 0;
-    const subjectData = userProgress.subjects.find(
-      (subject: any) => subject.subject_id === subjectId
-    );
+    const subjectData = userProgress.subjects.find((subject: any) => subject.subject_id === subjectId);
     return subjectData ? subjectData.subject_progress || 0 : 0;
+  };
+
+  // Helper function to get subject image
+  const getSubjectImage = (subjectName: string) => {
+    const match = subjectImages.find((item) => item.name.toLowerCase() === subjectName.toLowerCase());
+    return match ? match.image : "/images/default.jpg"; // Default image if not found
   };
 
   // Pagination logic
@@ -76,76 +67,84 @@ const SubjectList = () => {
 
   return (
     <section className="bg-white rounded shadow p-5 my-4">
-      <h3 className="text-lg font-bold mb-4">Subjects for Your Class</h3>
+      <h3 className="text-2xl font-bold mb-4 ">Choose a Subject to Dive In</h3>
+      
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-        {subjectsList.map((subject: any, index: number) => {
-          const backgroundImage = randomImages[index % randomImages.length];
+        {subjectsList.map((subject: any) => (
+          <div
+            key={subject.id}
+            className="relative flex flex-col rounded-lg p-4 justify-between shadow-lg transition-shadow bg-white"
+          >
+            {/* Subject Image */}
+            <div className="flex w-full justify-between ">
+              <div>
+              <Image
+                src={getSubjectImage(subject.name)} // Find matching image
+                alt={subject.name}
+                height={55}
+                width={55}
+                className="rounded-t-lg"
+              />
+              </div>
+             
+              <div >
+              <IoMdInformationCircleOutline size={20} color="gray" />
+              </div>
+             
+              
+            </div>
 
-          return (
-            <div
-              key={subject.id}
-              className="relative flex flex-col border border-[#EAEAEA] rounded-lg p-4 mb-4 hover:shadow transition-shadow bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${backgroundImage})`,
-              }}
-            >
-              {/* Overlay for better text readability */}
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
+            {/* Content */}
+            <div className=" flex flex-col justify-between">
+              <div className="flex flex-col justify-center items-center">
+                <p className="text-2xl font-bold text-neutral-800">{subject.name}</p>
+                <span className="text-sm font-semibold text-neutral-800 text-center line-clamp-2">{subject.tagline}</span>
+              </div>
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col w-full h-full text-white justify-between">
-                <div>
-                  <div className="flex justify-end">
-                    <p className="text-sm font-semibold pb-4">{subject.name}</p>
-                  </div>
-                  <div className="flex flex-col mb-2">
-                    <span className="text-xl font-semibold mb-2">{subject.tagline}</span>
-                  </div>
+             
 
-                
-
-                </div>
-                <div>
-                    <button
-                      onClick={() => router.push(`/ChapterList?subjectId=${subject.id}`)}
-                      className=" flex justify-center items-center text-white mt-4 font-semibold tracking-widest hover:scale-105"
-                    >
-                      <span className="text-[#CDE6F7]">Explore Now </span>
-                      <span>
-                        <div className="flex text-[#CDE6F7]">
-                          <IoChevronForward size={16} />
-                          <IoChevronForward size={16} />
-                        </div>
-                      </span>
-                    </button>
-                    <div className="flex w-full justify-end gap-2 font-semibold text-gray-200 pb-2">
-                  <span>{parseFloat(getSubjectProgress(subject.id).toFixed(2))} %</span>
-
-                  <span>Progress</span>
-                </div>
+              {/* Progress Bar */}
+              <div className="mt-4">
+              
 
                 {parseFloat(getSubjectProgress(subject.id).toFixed(2)) > 0 ? (
                   <Line
-                    percent={parseFloat(getSubjectProgress(subject.id).toFixed(2))} // Fixed missing )
+                    percent={parseFloat(getSubjectProgress(subject.id).toFixed(2))}
                     strokeWidth={4}
                     trailWidth={4}
                     strokeColor="#63A7D4"
                     trailColor="#CDE6F7"
                   />
                 ) : (
-                  <div className="h-3 bg-[#CDE6F7] rounded"></div> // Blank line for 0% progress
+                  <div className="h-2 bg-[#CDE6F7] rounded"></div>
                 )}
-                  </div>
-               
               </div>
             </div>
-          );
-        })}
+            <div className="flex justify-between mt-2">
+            <div>
+            <button
+                onClick={() => router.push(`/ChapterList?subjectId=${subject.id}`)}
+                className="flex items-center text-[#51699E] text-xs font-semibold tracking-widest hover:scale-105 "
+              >
+                <span>Try Now</span>
+                <IoChevronForward size={16} />
+                <IoChevronForward size={16} />
+              </button>
+            </div>
+          
+              <div className=" flex text-sm gap-2 font-semibold text-[#51699E]">
+                  <span>{parseFloat(getSubjectProgress(subject.id).toFixed(2))} %</span>
+                  <span>Progress</span>
+                </div>
+            </div>
+          
+          </div>
+        ))}
       </div>
 
       {/* Pagination */}
-      <div className="pagination-container">
+      <div className="pagination-container mt-4">
         <ResponsivePagination
           total={Math.ceil(subjects.length / subjectsPerPage)}
           current={currentPage}

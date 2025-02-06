@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import {
+  createSession,
+  resetSessionState,
+} from '../../redux/slices/sessionSlice';
+import { resetChat } from '../../redux/slices/chatSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice"; // Ensure path is correct
 import { BsChatFill } from "react-icons/bs";
 import { GoArrowUpRight } from "react-icons/go";
 import Layout from "@/components/HomeLayout";
-import { IoChevronForward } from "react-icons/io5";
+import { IoMdMic } from "react-icons/io";
 import { BsChatLeftText } from "react-icons/bs";
+import { IoChatbubbles } from "react-icons/io5";
 import { MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp } from "react-icons/md";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { BsArrowUpRight } from "react-icons/bs";
 import { Line } from "rc-progress";
 import TestBar from "@/components/TestBar";
 const TopicScreen = () => {
@@ -18,6 +25,11 @@ const TopicScreen = () => {
   const { chapterId } = router.query; // Get the chapterId from the query parameter
   const { subjectId } = router.query;
   // Get topics from Redux store
+
+    // Redux state selectors
+    const { sessionId, status, startedAt, loading: sessionLoading, error: sessionError } = useSelector(
+      (state: RootState) => state.session
+    );
   const { topics, loading, error } = useSelector((state: RootState) => state.topics);
   // Get chapters and subjects from Redux store
   const { chapters, loading: chaptersLoading, error: chaptersError } = useSelector(
@@ -30,7 +42,7 @@ const TopicScreen = () => {
     null
   );
   const [progressValues, setProgressValues] = useState<{ [key: string]: number }>({});
-
+ 
   // Generate random progress for each topic when topics are fetched
   useEffect(() => {
     if (topics.length > 0) {
@@ -64,6 +76,33 @@ const TopicScreen = () => {
     }
   }, [chapters, chapterId]);
 
+  const handleTopicChat = async (topicId: string) => {
+    try {
+         await dispatch(createSession())
+      // Reset chat before navigating
+      dispatch(resetChat());
+  
+      router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&chatSessionId=${sessionId}`);
+    } catch (error) {
+      console.error("Error creating session:", error);
+    }
+  };
+  
+  const handleSubTopicChat = async (topicId: string, subTopicId: number) => {
+    try {
+     
+      await dispatch(createSession())
+      // Reset chat before navigating
+      dispatch(resetChat());
+  
+  
+      router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&subtopicId=${subTopicId}&chatSessionId=${sessionId}`);
+    } catch (error) {
+      console.error("Error creating session:", error);
+    }
+  };
+  
+ 
   const handleViewMore = () => {
     setVisibleTopics(topics); // Show all topics when "View More" is clicked
   };
@@ -82,7 +121,7 @@ const TopicScreen = () => {
   const goBack = () => {
     router.back(); // Goes one step back in history
   };
-
+ 
   return (
     <Layout>
    
@@ -93,11 +132,10 @@ const TopicScreen = () => {
         {currentChapter && (
 
 
+          <div className="flex gap-4 items-center bg-gray-100 p-4 my-4">
 
-          <div className="flex gap-4   mt-4">
-
-            <div className="py-2">
-              <FaArrowLeft size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />
+            <div className="">
+              <FaArrowLeftLong  size={25} color="black" onClick={goBack} className="hover:cursor-pointer" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-black">{currentChapter.name}</h2>
@@ -115,7 +153,7 @@ const TopicScreen = () => {
               key={index}
             >
               <div className="flex w-full">
-                <div className={`flex max-md:flex-col w-full border-l-4 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border  ${expandedTopics[topic.id] ? 'rounded-tr-lg' : 'rounded-r-lg'} px-4 hover:shadow transition-shadow`}>
+                <div className={`flex max-md:flex-col w-full border-l-8 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border  ${expandedTopics[topic.id] ? 'rounded-tr-lg' : 'rounded-r-lg'} px-4 hover:shadow transition-shadow`}>
                   <div className="flex w-full px-4 flex-col">
                     <div className="mt-2">
                       <h4 className="text-xl text-black font-semibold mb-2">{topic.name}</h4>
@@ -126,8 +164,8 @@ const TopicScreen = () => {
                    <span className="w-full">
                    <Line
                      percent={progressValues[topic.id] || 10} // Default to 10% if missing
-                     strokeWidth={1}
-                     trailWidth={1}
+                     strokeWidth={1.5}
+                     trailWidth={1.5}
                      strokeColor="#63A7D4"
                      trailColor="#CDE6F7"
                    />
@@ -135,7 +173,7 @@ const TopicScreen = () => {
                  
                  </div>
                  <div className="flex w-full md:w-1/6">
-                 <div> <span className=" text-[#418BBB] text-semibold">progress:{progressValues[topic.id] || 10}%</span></div>
+                 <div> <span className=" text-[#418BBB] space-x-2 text-semibold"><span className="font-semibold">progress:</span><span className="text-semibold text-stone-800">{progressValues[topic.id] || 10}%</span></span></div>
                  </div>
                     </div>
                     
@@ -143,15 +181,15 @@ const TopicScreen = () => {
                       {topic.subtopics?.length > 0 && (
                         <button
                           onClick={() => handleExpand(topic.id)}
-                          className="py-2 text-blue-500 font-semibold tracking-widest underline flex items-center gap-1"
+                          className="py-2 text-[#418BBB] font-semibold tracking-widest underline flex items-center gap-1"
                         >
                           {expandedTopics[topic.id] ? (
                             <>
-                              Show Less <MdKeyboardDoubleArrowDown size={16} />
+                              Expand Less  <MdKeyboardDoubleArrowUp size={16} />
                             </>
                           ) : (
                             <>
-                              Show More <MdKeyboardDoubleArrowUp size={16} />
+                              Expand More<MdKeyboardDoubleArrowDown size={16} />
                             </>
                           )}
                         </button>
@@ -162,7 +200,7 @@ const TopicScreen = () => {
                   <div className="flex justify-center items-center p-2">
                     <button
 
-                      onClick={() => router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topic.id}`)}
+                      onClick={()=>handleTopicChat(topic.id)}
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
                       <span className="px-2"><BsChatLeftText /></span>Chat
@@ -178,31 +216,22 @@ const TopicScreen = () => {
                 {expandedTopics[topic.id] && topic.subtopics?.length > 0 && (
                   <div className="flex flex-col gap-4 p-4 ">
                     {topic.subtopics.map((subtopic: any, subIndex: number) => (
-                      <div key={subIndex} className="text-sm flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer">
+                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer" onClick={()=>handleSubTopicChat(topic.id,subIndex)} >
                         <div className="flex gap-4">
                           <div className="text-cyan-600">
-                            <GoArrowUpRight size={20} />
+                            <BsArrowUpRight size={20} />
                           </div>
                           <div
                             className=" cursor-pointer transition-all"
-                            onClick={() =>
-                              router.push(
-                                `/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topic.id}&subtopicId=${subIndex}`
-                              )
-                            }
                           >
                             {subtopic}
                           </div>
                         </div>
                         <div
-                          className="cursor-pointer text-[#418BBB] transition-all"
-                          onClick={() =>
-                            router.push(
-                              `/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topic.id}&subtopicId=${subtopic.id}`
-                            )
-                          }
+                          className="flex cursor-pointer text-[#51AAD4] transition-all gap-8"
                         >
-                          <BsChatFill size={20} />
+                          <IoChatbubbles size={25} />
+                          <IoMdMic  size={25} />
                         </div>
                       </div>
                     ))}

@@ -66,7 +66,7 @@ const HomePage = () => {
       <Layout>
         <div >
           {/* Left Menu */}
-          
+
           {/* Right Sections */}
           <div className=' '>
             <GreetingBar />
@@ -78,8 +78,8 @@ const HomePage = () => {
             </section>
 
             <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold mb-3">Scan & Pick Image → AI Chat</h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <h3 className="text-2xl font-bold ">Scan & Pick Image → AI Chat</h3>
+              <p className="text-base mb-4 leading-relaxed">
                 Upload a file or image, then ask AI about it. Choose an AI avatar/personality for a unique experience.
               </p>
 
@@ -109,7 +109,7 @@ const HomePage = () => {
                 </div>
               ) : (
                 <div
-                  className={`border-dashed border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${dragging ? "border-[#418BBB] bg-white" : "border-gray-300 bg-white"
+                  className={`border-dashed w-4/5 mx-auto my-8 border border-stone-800 rounded-lg p-6 text-center cursor-pointer transition-all ${dragging ? "border-[#418BBB] bg-white" : "border-gray-300 bg-white"
                     }`}
                   onDrop={handleFileDrop}
                   onDragOver={handleDragOver}
@@ -140,128 +140,135 @@ const HomePage = () => {
               />
 
               {/* Quick Question */}
-              <label className="block text-sm font-bold text-gray-700 mb-1 mt-4">
+              <label className="block text-lg font-semibold  text-neutral-800 mb-1 mt-4">
                 Quick question (optional):
               </label>
               <input
                 type="text"
                 placeholder="Any specific query about this file?"
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none mb-3"
+                className="w-full px-3 py-2 border border-gray-300 bg-[#F5F5F5] rounded text-sm focus:outline-none mb-3"
               />
 
-              {/* AI Avatar / Personality Checkboxes */}
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Choose AI Avatar:
-              </label>
-              <div className="max-lg:flex-col flex max-lg:space-y-2 items-center lg:space-x-2">
-                {["Friendly Tutor", "Strict Coach", "Playful Robot"].map((avatar) => (
-                  <label
-                    key={avatar}
-                    className="flex items-center text-sm cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedAvatar === avatar}
-                      onChange={() => handleAvatarSelection(avatar)}
-                      className="mr-2"
-                    />
-                    {avatar}
-                  </label>
-                ))}
-              </div>
+
+
 
               {/* Start AI Chat Button */}
               <div className="flex w-full items-center">
                 <button
                   onClick={handleChatStart}
-                  className="mt-4 px-4 py-2 text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa] mx-auto transition-colors"
+                  className="mt-4 py-4 px-8 text-md font-medium bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] mx-auto transition-colors"
                 >
-                  Start AI Chat
+                  Start Ai Chat
                 </button>
               </div>
             </section>
+
             {/* <!-- RECOMMENDED (5 items) --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold mb-4">Recommended for You</h3>
-              <p className="text-sm text-gray-600 mb-4">Based on your recent activity:</p>
+            {/* <section className="bg-white rounded shadow p-5 my-4">
+              <h3 className="text-2xl font-bold ">Recommended for You</h3>
+              <p className="text-base mb-4 leading-relaxed">Based on your recent activity:</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {/* Card 1 - Trigonometry Basics */}
-                <div className="border rounded-lg p-4 hover:shadow transition-shadow">
-                  <h4 className="font-semibold text-sm lg:text-lg mb-1">Trigonometry Basics</h4>
-                  <p className="text-xs lg:text-sm text-gray-500">Math | Class X</p>
-                  <p className="text-xs lg:text-sm text-gray-700 mt-2 line-clamp-2">
-                    Complete your last practice set on angles and identities.
-                  </p>
-                  <Link
-                    href="#"
-                    className="mt-3 inline-block px-3 py-1 text-xs lg:text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa]"
-                  >
-                    Resume
-                  </Link>
+               
+                <div className="border rounded-lg p-4 hover:shadow transition-shadow flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-semibold text-sm lg:text-lg mb-1">Trigonometry Basics</h4>
+                    <p className="text-md text-neutral-700 italic">Math | Class X</p>
+                    <p className="text-sm text-neutral-800 mt-2 font-semibold line-clamp-2">
+                      Complete your last practice set on angles and identities.
+                    </p>
+                  </div>
+                  <div>
+                    <Link
+                      href="#"
+                      className="mt-3 inline-block px-8 py-2 text-xs lg:text-sm font-semibold bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] self-start"
+                    >
+                      Resume
+                    </Link>
+                  </div>
                 </div>
 
-                {/* Card 2 - Poetry Analysis */}
-                <div className="border rounded-lg p-4 hover:shadow transition-shadow">
-                  <h4 className="font-semibold text-sm lg:text-lg mb-1">Poetry Analysis</h4>
-                  <p className="text-xs lg:text-sm text-gray-500">English | Class IX</p>
-                  <p className="text-xs lg:text-sm text-gray-700 mt-2 line-clamp-2">
-                    Dive deeper into classic poems and improve your literary insights.
-                  </p>
-                  <Link
-                    href="#"
-                    className="mt-3 inline-block px-3 py-1 text-xs lg:text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa]"
-                  >
-                    Explore
-                  </Link>
+                <div className="border rounded-lg p-4 hover:shadow transition-shadow flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-semibold text-sm lg:text-lg mb-1">Poetry Analysis</h4>
+                    <p className="text-md text-neutral-700 italic">English | Class IX</p>
+                    <p className="text-sm text-neutral-800 mt-2 font-semibold line-clamp-2">
+                      Dive deeper into classic poems and improve your literary insights.
+                    </p>
+                  </div>
+                  <div>
+                    <Link
+                      href="#"
+                      className="mt-3 inline-block px-8 py-2 text-xs lg:text-sm font-semibold bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] self-start"
+                    >
+                      Explore
+                    </Link>
+                  </div>
                 </div>
 
-                {/* Card 3 - Electrostatics */}
-                <div className="border rounded-lg p-4 hover:shadow transition-shadow">
-                  <h4 className="font-semibold text-sm lg:text-lg mb-1">Electrostatics</h4>
-                  <p className="text-xs lg:text-sm text-gray-500">Physics | Class XI</p>
-                  <p className="text-xs lg:text-sm text-gray-700 mt-2 line-clamp-2">
-                    Review Coulomb’s law and solve new practice questions.
-                  </p>
-                  <Link
-                    href="#"
-                    className="mt-3 inline-block px-3 py-1 text-xs lg:text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa]"
-                  >
-                    Continue
-                  </Link>
+                <div className="border rounded-lg p-4 hover:shadow transition-shadow flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-semibold text-sm lg:text-lg mb-1">Electrostatics</h4>
+                    <p className="text-md text-neutral-700 italic">Physics | Class XI</p>
+                    <p className="text-sm text-neutral-800 mt-2 font-semibold line-clamp-2">
+                      Review Coulomb’s law and solve new practice questions.
+                    </p>
+                  </div>
+                  <div>
+                    <Link
+                      href="#"
+                      className="mt-3 inline-block px-8 py-2 text-xs lg:text-sm font-semibold bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] self-start"
+                    >
+                      Continue
+                    </Link>
+                  </div>
                 </div>
 
-                {/* Card 4 - Chemical Bonds */}
-                <div className="border rounded-lg p-4 hover:shadow transition-shadow">
-                  <h4 className="font-semibold text-sm lg:text-lg mb-1">Chemical Bonds</h4>
-                  <p className="text-xs lg:text-sm text-gray-500">Chemistry | Class IX</p>
-                  <p className="text-xs lg:text-sm text-gray-700 mt-2 line-clamp-2">
-                    Learn about ionic, covalent, and metallic bonds.
-                  </p>
-                  <Link
-                    href="#"
-                    className="mt-3 inline-block px-3 py-1 text-xs lg:text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa]"
-                  >
-                    Resume
-                  </Link>
+              
+                <div className="border rounded-lg p-4 hover:shadow transition-shadow flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-semibold text-sm lg:text-lg mb-1">Chemical Bonds</h4>
+                    <p className="text-md text-neutral-700 italic">Chemistry | Class IX</p>
+                    <p className="text-sm text-neutral-800 mt-2 font-semibold line-clamp-2">
+                      Learn about ionic, covalent, and metallic bonds.
+                    </p>
+                  </div>
+                  <div>
+                    <Link
+                      href="#"
+                      className="mt-3 inline-block px-8 py-2 text-xs lg:text-sm font-semibold bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] self-start"
+                    >
+                      Resume
+                    </Link>
+                  </div>
                 </div>
 
-                {/* Card 5 - Programming Basics */}
-                <div className="border rounded-lg p-4 hover:shadow transition-shadow">
-                  <h4 className="font-semibold text-sm lg:text-lg mb-1">Programming Basics</h4>
-                  <p className="text-xs lg:text-sm text-gray-500">Coding | Class X</p>
-                  <p className="text-xs lg:text-sm text-gray-700 mt-2 line-clamp-2">
-                    Finish the array exercises and debug sample programs.
-                  </p>
-                  <Link
-                    href="#"
-                    className="mt-3 inline-block px-3 py-1 text-xs lg:text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa]"
-                  >
-                    Resume
-                  </Link>
+               
+                <div className="border rounded-lg p-4 hover:shadow transition-shadow flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-semibold text-sm lg:text-lg mb-1">Programming Basics</h4>
+                    <p className="text-md text-neutral-700 italic">Coding | Class X</p>
+                    <p className="text-sm text-neutral-800 mt-2 font-semibold line-clamp-2">
+                      Finish the array exercises and debug sample programs.
+                    </p>
+                  </div>
+                  <div>
+                    <Link
+                      href="#"
+                      className="mt-3 inline-block px-8 py-2 text-xs lg:text-sm font-semibold bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] self-start"
+                    >
+                      Resume
+                    </Link>
+                  </div>
+                </div>
+
+               
+                <div className="flex   border rounded-lg p-4 hover:shadow transition-shadow  justify-center items-center bg-gradient-to-r  from-[#63A7D4] to-[#F295BE] ">
+                  <h4 className="font-semibold text-sm lg:text-2xl text-neutral-800">Explore More</h4>
                 </div>
               </div>
-            </section>
 
+
+            </section> */}
 
             {/* <!-- WEEKLY MISSIONS & VIRTUAL NOTEPAD --> */}
             {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
@@ -314,9 +321,9 @@ const HomePage = () => {
               </div>
             </section> */}
             {/* <!-- ACHIEVEMENTS (5 badges) --> */}
-            <section className="bg-white rounded shadow p-5">
-              <h3 className="text-lg font-bold mb-3 lg:text-xl">Achievements & Badges</h3>
-              <p className="text-sm text-gray-600 mb-4 lg:text-lg">
+            <section className="bg-white rounded shadow pt-4 pb-12 px-4">
+              <h3 className="text-2xl font-bold ">Achievements & Badges</h3>
+              <p className="text-base mb-4 leading-relaxed ">
                 Keep up the good work—collect badges as you master new concepts.
               </p>
               <div className="flex flex-wrap justify-around">
@@ -325,128 +332,138 @@ const HomePage = () => {
                   <img
                     src="/images/badge-award1.png"
                     alt="Math Whiz Badge"
-                    className="mx-auto mb-2 w-20 lg:w-32 rounded-full shadow"
+                    className="mx-auto mb-2 w-20 lg:w-[108px] rounded-full shadow"
                   />
-                  <p className="text-xs font-semibold lg:text-sm">Math Whiz</p>
+                  <p className="text-xs font-semibold lg:text-lg">Math Whiz</p>
                 </div>
                 {/* Achievement 2 */}
                 <div className="text-center">
                   <img
                     src="/images/badge-award2.png"
                     alt="Science Star Badge"
-                    className="mx-auto mb-2 w-20 lg:w-32 rounded-full shadow"
+                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
                   />
-                  <p className="text-xs font-semibold lg:text-sm">Science Star</p>
+                  <p className="text-xs font-semibold lg:text-lg">Science Star</p>
                 </div>
                 {/* Achievement 3 */}
                 <div className="text-center">
                   <img
                     src="/images/badge-award3.png"
                     alt="Literature Lover Badge"
-                    className="mx-auto mb-2 w-20 lg:w-32 rounded-full shadow"
+                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
                   />
-                  <p className="text-xs font-semibold lg:text-sm">Literature Lover</p>
+                  <p className="text-xs font-semibold lg:text-lg">Literature Lover</p>
                 </div>
                 {/* Achievement 4 */}
                 <div className="text-center">
                   <img
                     src="/images/badge-award4.png"
                     alt="History Buff Badge"
-                    className="mx-auto mb-2 w-20 lg:w-32 rounded-full shadow"
+                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
                   />
-                  <p className="text-xs font-semibold lg:text-sm">History Buff</p>
+                  <p className="text-xs font-semibold lg:text-lg">History Buff</p>
                 </div>
                 {/* Achievement 5 */}
                 <div className="text-center">
                   <img
                     src="/images/badge-award5.png"
                     alt="Coding Guru Badge"
-                    className="mx-auto mb-2 w-20 lg:w-32 rounded-full shadow"
+                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
                   />
-                  <p className="text-xs font-semibold lg:text-sm">Maths Whiz</p>
+                  <p className="text-xs font-semibold lg:text-lg">Maths Whiz</p>
                 </div>
                 {/* Achievement 6 */}
                 <div className="text-center">
                   <img
                     src="/images/badge-award6.png"
                     alt="Coding Guru Badge"
-                    className="mx-auto mb-2 w-20 lg:w-32 rounded-full shadow"
+                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
                   />
-                  <p className="text-xs font-semibold lg:text-sm">Physics Champ</p>
+                  <p className="text-xs font-semibold lg:text-lg">Physics Champ</p>
                 </div>
 
               </div>
             </section>
             {/* <!-- DAILY TRIVIA --> */}
             <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold mb-4 lg:text-xl">Daily Trivia</h3>
-              <p className="text-sm text-gray-600 mb-4 lg:text-lg">
+              <h3 className="text-lg font-bold lg:text-2xl">Daily Trivia</h3>
+              <p className="text-base mb-4 leading-relaxed">
                 Boost your knowledge with a quick question! Earn points for correct answers.
               </p>
-              <div className="border rounded-lg p-4 hover:shadow transition-shadow">
-                <p className="text-sm font-semibold mb-2 lg:text-lg">
-                  Question: What is the capital of Australia?
-                </p>
-                <ul className="space-y-1 text-sm lg:text-lg">
-                  <li>
-                    <input type="radio" name="trivia" className="mr-2" /> Sydney
-                  </li>
-                  <li>
-                    <input type="radio" name="trivia" className="mr-2" /> Canberra
-                  </li>
-                  <li>
-                    <input type="radio" name="trivia" className="mr-2" /> Melbourne
-                  </li>
-                  <li>
-                    <input type="radio" name="trivia" className="mr-2" /> Perth
-                  </li>
-                </ul>
-                <button
-                  className="mt-3 px-3 py-1 text-xs lg:text-sm bg-[#418BBB] text-white rounded hover:bg-[#4080aa]"
-                  type="button"
-                  onClick={() => alert('Answer submitted!')}
-                >
-                  Submit
-                </button>
+              <div className="flex py-4 px-8 border border-neutral-600 rounded-lg">
+                <div className="w-3/4">
+                  <p className="text-sm font-semibold mb-2 lg:text-lg">
+                    Question: What is the capital of Australia?
+                  </p>
+                  <ul className="space-y-1 text-sm lg:text-lg">
+                    <li>
+                      <input type="radio" name="trivia" className="mr-2" /> Sydney
+                    </li>
+                    <li>
+                      <input type="radio" name="trivia" className="mr-2" /> Canberra
+                    </li>
+                    <li>
+                      <input type="radio" name="trivia" className="mr-2" /> Melbourne
+                    </li>
+                    <li>
+                      <input type="radio" name="trivia" className="mr-2" /> Perth
+                    </li>
+                  </ul>
+                  <button
+                    className="mt-3 px-8 py-2 text-md lg:text-sm font-medium bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa]"
+                    type="button"
+                    onClick={() => alert('Answer submitted!')}
+                  >
+                    Submit
+                  </button>
 
+                </div>
+                <div className="w-1/4">
+                  <img src="/images/dailyTriva.png" alt="daily Triva" className="" />
+                </div>
               </div>
+
             </section>
             {/* <!-- UPCOMING QUIZZES (5 items) --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold mb-3 lg:text-xl">Upcoming Quizzes & Tests</h3>
+            <section className="bg-white rounded shadow p-5  my-4">
+              <h3 className="text-lg font-bold mb-3 lg:text-2xl">Upcoming Quizzes & Tests</h3>
               <ul className="space-y-1 text-sm lg:text-lg">
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div><strong>Mar 15, 4 PM:</strong>{' '}
-                  <span className="italic">Algebra Quiz (Ch. 5-7)</span>{' '}</div>
-                  <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+
+                  <div><span className="font-sans font-medium">Mar 15, 4 PM:</span>{' '}
+                    <span className="italic">Algebra Quiz (Ch. 5-7)</span>{' '}</div>
+                  <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
                 <li className="flex justify-between bg-gray-50 p-3 rounded-md">
-                  <div><strong>Mar 18, 2 PM:</strong>{' '}
-                  <span className="italic">Biology: Cell Structure Test</span>{' '}</div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+
+                  <div><span className="font-sans font-medium">Mar 18, 2 PM:</span>{' '}
+                    <span className="italic">Biology: Cell Structure Test</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div><strong>Mar 20, 10 AM:</strong>{' '}
-                  <span className="italic">Geography: Maps & Regions Quiz</span>{' '}</div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+
+                  <div><span className="font-sans font-medium">Mar 20, 10 AM:</span>{' '}
+                    <span className="italic">Geography: Maps & Regions Quiz</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
                 <li className="flex justify-between bg-gray-50 p-3 rounded-md">
-                  <div><strong>Mar 25, 1 PM:</strong>{' '}
-                  <span className="italic">Programming: Array Challenges</span>{' '}</div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+
+                  <div><span className="font-sans font-medium">Mar 25, 1 PM:</span>{' '}
+                    <span className="italic">Programming: Array Challenges</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div><strong>Mar 28, 11 AM:</strong>{' '}
-                  <span className="italic">History: Medieval Era Test</span>{' '}</div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded hover:bg-[#4080aa]">
+                  <div><span className="font-sans font-medium">Mar 28, 11 AM:</span>{' '}
+                    <span className="italic">History: Medieval Era Test</span>{' '}</div>
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
                     Remind Me
                   </button>
                 </li>
@@ -455,18 +472,19 @@ const HomePage = () => {
 
             {/* <!-- TEAM / CLAN LEADERBOARD (5 items) --> */}
             <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold mb-3 lg:text-xl">Community Leaderboard</h3>
-              <p className="text-sm text-gray-600 mb-4 lg:text-lg">
+              <h3 className="text-lg font-bold  lg:text-2xl">Community Leaderboard</h3>
+              <p className="text-base mb-4 leading-relaxed">
                 Top contributors in the forum this week:
               </p>
               <ol className="list-decimal list-inside text-sm space-y-1 lg:text-lg">
-                <li><strong>AlgebraNerd007</strong> – 1200 points</li>
-                <li><strong>PhysicsPro99</strong> – 1100 points</li>
-                <li><strong>BioWizard</strong> – 950 points</li>
-                <li><strong>CodingGuru</strong> – 900 points</li>
-                <li><strong>LiteratureLover</strong> – 850 points</li>
+                <li><span className="font-sans font-medium">AlgebraNerd007</span> – 1200 points</li>
+                <li><span className="font-sans font-medium">PhysicsPro99</span> – 1100 points</li>
+                <li><span className="font-sans font-medium">BioWizard</span> – 950 points</li>
+                <li><span className="font-sans font-medium">CodingGuru</span> – 900 points</li>
+                <li><span className="font-sans font-medium">LiteratureLover</span> – 850 points</li>
               </ol>
-              <a href="#" className="text-xs text-[#418BBB] font-semibold underline mt-2 inline-block lg:text-sm">
+
+              <a href="#" className="text-sm text-[#418BBB] font-semibold underline mt-2 inline-block lg:text-sm">
                 View Full Leaderboard
               </a>
             </section>
@@ -523,25 +541,41 @@ const HomePage = () => {
             </section> */}
             {/* <!-- PROMO / INFO CARDS (Pro upgrade, limited offer) --> */}
             <section className="flex flex-col md:flex-row md:space-x-4 my-4 ">
-              <div className="bg-pink-50 border border-pink-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow mb-4 md:mb-0">
-                <h4 className="text-sm font-bold text-pink-600 mb-2 lg:text-lg">Upgrade to Pro</h4>
-                <p className="text-xs text-gray-700 mb-3 lg:text-sm">
-                  Get unlimited AI queries, voice mode, advanced analytics, and more with our Pro plan.
-                </p>
+              <div className="bg-pink-50 border justify-between border-pink-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow mb-4 md:mb-0">
+                <div>
+                  <h4 className="text-sm font-bold text-pink-600 mb-2 lg:text-2xl">Upgrade to Pro</h4>
+                  <p className=" text-gray-700 mb-3 lg:text-md">
+                    Get unlimited AI queries, voice mode, advanced analytics, and more with our Pro plan.
+                  </p>
+                </div>
                 <button
-                  className="bg-[#418BBB] text-white text-xs px-3 py-1 rounded hover:bg-[#4080aa] transition-colors lg:text-sm"
+                  className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm"
                 >
-                  Upgrade
+                  Upgrade Pro
                 </button>
 
               </div>
-              <div className="bg-purple-50 border border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow">
-                <h4 className="text-sm font-bold text-purple-600 mb-2 lg:text-lg">Limited Time Offer</h4>
-                <p className="text-xs text-gray-700 mb-3 lg:text-sm">
-                  Use code <strong>STUDY20</strong> at checkout to get 20% off your first 3 months.
-                </p>
-                <p className="text-xs text-gray-600 italic lg:text-sm">Hurry—offer ends soon!</p>
+              <div className="flex flex-col bg-purple-50 border justify-between border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow">
+                <div>
+                  <h4 className="text-sm font-bold text-[#418BBB] mb-2 lg:text-2xl">Limited Time Offer</h4>
+                  <p className=" text-gray-700  lg:text-md text-semibold">
+                    Use code <strong>STUDY20</strong> at checkout to get 20% off your first 3 months.
+                  </p>
+                  <p className=" text-gray-600 italic font-semibold lg:text-md">Hurry—offer ends soon!</p>
+                </div>
+
+                <div>
+
+                  <button
+                    className="bg-[#418BBB] text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-[#3776a0] transition-colors lg:text-sm"
+                  >
+                    Upgrade Pro
+                  </button>
+                </div>
+
+
               </div>
+
             </section>
             {/* <!-- ========== REFERRAL / AFFILIATE SECTION ========== --> */}
             {/* <section id="referral" className="bg-red-50 p-6 rounded shadow my-4">

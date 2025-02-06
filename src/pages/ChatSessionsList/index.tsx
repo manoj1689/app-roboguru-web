@@ -3,13 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchChatSessions, resetChat } from '../../redux/slices/chatSessionHistorySlice';
 import { useRouter } from 'next/router'; // If using Next.js
-import Layout from '@/components/HomeLayout';
-import Sidebar from '@/components/Sidebar';
-import HomeNavbar from "@/components/HomeNavbar";
-import HomeFooter from '@/components/HomeFooter';
-import TestBar from '@/components/TestBar';
 import { FaArrowLeft } from "react-icons/fa";
-import { GoArrowUpRight } from "react-icons/go";
+import { BsArrowUpRight } from "react-icons/bs";
+
+import Layout from '@/components/HomeLayout';
+import TestBar from '@/components/TestBar';
 
 const ChatSessionsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +18,7 @@ const ChatSessionsPage: React.FC = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  console.log("chat sessions List", chatSessions)
   const goBack = () => {
     router.back(); // Goes one step back in history
   };
@@ -47,10 +45,6 @@ const ChatSessionsPage: React.FC = () => {
   useEffect(() => {
     dispatch(fetchChatSessions());
 
-    // Cleanup: reset chat state on unmount
-    return () => {
-      dispatch(resetChat());
-    };
   }, [dispatch]);
 
   if (loading) {
@@ -65,33 +59,12 @@ const ChatSessionsPage: React.FC = () => {
   const groupedSessions = groupSessionsByDate(chatSessions);
 
   return (
-    <>
-      {/* Hamburger button for small screens */}
-      <button
-        onClick={toggleSidebar}
-        className="lg:hidden text-2xl fixed top-5 left-5 z-50"
-      >
-        <span className="block">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
-        </span>
-      </button>
+    <Layout>
 
-      <section className={`fixed top-0 left-0 h-full  bg-white transition-all mt-20 z-10 ${isSidebarOpen ? "w-64" : "w-0 overflow-hidden"
-        } lg:w-64 lg:block`}>
-
+      <section className='flex  flex-col w-full lg:pl-4'>
+        <div >
+          <TestBar />
+        </div>
         <div className="flex w-full gap-2 items-center">
           <div className="p-4">
             <FaArrowLeft size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />
@@ -100,77 +73,80 @@ const ChatSessionsPage: React.FC = () => {
             <h3 className="text-lg font-bold">Chat Sessions</h3>
           </div>
         </div>
-        <div className="overflow-y-auto " style={{ height: "calc(100vh - 13rem)" }}>
+        <div className="overflow-y-auto p-4" style={{ height: "calc(100vh - 20rem)" }}>
           {/* Render grouped sessions */}
           {Object.keys(groupedSessions).map((date) => (
             <div key={date} className="mb-2 bg-[#D9D9D9]">
               <h4 className="text-lg font-medium py-2 text-gray-500 px-4 items-center">{date}</h4>
-              <div className="flex flex-col gap-2 bg-white">
+              <div className="flex flex-col gap-4 bg-white">
                 {groupedSessions[date].map((session: any) => (
                   <div
                     key={session.session_id}
-                    className="flex w-full justify-between border-b px-4 py-2  border-b-gray-400 cursor-pointer"
-                    onClick={() => router.push(`/AiChat?chatSessionId=${session.session_id}`)}
+                    className="flex w-full justify-between border-b px-4 py-4 border-b-gray-400"
                   >
-                    <div className="flex flex-col w-full ">
-                      <div className="flex  justify-between items-center">
-                        <div>
-                          {session.last_message_time && (
-                            <p className="text-sm text-gray-500 font-medium">
-                              {(() => {
-                                const date = new Date(session.last_message_time);
-                                // Add 5 hours and 30 minutes to the current time
-                                date.setHours(date.getHours() + 5);
-                                date.setMinutes(date.getMinutes() + 30);
-                                return `${date.toLocaleTimeString('en-US', {
-                                  hour: '2-digit',
-                                  minute: '2-digit',
-                                  hour12: true,
-                                })}`;
-                              })()}
-                            </p>
-                          )}
-                        </div>
-                      
+                    <div className="flex w-5/6 items-center">
+                      <div className="px-4">
+                        <button
+                          onClick={() => router.push(`/AiChat?previousChatSessionId=${session.session_id}`)}
+                          className="py-2 text-sky-400 mt-2 font-semibold tracking-widest underline"
+                        >
+                          <BsArrowUpRight size={30} color="#F46D6D" />
+                        </button>
                       </div>
-                      <div className='pl-4'>
-                        <h4 className="text-sm text-stone-800 font-semibold">
-                          {session.title || 'Untitled Session'}
-                        </h4>
-                        {session.last_message && (
-                          <p className="text-md text-gray-500 font-medium text-sm mb-2">{session.last_message}</p>
+                      <div className='flex w-full '>
+                       <div className='w-1/5'>
+                       <p className="text-md text-neutral-800 font-bold text-lg mb-2">{session.subject_name}</p>
+                       </div>
+                     <div className='w-4/5'>
+                     {session.last_message && (
+                          <>
+                          <div className='flex flex-col '>
+                          <p className="text-sm text-gray-800 font-bold text-md ">{session.chapter_name}</p>
+                            <h4 className="text-xs text-stone-800 font-semibold">
+                              {session.title || 'Untitled Session'}
+                            </h4>
+                          </div>
+                          
+
+
+                          </>
+
+                        )}
+                     </div>
+                    
+
+
+
+                      </div>
+                    </div>
+                    <div className="flex w-1/6 justify-center items-center">
+                      <div>
+                        {session.last_message_time && (
+                          <p className="text-sm text-gray-500 font-medium">
+                            {(() => {
+                              const date = new Date(session.last_message_time);
+                              // Add 5 hours and 30 minutes to the current time
+                              date.setHours(date.getHours() + 5);
+                              date.setMinutes(date.getMinutes() + 30);
+                              return `${date.toLocaleTimeString('en-US', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true,
+                              })}`;
+                            })()}
+                          </p>
                         )}
                       </div>
                     </div>
-
-
-
                   </div>
                 ))}
               </div>
             </div>
           ))}
         </div>
-        <div className='p-2 border border-gray-400 rounded-lg'>
-          <div>
-
-          </div>
-          <div>
-            View Plans
-          </div>
-          <div>
-            Unlimited Access,term feature ..
-          </div>
-
-        </div>
       </section>
 
-
-
-
-
-
-    </>
+    </Layout>
   );
 };
 

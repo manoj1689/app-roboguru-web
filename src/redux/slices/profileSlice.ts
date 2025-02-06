@@ -23,7 +23,7 @@ const initialState: ProfileState = {
   profile: {
     name: '',
     email: '',
-    date_of_birth: '',
+    date_of_birth: '1990-10-10',
     occupation: '',
     education_level: '',
     user_class: '',
@@ -119,7 +119,6 @@ export const uploadProfileImage = createAsyncThunk(
   }
 );
 
-
 const profileSlice = createSlice({
   name: 'profile',
   initialState,
@@ -148,10 +147,14 @@ const profileSlice = createSlice({
     setProfileImage(state, action: PayloadAction<string>) {
       state.profile.profile_image = action.payload;
     },
+    resetProfile(state) {
+      state.profile = initialState.profile; // Reset profile state
+      state.loading = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch user profile
       .addCase(fetchUserProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -159,14 +162,11 @@ const profileSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profile = action.payload;
-        localStorage.setItem('user_profile', JSON.stringify(action.payload));
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-
-      // Update user profile
       .addCase(updateUserProfile.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -174,14 +174,11 @@ const profileSlice = createSlice({
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profile = action.payload;
-        localStorage.setItem('user_profile', JSON.stringify(action.payload));
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-
-      // Upload profile image
       .addCase(uploadProfileImage.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -189,10 +186,6 @@ const profileSlice = createSlice({
       .addCase(uploadProfileImage.fulfilled, (state, action) => {
         state.loading = false;
         state.profile.profile_image = action.payload;
-        localStorage.setItem(
-          'user_profile',
-          JSON.stringify({ ...state.profile, profile_image: action.payload })
-        );
       })
       .addCase(uploadProfileImage.rejected, (state, action) => {
         state.loading = false;
@@ -211,6 +204,7 @@ export const {
   setClass,
   setLanguage,
   setProfileImage,
+  resetProfile, // Add resetProfile
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

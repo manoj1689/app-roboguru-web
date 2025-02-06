@@ -131,19 +131,22 @@ const FirebaseMobile: React.FC = () => {
 
   return (
     <div className="firebase-mobile">
-    
+    <div>
+    <div className="flex w-full text-6xl font-normal font-sans justify-center items-center ">LOGIN</div>
+    </div>
      
       <div className="w-full max-w-md mx-auto">
      
         {!otpSent ? (
           // Send OTP Form
           <form onSubmit={handleSendOtp} className="space-y-4 text-center">
-            <h3 className="text-gray-700 font-medium text-lg">Enter your mobile number</h3>
+          <h3 className="text-gray-500 font-medium text-sm uppercase my-4">Enter your mobile number</h3>
+
             
             <input
               type="text"
-              placeholder="Enter Ph No. (e.g., +919876543210)"
-              className="w-full px-4 py-2 border rounded-full text-lg"
+              placeholder="Ex, +919876543210"
+              className="w-full px-4 py-2 border rounded-full text-lg font-mono"
               value={phoneNumber}
               onChange={handlePhoneNumberChange}
             />
@@ -151,13 +154,13 @@ const FirebaseMobile: React.FC = () => {
            
             <button
               type="submit"
-              className="w-full px-4 py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-bold rounded-full"
+              className="w-full px-4 py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
               disabled={loading}
             >
-              {loading ? "Sending OTP..." : "Get OTP"}
+              {loading ? "Sending..." : "Get OTP"}
             </button>
             {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
-            <p className="text-gray-500 text-md mt-4">We will send you a 6-digit verification code.</p>
+            <p className="text-gray-600 text-md pt-4">We will send you a 6-digit <br /> verification code.</p>
             <div className='flex w-full justify-center items-center'>
             <div id="recaptcha-container"></div>
             </div>
@@ -167,7 +170,7 @@ const FirebaseMobile: React.FC = () => {
           // Verify OTP Form
           <form onSubmit={handleVerifyOtp} className="space-y-4 text-center">
             <h3 className="text-gray-700 font-medium text-lg">Enter the OTP</h3>
-            <p className="text-gray-500 text-sm">Enter the 6-digit code sent to your mobile number.</p>
+         
             <div className="flex justify-center space-x-2">
               {otp.map((digit, index) => (
                 <input
@@ -177,17 +180,21 @@ const FirebaseMobile: React.FC = () => {
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleOtpChange(e, index)}
-                  className="w-12 h-12 text-center border border-gray-300 rounded-md text-lg font-bold"
+                  className="w-12 h-12 text-center border border-gray-300 font-sans rounded-md text-lg font-bold"
                 />
               ))}
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-green-500 text-white rounded-md mt-4"
+              className="w-full px-4 py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
               disabled={loading || otp.some((digit) => digit === '')}
             >
-              {loading ? "Verifying OTP..." : "Verify OTP"}
+              {loading ? "Verifying ..." : "Verify "}
             </button>
+            <div className='flex justify-center items-center '>
+            <button className='flex text-lg font-semibold text-[#418BBB] underline'> Re-send</button>
+            </div>
+            <p className="text-gray-500 text-md pt-4">Enter the 6-digit code sent to <br/> your mobile number.</p>
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}

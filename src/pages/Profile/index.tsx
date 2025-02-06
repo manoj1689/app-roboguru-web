@@ -34,7 +34,7 @@ const ProfilePage = () => {
   const occupation = profile?.occupation || '';
   const educationLevel = profile?.education_level || '';
   const selectedClass = profile?.user_class || '';
-  const language = profile?.language || '';
+  const language = profile?.language || 'english';
   const profile_image = profile?.profile_image || ''
 
   const { educationLevels, loading } = useSelector((state: RootState) => state.educationLevels);
@@ -110,8 +110,8 @@ const ProfilePage = () => {
           <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto  " />
         </div>
         <div >
-          <h1 className="text-2xl md:text-3xl lg:text-6xl font-bold pt-4 text-white tracking-wide md:tracking-wider lg:tracking-widest">ROBO GURU</h1>
-          <p className=" text-white tracking-wider text-lg md:text-xl lg:text-2xl  ">Learn, Ask, and Grow Anytime, Anywhere.</p>
+          <h1 className="text-2xl md:text-3xl lg:text-6xl font-sans font-extrabold pt-4 text-white tracking-wide md:tracking-wider lg:tracking-widest">ROBO GURU</h1>
+          <p className=" text-white tracking-normal text-lg font-sans font-normal md:text-xl lg:text-2xl  ">Learn, Ask, and Grow Anytime, Anywhere.</p>
         </div>
 
       </div>
@@ -128,7 +128,7 @@ const ProfilePage = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex w-full md:w-5/12 flex-col h-screen  md:overflow-y-auto items-center justify-around p-4">
+      <div className="flex w-full md:w-5/12 flex-col h-screen  md:overflow-y-auto items-center justify-around pt-4 md:pt-16 pb-4 px-4">
         <div className="w-full flex flex-col justify-center items-center  ">
           {/* Title */}
           {profile_image && (
@@ -171,8 +171,8 @@ const ProfilePage = () => {
         {/* Form Section */}
         <form onSubmit={handleSubmit} className="flex flex-col w-full space-y-4 lg:w-5/6 mx-auto">
           <div>
-            <label className="block text-gray-600 text-xs md:text-sm font-semibold uppercase tracking-widest mb-2">
-              ENTER NAME
+            <label className="block text-neutral-500 text-xs md:text-sm pt-4 font-medium uppercase tracking-widest mb-2">
+              Enter your full name
             </label>
             <input
               type="text"
@@ -185,7 +185,7 @@ const ProfilePage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-600 text-xs md:text-sm font-semibold uppercase tracking-widest mb-2">
+            <label className="block text-neutral-500  text-xs md:text-sm font-medium uppercase tracking-widest mb-2">
               EDUCATION LEVEL
             </label>
             <select
@@ -210,7 +210,7 @@ const ProfilePage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-600 text-xs md:text-sm font-semibold uppercase tracking-widest mb-2">
+            <label className="block text-neutral-500  text-xs md:text-sm font-medium uppercase tracking-widest mb-2">
               CHOOSE CLASS
             </label>
             <select
@@ -235,7 +235,7 @@ const ProfilePage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-600 text-xs md:text-sm font-semibold uppercase tracking-widest mb-2">
+            <label className="block text-neutral-500 text-xs md:text-sm font-medium uppercase tracking-widest mb-2">
               ENTER EMAIL
             </label>
             <input
@@ -249,12 +249,12 @@ const ProfilePage = () => {
           </div>
 
           <div>
-            <label className="block text-gray-600 text-xs md:text-sm font-semibold uppercase tracking-widest mb-2">
+            <label className="block text-neutral-500  text-xs md:text-sm font-medium uppercase tracking-widest mb-2">
               SELECT LANGUAGE
             </label>
             <select
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:outline-none rounded-t-lg focus:border-[#63A7D4] bg-[#f8fafa] hover:bg-white"
-              value={language || "english"} // Fallback to English if language is empty
+              value={language}
               onChange={(e) => dispatch(setLanguage(e.target.value))}
               required
             >
@@ -267,21 +267,21 @@ const ProfilePage = () => {
           <div className="flex w-full justify-center mt-4">
             <button
               type="submit"
-              className="w-96 px-4 py-3  md:py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-bold uppercase rounded-lg hover:scale-105"
+              className="w-80 px-4 py-2   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium uppercase rounded-full hover:scale-105"
             >
               Submit
             </button>
           </div>
         </form>
-        <div className='flex w-full justify-center items-center text-lg text-stone-600 font-semibold my-4 '>
+        <div className='flex w-full justify-center items-center text-md text-neutral-600 font-semibold mt-8 '>
           Your personal data is secure with us.
         </div>
-        <div className="flex w-full flex-col justify-center items-center mt-4 md:mt-8">
-          <div className="text-sm md:text-base space-x-2">
-            <span>Sponsored & Promoted by</span>
+        <div className="flex w-full  flex-col  justify-between items-center mt-8">
+          <div className=" space-x-2 text-sm">
+            <span className="font-medium">Sponsored by</span>
             <span className="text-blue-500 font-semibold">ERAM LABS</span>
           </div>
-          <div className="text-xs md:text-sm text-sky-400 font-semibold">Copyright © Mobirizer2024</div>
+          <div className="text-neutral-500 text-sm text-bold">copyright @ Mobirizer2024</div>
         </div>
       </div>
 

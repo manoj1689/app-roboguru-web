@@ -7,6 +7,7 @@ export const createSession = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post('/chat/sessions/start');
+      console.log("chat session response in createSESSION",response.data)
       return response.data.data; // Extract the session data
     } catch (error: any) {
       return rejectWithValue(

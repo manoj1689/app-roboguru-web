@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
             <img
               src="/images/robologo.png"
               alt="RoboGuru Logo"
-              className="w-32 lg:w-40 ml-4"
+              className="w-32 lg:w-48 ml-4"
             />
           </div>
 
@@ -72,27 +72,27 @@ const Navbar: React.FC = () => {
           >
             <ul className="flex max-md:flex-col space-y-4 md:space-y-0 sm:space-x-2 lg:space-x-6 items-center max-md:py-4 max-md:px-4">
               <li>
-                <a href="#features" className="hover:text-[#63A7D4]">
+                <a href="#features" className="  text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
                   Features
                 </a>
               </li>
               <li>
-                <a href="#how-it-works" className="hover:text-[#63A7D4]">
+                <a href="#how-it-works" className=" text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
                   How It Works
                 </a>
               </li>
               <li>
-                <a href="#community" className="hover:text-[#63A7D4]">
+                <a href="#community" className=" text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
                   Community
                 </a>
               </li>
               <li className="max-lg:hidden">
-                <a href="#pricing" className="hover:text-[#63A7D4]">
+                <a href="#pricing" className="  text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#faq" className="hover:text-[#63A7D4]">
+                <a href="#faq" className="  text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
                   FAQ
                 </a>
               </li>
@@ -105,7 +105,7 @@ const Navbar: React.FC = () => {
            
               <a
                 href="#download"
-                className="border  border-[#418BBB]   rounded-sm  p-2 "
+                className="border text-[#1E2630] text-md font-medium  border-[#418BBB]   rounded-sm  p-2 "
               >
                 Download
               </a>

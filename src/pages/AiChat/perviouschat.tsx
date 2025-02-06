@@ -24,7 +24,7 @@ import {
 import {
   fetchTopicsByChapterId,
 } from '../../redux/slices/topicSlice';
-import { fetchChatHistory } from "../../redux/slices/chatSessionHistorySlice";
+import { fetchChatHistory } from "../../redux/slices/chatSessionHistorySlice"; 
 import { updateUserTopicProgress } from '../../redux/slices/progressSlice';
 import { resetChat } from '../../redux/slices/chatSlice';
 import { RootState, AppDispatch } from '../../redux/store';
@@ -36,13 +36,13 @@ import { MdOutlineMicOff } from "react-icons/md";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import Markdown from 'react-markdown'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import ChatSessionsList from "@/pages/ChatSessionsList/index"
 import speakTTS from 'speak-tts'; // Import speak-tts library
 import { FaArrowLeft } from "react-icons/fa";
 import { FaShare } from "react-icons/fa";
 import { IoArrowUp } from "react-icons/io5";
 import { IoStop } from "react-icons/io5";
 import "./aiResponse.css"
-import Sidebar from '@/components/Sidebar';
 // Initialize speakTTS
 const speech = new speakTTS();
 
@@ -66,7 +66,7 @@ const AiChatComponent = () => {
   const topicId = searchParams?.get('topicId') || '';
   const subtopicId = searchParams?.get('subtopicId') || ''; // Subtopic index if provided
   const trendingTopicId = searchParams?.get('trendingTopicId') || '';
-  //const chatSessionId = searchParams?.get('chatSessionId') || '';
+  const chatSessionId = searchParams?.get('chatSessionId') || '';
   const previousChatSessionId = searchParams?.get('previousChatSessionId') || '';
   //console.log("chat session id", chatSessionId)
 
@@ -89,7 +89,7 @@ const AiChatComponent = () => {
   const { trendingTopics, loading, error } = useSelector(
     (state: RootState) => state.trendingTopics
   );
-  // Fetch chat history from Redux state
+ // Fetch chat history from Redux state
   const { chatHistory, loading: chatHistoryLoading, error: chatHistoryError } = useSelector(
     (state: RootState) => state.chatHistory // Correct state reference
   );
@@ -104,26 +104,26 @@ const AiChatComponent = () => {
   console.log("origal chat Histroy", chat_history)
 
 
-  // Fetch chat history when previousChatSessionId  is available
-  useEffect(() => {
-    if (previousChatSessionId) {
-      dispatch(fetchChatHistory(previousChatSessionId)); // Fetch chat history based on sessionId
-    }
-  }, [dispatch, previousChatSessionId]);
-
-  // Add chat_history to chatHistory state when it updates
-  useEffect(() => {
-    if (sessionId && chat_history && chat_history.length > 0) {
-      const lastChat = chat_history[chat_history.length - 1];
-
-      // Add only the last chat with the role 'assistant'
-      if (lastChat.role === 'assistant') {
-        setCurrentChatHistory((prev) => [...prev, { role: 'assistant', content: lastChat.content }]);
+   // Fetch chat history when previousChatSessionId  is available
+    useEffect(() => {
+      if (previousChatSessionId ) {
+        dispatch(fetchChatHistory(previousChatSessionId )); // Fetch chat history based on sessionId
       }
-    }
-  }, [chat_history]);
-
-
+    }, [dispatch, previousChatSessionId ]);
+  
+   // Add chat_history to chatHistory state when it updates
+    useEffect(() => {
+      if (sessionId && chat_history && chat_history.length > 0) {
+        const lastChat = chat_history[chat_history.length - 1];
+  
+        // Add only the last chat with the role 'assistant'
+        if (lastChat.role === 'assistant') {
+          setCurrentChatHistory((prev) => [...prev, { role: 'assistant', content: lastChat.content }]);
+        }
+      }
+    }, [chat_history]);
+  console.log("prvious chatHistry",chatHistory)
+  
   useEffect(() => {
     if (previousChatSessionId && chat_history && chat_history.length > 0) {
       const lastChat = chat_history[chat_history.length - 1];
@@ -134,26 +134,26 @@ const AiChatComponent = () => {
       }
     }
   }, [chat_history]);
-
-  useEffect(() => {
-    if (chatHistory) {
-      setClassName(chatHistory.class_name || '');
-      setSubjectName(chatHistory.subject_name || '');
-      setChapterName(chatHistory.chapter_name || '');
-      setTopicName(chatHistory.topic_name || '');
-    }
-    if (chatHistory && chatHistory.data && chatHistory.data.length > 0) {
-      // Map the chatHistory.data to your chatSessionHistory format
-      const updatedHistory = chatHistory.data.map((chat: { role: string; content: string }) => ({
-        role: chat.role,
-        content: chat.content,
-      }));
-
-      // Update chatSessionHistory with the new data
-      setCurrentChatHistory(updatedHistory);
-    }
-  }, [chatHistory]);
-
+  
+    useEffect(() => {
+      if (chatHistory) {
+        setClassName(chatHistory.class_name || '');
+        setSubjectName(chatHistory.subject_name || '');
+        setChapterName(chatHistory.chapter_name || '');
+        setTopicName(chatHistory.topic_name || '');
+      }
+      if (chatHistory && chatHistory.data && chatHistory.data.length > 0) {
+        // Map the chatHistory.data to your chatSessionHistory format
+        const updatedHistory = chatHistory.data.map((chat: { role: string; content: string }) => ({
+          role: chat.role,
+          content: chat.content,
+        }));
+  
+        // Update chatSessionHistory with the new data
+        setCurrentChatHistory(updatedHistory);
+      }
+    }, [chatHistory]);
+  
 
   const {
     transcript,
@@ -161,7 +161,7 @@ const AiChatComponent = () => {
     resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
-
+ 
 
   // Fetch subjects based on user's class
   useEffect(() => {
@@ -295,7 +295,7 @@ const AiChatComponent = () => {
     setCurrentChatHistory(updatedChatHistory);
 
     const payload = {
-      session_id: sessionId || previousChatSessionId || '',
+      session_id:  previousChatSessionId || '',
       class_name: className,
       subject_name: subjectName,
       chapter_name: chapterName,
@@ -360,89 +360,91 @@ const AiChatComponent = () => {
       <div className='flex h-20 w-full  fixed ' >
         <HomeNavbar />
       </div>
-      <div className='flex w-full   mx-auto px-4'>
-        <div className='mt-20'>
-          <Sidebar />
+
+      <div className='flex w-full'>
+        <div >
+          <ChatSessionsList />
         </div>
+        <div className='flex w-full flex-col container lg:ml-64 mx-auto px-4'>
 
 
-        <div className='flex w-full flex-col px-8 '>
+          <div className='flex flex-col pb-40'>
 
-          <div className="flex  mt-20   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-lg  justify-between items-center p-4">
-            <div className='text-white'>
-              <p><strong>Class:</strong> {className}</p>
-              <p><strong>Subject:</strong> {subjectName}</p>
-              <p><strong>Chapter:</strong> {chapterName}</p>
+            <div className="flex  mt-20   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-lg  justify-between items-center p-4">
+              <div className='text-white'>
+                <p><strong>Class:</strong> {className}</p>
+                <p><strong>Subject:</strong> {subjectName}</p>
+                <p><strong>Chapter:</strong> {chapterName}</p>
+
+              </div>
 
             </div>
 
-          </div>
+            <div className=" w-full    rounded-lg"  >
+              <div className='flex p-4  justify-between items-center text-center  rounded-lg text-[#418BBB] cursor-pointer ' onClick={goBack} >
 
-          <div className=" w-full    rounded-lg"  >
-            <div className='flex p-4  justify-between items-center text-center  rounded-lg text-[#418BBB] cursor-pointer ' onClick={goBack} >
+                <span className='flex gap-2  justify-center items-center'><span><FaArrowLeft size={16} /></span><span>Back</span></span>
+                <p><strong>Topic:</strong> <span>{topicName}</span></p>
+                <span><FaShare size={16} /></span>
+              </div>
+              {(
+                <div>
 
-              <span className='flex gap-2  justify-center items-center'><span><FaArrowLeft size={16} /></span><span>Back</span></span>
-              <p><strong>Topic:</strong> <span>{topicName}</span></p>
-              <span><FaShare size={16} /></span>
-            </div>
-            {(
-              <div>
-
-                <div className="space-y-4 h-[calc(100vh-22rem)] overflow-y-auto ">
-                  {currentChatHistory.map((entry, index) => (
-                    <div
-                      key={index}
-                      className={`flex ${entry.role === 'user' ? 'justify-end' : 'justify-start'} `}
-                    >
-
-
+                  <div className="space-y-4 ">
+                    {currentChatHistory.map((entry, index) => (
                       <div
-                        className={` px-8 py-2  mx-4 ${entry.role === 'user' ? '' : ''}`}
+                        key={index}
+                        className={`flex ${entry.role === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
-                        {entry.role === 'user' ? (
-                          <div className="flex flex-col bg-[#CAE0EF] px-4 py-2 text-black text-right rounded-t-xl rounded-l-xl">
-                            <p>
-                              <Markdown>{entry.content}</Markdown>
-                            </p>
-                          </div>
-                        ) : (
-                          <div>
-                            <div className="text-sm font-semibold text-[#4F87CC] pb-2">Ai</div>
-                            <hr className="border-t border-gray-300 w-5/6 mt-2" />
-                            <div className='flex flex-col  rounded-lg p-4 '><p>
-                              <Markdown>{entry.content}</Markdown>
-                            </p>
+                        <div
+                          className={` px-8 py-2  mx-4 ${entry.role === 'user' ? '' : ''}`}
+                        >
+                          {entry.role === 'user' ? (
+                            <div className="flex flex-col bg-[#CAE0EF] px-4 py-2 text-black text-right rounded-t-xl rounded-l-xl">
+                              <p>
+                                <Markdown>{entry.content}</Markdown>
+                              </p>
+                            </div>
+                          ) : (
+                            <div>
+                              <div className="text-sm font-semibold text-[#4F87CC] pb-2">Ai</div>
                               <hr className="border-t border-gray-300 w-5/6 mt-2" />
+                              <div className='flex flex-col  rounded-lg p-4 '><p>
+                                <Markdown>{entry.content}</Markdown>
+                              </p>
+                                <hr className="border-t border-gray-300 w-5/6 mt-2" />
 
-                              <div className="flex w-full justify-start items-center gap-2 text-black  p-2">
-                                {/* Play/Stop Button */}
-                                <div>
-                                  {playingIndex === index ? (
-                                    <button onClick={handleStop}>
-                                      <HiMiniSpeakerXMark size={25} className="text-[#2b4a70]" />
-                                    </button>
-                                  ) : (
-                                    <button onClick={() => playText(entry.content, index)}>
-                                      <HiMiniSpeakerWave size={25} className="text-[#4F87CC]" />
-                                    </button>
-                                  )}
-                                </div>
-                                {/* Like Button */}
-                                <div>
-                                  <AiOutlineLike size={25} className="text-[#4F87CC]" />
-                                </div>
-                                {/* Dislike Button */}
-                                <div>
-                                  <AiOutlineDislike size={25} className="text-[#4F87CC]" />
+                                <div className="flex w-full justify-start items-center gap-2 text-black  p-2">
+                                  {/* Play/Stop Button */}
+                                  <div>
+                                    {playingIndex === index ? (
+                                      <button onClick={handleStop}>
+                                        <HiMiniSpeakerXMark size={25} className="text-[#2b4a70]" />
+                                      </button>
+                                    ) : (
+                                      <button onClick={() => playText(entry.content, index)}>
+                                        <HiMiniSpeakerWave size={25} className="text-[#4F87CC]" />
+                                      </button>
+                                    )}
+                                  </div>
+                                  {/* Like Button */}
+                                  <div>
+                                    <AiOutlineLike size={25} className="text-[#4F87CC]" />
+                                  </div>
+                                  {/* Dislike Button */}
+                                  <div>
+                                    <AiOutlineDislike size={25} className="text-[#4F87CC]" />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
 
-                          </div>
-                        )}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+
+                  </div>
                   <div>
                     {chatLoading ? (
                       <div className="ai-responding px-8">
@@ -451,101 +453,98 @@ const AiChatComponent = () => {
                     ) : ''}
 
                   </div>
+
+                  {suggested_questions.length > 0 && (
+                    <div>
+
+                      <ul className='flex flex-wrap gap-2 pt-4 px-4'>
+                        {suggested_questions.map((suggestedQuestion, index) => (
+                          <li
+                            key={index}
+                            className='border border-[#418BBB] px-4 py-4 rounded-lg bg-[#DCF1FF] cursor-pointer  hover:bg-[#cee6f7] transition'
+                            onClick={() => handleSuggestedQuestionClick(suggestedQuestion)}
+                          >
+                            {suggestedQuestion}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+
                 </div>
 
+              )}
 
-                {/* {suggested_questions.length > 0 && (
-                  <div>
-
-                    <ul className='flex flex-wrap gap-2 pt-4 px-4'>
-                      {suggested_questions.map((suggestedQuestion, index) => (
-                        <li
-                          key={index}
-                          className='border border-[#418BBB] px-4 py-2 rounded-lg bg-[#DCF1FF] cursor-pointer  hover:bg-[#cee6f7] transition'
-                          onClick={() => handleSuggestedQuestionClick(suggestedQuestion)}
-                        >
-                          {suggestedQuestion}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )} */}
-
-
-              </div>
-
-            )}
-
-            <div ref={endOfPageRef} />
-          </div>
-
-          {/* <div className='flex  py-4 justify-center'>
-            <button
-              onClick={scrollToBottom}
-              className=" bg-gray-300  p-3 rounded-full shadow-lg hover:bg-gray-400 text-stone-600 transition-all"
-            >
-              <RiArrowDownSLine size={30} />
-            </button>
-          </div> */}
-
-          <div className='flex flex-col container mx-auto   w-full  '>
-            <div className='flex w-full bg-gray-200 p-4   mx-auto rounded-3xl gap-2 justify-end right-0  items-center'>
-              <div className='flex w-full bg-white justify-center rounded-lg items-center'>
-                <input
-                  type="text"
-                  placeholder="Type or use voice input"
-                  value={question}
-                  onChange={(e) => setQuestion(e.target.value)}
-                  className='w-full px-4 py-2 placeholder:text-gray-600 bg-gray-200 rounded-lg  outline-none'
-                />
-
-              </div>
-              <span className='flex justify-center items-center'>
-                {listening ? (
-                  <MdOutlineMicOff
-                    size={30}
-                    onClick={stopListeningHandler}
-                    className="cursor-pointer text-stone-800"
-
-                  />
-                ) : (
-                  <MdOutlineMicNone
-                    size={30}
-                    onClick={startListeningHandler}
-                    className="cursor-pointer text-stone-800"
-                  />
-                )}
-              </span>
-
-              <button onClick={handleSendQuestion} disabled={chatLoading} className='bg-stone-700 p-2 rounded-full hover:bg-stone-800 text-white'>
-                {chatLoading ? <IoStop size={20} /> : <IoArrowUp size={20} />}
-              </button>
+              <div ref={endOfPageRef} />
             </div>
-            <div className='flex w-full justify-center items-center mt-2 text-sky-400'>
-              Sporesed by eramLABS
-            </div>
-          </div>
-          <div>
+
+
 
 
           </div>
+
+
 
 
         </div>
 
-
-
-
-
-
-
-
-
       </div>
 
+      <div className='flex w-full fixed   bottom-28 '>
+      <div className='flex container mx-auto lg:ml-64  justify-center '>
+        <div>
+        <button
+          onClick={scrollToBottom}
+          className=" bg-gray-300  p-3 rounded-full shadow-lg hover:bg-gray-400 text-stone-600 transition-all"
+        >
+          <RiArrowDownSLine size={30} />
+        </button>
+        </div>
+      
+</div>
+      </div>
 
+      <div className='flex  fixed w-full bottom-0 justify-center    '>
+        
+        <div className='flex flex-col container mx-auto lg:ml-64 bg-[#f8fafa]  w-full px-4 '>
+          <div className='flex w-full bg-gray-200 p-4   rounded-3xl gap-2 justify-center  items-center'>
+            <div className='flex w-full bg-white justify-center rounded-lg items-center'>
+              <input
+                type="text"
+                placeholder="Type or use voice input"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                className='w-full px-4 py-2 placeholder:text-gray-600 bg-gray-200 rounded-lg  outline-none'
+              />
 
+            </div>
+            <span className='flex justify-center items-center'>
+              {listening ? (
+                <MdOutlineMicOff
+                  size={30}
+                  onClick={stopListeningHandler}
+                  className="cursor-pointer text-stone-800"
 
+                />
+              ) : (
+                <MdOutlineMicNone
+                  size={30}
+                  onClick={startListeningHandler}
+                  className="cursor-pointer text-stone-800"
+                />
+              )}
+            </span>
+
+            <button onClick={handleSendQuestion} disabled={chatLoading} className='bg-stone-700 p-2 rounded-full hover:bg-stone-800 text-white'>
+              {chatLoading ? <IoStop size={20} /> : <IoArrowUp size={20} />}
+            </button>
+          </div>
+          <div className='flex w-full justify-center items-center mt-2 text-sky-400'>
+            Sporesed by eramLABS
+          </div>
+        </div>
+      </div>
 
 
     </>
