@@ -52,7 +52,7 @@ const AuthPage = () => {
     try {
       const resultAction = await dispatch(verifyOtp({ mobile, otp: otpCode }));
       if (verifyOtp.fulfilled.match(resultAction)) {
-        router.push("/Dashboard"); // Redirect to admin dashboard on success
+        router.push("/"); // Redirect to admin dashboard on success
       }
     } catch (err) {
       console.error("Error verifying OTP:", err);

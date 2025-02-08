@@ -4,8 +4,11 @@ import { getAuth } from 'firebase/auth';
 import app from "../../lib/firebase";
 import { signInWithPopup, User } from "firebase/auth";
 import FirebaseMobile from './FirebaseMobile'
-
+import { firebaseLogin } from '@/redux/slices/firebaseAuthSlice';
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch } from 'react-redux';
 const SignInPage: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
   const auth = getAuth(app);
   const router = useRouter();
 
@@ -20,14 +23,11 @@ const SignInPage: React.FC = () => {
       alert("You are already logged in.");
       return;
     }
-    // Save token and user info
-    localStorage.setItem("social_access_token", token);
-    // localStorage.setItem("userData", JSON.stringify(user));
-    console.log("Token saved to localStorage:", token);
-    console.log("User data:", user);
+   // Dispatch to firebaseLogin and navigate to Dashboard
+        dispatch(firebaseLogin(token));
 
     // Redirect to Dashboard
-    router.push("/Dashboard");
+    router.push("/");
   };
 
   // Google Sign-In

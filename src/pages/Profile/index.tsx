@@ -40,6 +40,10 @@ const ProfilePage = () => {
   const { educationLevels, loading } = useSelector((state: RootState) => state.educationLevels);
   const { classes, } = useSelector((state: RootState) => state.class); // Added state for classes
   const profileImage = useSelector((state: RootState) => state.profile.profile.profile_image);
+  // Get the authentication state from Redux
+  const { profile_updated,user_profile, token, isLoading } = useSelector(
+    (state: RootState) => state.firebaseAuth
+  );
 
 
 
@@ -74,12 +78,12 @@ const ProfilePage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!name || !email || !educationLevel || !selectedClass || !language) {
       alert('Please fill in all required fields.');
       return;
     }
-
+  
     const profileData = {
       name,
       email,
@@ -88,19 +92,33 @@ const ProfilePage = () => {
       education_level: educationLevel,
       user_class: selectedClass,
       language,
-      profile_image, // Include the uploaded image if available
+      profile_image,
     };
-
+  
     try {
       console.log('Submitted Profile Data:', profileData);
+      localStorage.setItem('user_profile', JSON.stringify(profileData));
       const result = await dispatch(updateUserProfile(profileData)).unwrap();
-      console.log('Profile updated successfully:', result);
+      
+      console.log('Profile updated successfully api response :', result);
+      
+      // Reset form fields
+      dispatch(setName(''));
+      dispatch(setEmail(''));
+      dispatch(setDateOfBirth(''));
+      dispatch(setOccupation(''));
+      dispatch(setEducationLevel(''));
+      dispatch(setClass(''));
+      dispatch(setLanguage('english'));
+      dispatch(setProfileImage(''));
+  
       router.push('/Home');
     } catch (error) {
       console.error('Failed to update profile:', error);
       alert('Failed to update profile. Please try again.');
     }
   };
+  
 
   return (
     <div className="flex w-full max-md:flex-col justify-center items-center h-full  relative">

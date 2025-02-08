@@ -113,13 +113,12 @@ const FirebaseMobile: React.FC = () => {
       
       // Save the token in localStorage
       const token = await user.getIdToken(); // Get the Firebase authentication token
-      localStorage.setItem('mobile_access_token', token); // Save token to localStorage
-  
+      
       // Dispatch to firebaseLogin and navigate to Dashboard
       dispatch(firebaseLogin(token));
   
       // Wait for the firebaseLogin to complete before navigating
-      router.push('/Dashboard'); // Redirect after successful verification
+      router.push('/'); // Redirect after successful verification
     } catch (err) {
       console.error('Error verifying OTP:', err);
       setError('Invalid OTP. Please try again.');

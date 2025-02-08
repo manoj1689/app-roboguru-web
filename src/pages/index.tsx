@@ -1,27 +1,41 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Landing from "@/pages/Landing";
 
 function Index() {
   const router = useRouter();
+  const [showLanding, setShowLanding] = useState(false);
 
   useEffect(() => {
-    // Check if social_access_token exists in localStorage
-    const accessToken = localStorage.getItem('access_token');
+    const timeoutId = setTimeout(() => {
+      const accessToken = localStorage.getItem('access_token');
+      const getUserData = JSON.parse(localStorage.getItem('profile_updated') || 'false'); // Ensure it's a boolean
+  
+      console.log("get User Profile", getUserData);
+  
+      if (accessToken) {
+        if (getUserData) {  
+          router.push('/Home');
+        } else {
+          router.push('/Profile');
+        }
+      } else {
+        setShowLanding(true); // Show Landing page instead of returning inside useEffect
+      }
+    }, 200); // 1 second delay
+  
+    // Cleanup function to clear timeout if the component unmounts
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
-    if (accessToken) {
-      console.log("Access token found, redirecting to Dashboard");
-      // Redirect to Dashboard if access token is found
-      router.push("/Dashboard");
-    } else {
-      console.log("No access token found, redirecting to Landing");
-      // Redirect to Landing if no access token is found
-      router.push("/Landing");
-    }
-  }, [router]); // Add router to dependencies to prevent stale closures
+  // If showLanding is true, render the Landing page
+  if (showLanding) {
+    return <Landing />;
+  }
 
-  return null; // This component handles redirection only
+  return null; // Return nothing while checking authentication
 }
 
 export default Index;

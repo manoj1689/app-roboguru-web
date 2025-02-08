@@ -49,12 +49,11 @@ const Header: React.FC = () => {
     };
     // Handle Logout
     const handleLogout = () => {
-        localStorage.removeItem("mobile_access_token");
-        localStorage.removeItem("social_access_token");
+      
         localStorage.removeItem("access_token");
         localStorage.removeItem("user_profile")
         signOut({ redirect: false });
-        router.push("/Landing");
+        router.push("/");
     };
 
 
@@ -66,7 +65,7 @@ const Header: React.FC = () => {
                     <div className="flex gap-4 w-1/4   ">
                         {/* Logo */}
                         <div className="hidden lg:flex max-lg:pl-8  items-center space-x-2">
-                            <Link href="/Dashboard">
+                            <Link href="/Home">
                                 <img
                                     src="/images/robologo.png"
                                     alt="RoboGuru Logo"
@@ -75,7 +74,7 @@ const Header: React.FC = () => {
                             </Link>
                         </div>
                         <div className="lg:hidden flex pl-8  items-center space-x-2">
-                            <Link href="/Dashboard">
+                            <Link href="/Home">
                                 <img
                                     src="/images/robo-logo.png"
                                     alt="RoboGuru Logo"

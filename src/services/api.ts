@@ -3,10 +3,10 @@ import store from '../redux/store';
 
 // Set up the base URL for the API
 //const baseURL = 'http://43.248.241.252:8095'; // Replace with your actual base URL
-//const baseURL = 'http://127.0.0.1:8000/'
-//const baseURL ='http://103.217.247.201'
+const baseURL = 'http://127.0.0.1:8000'
+//const baseURL ='http://103.217.247.201/'
 
-const baseURL = 'https://roboguru.in/api';
+//const baseURL = 'https://roboguru.in/api';
 
 const api = axios.create({
   baseURL,
