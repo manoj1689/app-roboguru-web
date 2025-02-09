@@ -15,39 +15,36 @@ import Layout from '@/components/LandingLayout';
     <div>
    <Layout>
     {/* Hero Section */}
-    <section className="flex justify-start gap-6 relative  bg-cover bg-no-repeat mt-20 px-4 text-white py-6" style={{ backgroundImage: 'url(/images/aboutus_back.png)' }}>
-  {/* Gradient overlay */}
-  <div className="absolute inset-0 bg-gradient-to-r from-[#418BBB] to-pink-500 opacity-50"></div>
-  <div
-                    onClick={() => handleNavigation("/Landing")}
-                    className=" flex w-fit h-fit relative z-10 container ml-6 items-center hover:text-stone-700 font-bold mb-4 gap-3 text-white cursor-pointer"
-                  >
-                  <span><FaArrowLeft size={16} /></span><span>Back</span>
-                  
-                  </div>
-  <div className="relative z-10  container  text-center w-5/6 rounded">
-    <h1 className="text-5xl font-bold mb-4">About Us</h1>
-    <p className="text-lg  mx-auto font-medium">
-      Transforming education through AI-driven solutions tailored to every learner's needs.
-    </p>
-  </div>
-</section>
 
-
-      {/* Main Content */}
-      <main className="px-14 py-12 bg-gray-100">
+ <section className=" mt-20 px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] " >
+                                    {/* Gradient overlay */}
+                                    
+                                    <div
+                                        onClick={() => handleNavigation("/Landing")}
+                                        className="flex  container mx-auto hover:text-pink-300 font-bold  gap-3 items-center text-white cursor-pointer"
+                                    >
+                                        <span><FaArrowLeft size={16} /></span><span>Back</span>
+                                    </div>
+                                    <div className="container mx-auto text-center rounded">
+                                        <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">About Us</h1>
+                                        <p className="text-md md:text-lg leading-relaxed text-center text-white font-medium ">
+                                        Transforming education through AI-driven solutions tailored to every learner's needs.
+                                        </p>
+                                    </div>
+                                </section>
+                <main className="container mx-auto py-8">
        
         {/* Introduction Section */}
-        <div className="text-left bg-white py-8 px-12">
-          <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-          <p className="text-lg leading-relaxed max-w-3xl ">
+        <div className="bg-white shadow-md rounded-lg p-4 mb-8">
+          <h2 className="text-2xl font-bold ">Our Mission</h2>
+          <p className="text-lg leading-relaxed  ">
             At RoboGuru, our mission is to make education accessible, engaging, and effective for everyone. 
             We aim to empower learners by providing tools that personalize their learning experiences and encourage continuous growth.
           </p>
         </div>
 
         {/* Statistics Section */}
-        <section className="bg-white py-8 px-12 mt-12">
+        <section className="bg-white shadow-md rounded-lg p-4 mb-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-6 text-left">Our Impact</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -68,10 +65,10 @@ import Layout from '@/components/LandingLayout';
         </section>
 
         {/* Values Section */}
-        <section className="bg-white py-8 px-12 mt-12">
+        <section className="bg-white shadow-md rounded-lg p-4 mb-8">
           <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4 text-left">Our Core Values</h2>
-            <p className="text-lg leading-relaxed max-w-3xl text-left">
+            <h2 className="text-2xl font-bold  text-left">Our Core Values</h2>
+            <p className="text-lg leading-relaxed  text-left">
               A diverse array of learning materials to enhance your educational journey.
             </p>
           </div>
@@ -110,10 +107,10 @@ import Layout from '@/components/LandingLayout';
         </section>
 
         {/* Team Section */}
-        <section className="bg-white py-8 px-12 mt-12 mb-12">
+        <section className="bg-white shadow-md rounded-lg p-4 mb-8">
           <div className="text-left">
-            <h2 className="text-2xl font-bold mb-4">Meet Our Team</h2>
-            <p className="text-lg leading-relaxed max-w-2xl ">
+            <h2 className="text-2xl font-bold ">Meet Our Team</h2>
+            <p className="text-lg leading-relaxed  ">
               Our team of passionate educators, AI experts, and technologists is committed to redefining the future of learning.
             </p>
           </div>

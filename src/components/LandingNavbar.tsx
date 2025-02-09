@@ -57,42 +57,58 @@ const Navbar: React.FC = () => {
 
           {/* Left: Logo */}
           <div className="flex max-md:w-1/3 items-center space-x-2">
-            <img
-              src="/images/robologo.png"
-              alt="RoboGuru Logo"
-              className="w-32 lg:w-48 ml-4"
-            />
+          <div className="  ">
+                        {/* Logo */}
+                        <div className="hidden md:flex max-lg:pl-8  items-center space-x-2">
+                            <Link href="/Home">
+                                <img
+                                    src="/images/robologo.png"
+                                    alt="RoboGuru Logo"
+                                    className="w-32 sm:w-48 cursor-pointer"
+                                />
+                            </Link>
+                        </div>
+                        <div className="md:hidden flex pl-4  items-center space-x-2">
+                            <Link href="/Home">
+                                <img
+                                    src="/images/robo-logo.png"
+                                    alt="RoboGuru Logo"
+                                    className="w-12 cursor-pointer"
+                                />
+                            </Link>
+                        </div>
+                    </div>
           </div>
 
           {/* Middle: Navigation */}
           <nav
             id="menu"
             className={`${menuOpen ? "flex" : "hidden"
-              } md:flex flex-col md:flex-row md:space-x-8 max-md:w-11/12 bg-[#418BBB] max-md:rounded-xl md:bg-transparent md:static absolute top-20 left-4 text-center shadow-md md:shadow-none`}
+              } md:flex flex-col md:flex-row md:space-x-8 max-md:w-11/12 bg-[#418BBB] max-md:rounded-xl md:bg-transparent md:static absolute top-24 left-4 text-center shadow-md md:shadow-none`}
           >
             <ul className="flex max-md:flex-col space-y-4 md:space-y-0 sm:space-x-2 lg:space-x-6 items-center max-md:py-4 max-md:px-4">
               <li>
-                <a href="#features" className="  text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
+                <a href="#features" className=" text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
                   Features
                 </a>
               </li>
               <li>
-                <a href="#how-it-works" className=" text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
+                <a href="#how-it-works" className=" text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
                   How It Works
                 </a>
               </li>
               <li>
-                <a href="#community" className=" text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
+                <a href="#community" className=" text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
                   Community
                 </a>
               </li>
               <li className="max-lg:hidden">
-                <a href="#pricing" className="  text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
+                <a href="#pricing" className="  text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#faq" className="  text-[#1E2630] text-md font-medium  hover:text-[#63A7D4]">
+                <a href="#faq" className="  text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
                   FAQ
                 </a>
               </li>

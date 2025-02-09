@@ -15,46 +15,44 @@ const index = () => {
     return (
         <div>
             <Layout>
-                <section className="flex justify-start gap-6 relative  bg-center mt-20 px-4 text-white py-6" style={{ backgroundImage: 'url(/images/aboutus_back.png)' }}>
+                <section className="  px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] " >
                     {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#418BBB] to-pink-500 opacity-50"></div>
+
                     <div
                         onClick={() => handleNavigation("/Landing")}
-                        className=" flex w-fit h-fit relative z-10 container ml-6 items-center hover:text-stone-700 font-bold mb-4 gap-3 text-white cursor-pointer"
+                        className="flex  container mx-auto hover:text-pink-300 font-bold  gap-3 items-center text-white cursor-pointer"
                     >
                         <span><FaArrowLeft size={16} /></span><span>Back</span>
-
                     </div>
-                    <div className="relative z-10  container w-5/6 text-center  rounded">
-                        <h1 className="text-5xl font-bold text-center mb-4">Privacy Policy</h1>
-                        <p className="text-lg leading-relaxed text-center text-medium">
+                    <div className="container mx-auto text-center rounded">
+                        <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">Privacy Policy</h1>
+                        <p className="text-md md:text-lg leading-relaxed text-center text-white font-medium ">
                             Your privacy is important to us. Learn about how we collect, use, and protect your personal data.
                         </p>
-
                     </div>
                 </section>
-                <main className="px-14 py-12 bg-gray-100">
+                <main className="container mx-auto  p-4">
 
                     {/* Introduction Section */}
-                    <section className="text-left bg-white py-8 px-12">
+                    <section className="bg-white shadow-md rounded-lg p-4 mb-8">
                         <h2 className="text-2xl font-bold mb-4">Introduction</h2>
-                        <p className="text-sm">
+                        <p className="text-md">
                             At RoboGuru, we are committed to protecting your privacy. This Privacy Policy explains what information we collect, how we use it, and the measures we take to ensure its security.
                         </p>
                     </section>
 
                     {/* Information Collection Section */}
-                    <section className="text-left bg-white py-8 px-12 mt-12">
+                    <section className="bg-white shadow-md rounded-lg p-4 mb-8">
                         <h2 className="text-2xl font-bold mb-4">Information We Collect</h2>
                         <ul className="list-disc list-inside space-y-2 ml-4">
-                            <li>Personal Information: Name, email address, phone number, etc.</li>
-                            <li>Usage Data: Information about how you use our platform, including interactions and preferences.</li>
-                            <li>Device Information: Device type, operating system, and browser details.</li>
+                            <li><span className='font-semibold'>Personal Information:</span> Name, email address, phone number, etc.</li>
+                            <li><span className='font-semibold'>Usage Data: </span> Information about how you use our platform, including interactions and preferences.</li>
+                            <li><span className='font-semibold'>Device Information: </span>  Device type, operating system, and browser details.</li>
                         </ul>
                     </section>
 
                     {/* How We Use Your Information Section */}
-                    <section className="text-left bg-white py-8 px-12 mt-12">
+                    <section className="bg-white shadow-md rounded-lg p-4 mb-8">
                         <h2 className="text-2xl font-bold mb-4">How We Use Your Information</h2>
                         <p className="text-sm mb-4">
                             We use the information we collect for the following purposes:
@@ -68,17 +66,17 @@ const index = () => {
                     </section>
 
                     {/* Data Protection Section */}
-                    <section className="text-left bg-white pt-8 pb-3 px-12 mt-12">
+                    <section className="bg-white shadow-md rounded-lg p-4 mb-8">
                         <h2 className="text-2xl font-bold mb-4">How We Protect Your Data</h2>
-                        <p className="text-sm">
+                        <p className="text-md">
                             We implement industry-standard security measures to protect your personal data from unauthorized access, disclosure, alteration, or destruction. This includes encryption, access controls, and regular security audits.
                         </p>
                     </section>
 
                     {/* Third-Party Sharing Section */}
-                    <section className="text-left bg-white pt-3 pb-8 px-12">
+                    <section className="bg-white shadow-md rounded-lg p-4 mb-8">
                         <h2 className="text-2xl font-bold mb-4">Third-Party Sharing</h2>
-                        <p className="text-sm">
+                        <p className="text-md">
                             We do not sell your personal information to third parties. However, we may share data with trusted partners to improve our services, comply with legal obligations, or protect our users' safety.
                         </p>
                     </section>
@@ -98,9 +96,9 @@ const index = () => {
                     </section> */}
 
                     {/* Contact Section */}
-                    <section className="text-left bg-white py-8 px-12 mt-12">
+                    <section className="bg-white shadow-md rounded-lg p-4 ">
                         <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-                        <p className="text-sm">
+                        <p className="text-md">
                             If you have any questions or concerns about our Privacy Policy, please contact us at:
                         </p>
                         <ul className="list-disc list-inside space-y-2 ml-4 mt-4">

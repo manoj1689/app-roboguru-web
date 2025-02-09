@@ -45,7 +45,7 @@ function index() {
             <div className="container mx-auto px-4 flex flex-col md:flex-row items-center md:space-x-8 ">
               {/* Hero Text */}
               <div className="md:w-1/2 mb-8 md:mb-0">
-                <h1 className=" text-white md:text-4xl lg:text-4xl  2xl:text-5xl font-bold mb-4">Empowering Learning with AI Excellence</h1>
+                <h1 className=" text-white text-3xl md:text-4xl lg:text-4xl  2xl:text-5xl font-bold mb-4">Empowering Learning with AI Excellence</h1>
                 <p className="text-sm  md:text-lg mb-6 text-gray-950 font-medium leading-relaxed">
                   Learn anytime, anywhere with instant AI guidance. Master any subject through
                   interactive lessons and personalized tracking.
@@ -125,14 +125,14 @@ function index() {
           {/* <!--HOW IT WORKS SECTION --> */}
           <section id="how-it-works" className="container mx-auto bg-white p-6 mb-4 rounded shadow">
             {/* Section Header */}
-            <div className='flex w-full justify-between'>
-              <div className='w-2/3'>
+            <div className='flex w-full flex-col md:flex-row justify-between'>
+              <div className='md:w-2/3'>
               <h2 className="text-2xl font-bold ">How It Works</h2>
             <p className="text-lg mb-4 leading-relaxed font-semibold">
               Get started in just a few simple steps to supercharge your learning with AI.
             </p>
               </div>
-              <div className='flex w-1/3 justify-end'>
+              <div className='flex md:w-1/3 justify-end'>
               <div>
               <button className='p-4 text-white bg-[#418BBB] border border-[#BEBEBE] rounded-lg'> Try Now For Free</button>
               </div>

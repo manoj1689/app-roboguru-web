@@ -18,11 +18,11 @@ const SignInPage: React.FC = () => {
     const token = (user as any).stsTokenManager.accessToken;
 
     // Check if token exists in localStorage
-    const existingToken = localStorage.getItem("social_access_token");
-    if (existingToken) {
-      alert("You are already logged in.");
-      return;
-    }
+    // const existingToken = localStorage.getItem("social_access_token");
+    // if (existingToken) {
+    //   alert("You are already logged in.");
+    //   return;
+    // }
    // Dispatch to firebaseLogin and navigate to Dashboard
         dispatch(firebaseLogin(token));
 

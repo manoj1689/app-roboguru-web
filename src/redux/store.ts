@@ -12,6 +12,8 @@ import sessionReducer from './slices/sessionSlice';
 import chatReducer from './slices/chatSlice'
 import chatHistoryReducer from './slices/chatSessionHistorySlice';
 import progressReducer from './slices/progressSlice'
+import imageUploadReducer from './slices/imageUploadSlice'
+import imageSliceReducer from './slices/imageSlice'
 
 // Define the store
 const store = configureStore({
@@ -28,7 +30,9 @@ const store = configureStore({
         session:sessionReducer,
         chat:chatReducer,
         chatHistory:chatHistoryReducer,
-        progress:progressReducer
+        progress:progressReducer,
+        imageUpload:imageUploadReducer,
+        image:imageSliceReducer
        
     },
     

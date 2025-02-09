@@ -1,4 +1,4 @@
-import Image from "next/image"; 
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,45 +68,44 @@ const SubjectList = () => {
   return (
     <section className="bg-white rounded shadow p-5 my-4">
       <h3 className="text-2xl font-bold mb-4 ">Choose a Subject to Dive In</h3>
-      
+
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
         {subjectsList.map((subject: any) => (
           <div
             key={subject.id}
-            className="relative flex flex-col rounded-lg p-4 justify-between shadow-lg transition-shadow bg-white"
+            className="relative flex w-full justify-between flex-col rounded-lg p-4  shadow-lg transition-shadow bg-white"
           >
             {/* Subject Image */}
             <div className="flex w-full justify-between ">
               <div>
-              <Image
-                src={getSubjectImage(subject.name)} // Find matching image
-                alt={subject.name}
-                height={55}
-                width={55}
-                className="rounded-t-lg"
-              />
+                <Image
+                  src={getSubjectImage(subject.name)} // Find matching image
+                  alt={subject.name}
+                  height={55}
+                  width={55}
+                  className="rounded-t-lg"
+                />
               </div>
-             
-              <div >
-              <IoMdInformationCircleOutline size={20} color="gray" />
-              </div>
-             
-              
-            </div>
 
+              <div >
+                <IoMdInformationCircleOutline size={20} color="gray" />
+              </div>
+
+
+            </div>
             {/* Content */}
             <div className=" flex flex-col justify-between">
               <div className="flex flex-col justify-center items-center">
                 <p className="text-2xl font-bold text-neutral-800">{subject.name}</p>
                 <span className="text-sm font-semibold text-neutral-800 text-center line-clamp-2">{subject.tagline}</span>
               </div>
+            </div>
 
-             
-
+            <div>
               {/* Progress Bar */}
               <div className="mt-4">
-              
+
 
                 {parseFloat(getSubjectProgress(subject.id).toFixed(2)) > 0 ? (
                   <Line
@@ -120,25 +119,26 @@ const SubjectList = () => {
                   <div className="h-2 bg-[#CDE6F7] rounded"></div>
                 )}
               </div>
-            </div>
-            <div className="flex justify-between mt-2">
-            <div>
-            <button
-                onClick={() => router.push(`/ChapterList?subjectId=${subject.id}`)}
-                className="flex items-center text-[#51699E] text-xs font-semibold tracking-widest hover:scale-105 "
-              >
-                <span>Try Now</span>
-                <IoChevronForward size={16} />
-                <IoChevronForward size={16} />
-              </button>
-            </div>
-          
-              <div className=" flex text-sm gap-2 font-semibold text-[#51699E]">
+              <div className="flex justify-between mt-2">
+                <div>
+                  <button
+                    onClick={() => router.push(`/ChapterList?subjectId=${subject.id}`)}
+                    className="flex items-center text-[#51699E] text-xs font-semibold tracking-widest hover:scale-105 "
+                  >
+                    <span>Try Now</span>
+                    <IoChevronForward size={16} />
+                    <IoChevronForward size={16} />
+                  </button>
+                </div>
+
+                <div className=" flex text-sm gap-2 font-semibold text-[#51699E]">
                   <span>{parseFloat(getSubjectProgress(subject.id).toFixed(2))} %</span>
                   <span>Progress</span>
                 </div>
+              </div>
+
             </div>
-          
+
           </div>
         ))}
       </div>

@@ -15,18 +15,19 @@ const index = () => {
     return (
         <div>
             <Layout>
-                <section className="relative bg-center mt-20 px-4 text-white py-8" style={{ backgroundImage: 'url(/images/subjectNavigation.png)' }}>
+
+                <section className=" mt-20 px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] " >
                     {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] opacity-50"></div>
+
                     <div
                         onClick={() => handleNavigation("/Landing")}
-                        className="flex relative z-10 container mx-auto hover:text-stone-700 font-bold mb-4 gap-3 items-center text-white cursor-pointer"
+                        className="flex  container mx-auto hover:text-pink-300 font-bold  gap-3 items-center text-white cursor-pointer"
                     >
                         <span><FaArrowLeft size={16} /></span><span>Back</span>
                     </div>
-                    <div className="relative z-10 container mx-auto text-center rounded">
-                        <h1 className="text-5xl font-bold text-center mb-6">Careers</h1>
-                        <p className="text-lg leading-relaxed text-center text-black font-medium mb-8">
+                    <div className="container mx-auto text-center rounded">
+                        <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">Careers</h1>
+                        <p className="text-md md:text-lg leading-relaxed text-center text-white font-medium ">
                             Join RoboGuru and be a part of the team that’s transforming education with cutting-edge AI technologies. Explore our current openings below.
                         </p>
                     </div>
@@ -35,8 +36,8 @@ const index = () => {
 
 
                     {/* Job Openings Section */}
-                    <section className="bg-white shadow-md rounded-lg p-6 mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Current Openings</h2>
+                    <section className="bg-white shadow-md rounded-lg p-4 mb-8">
+                        <h2 className="text-2xl font-bold ">Current Openings</h2>
                         <div className="space-y-6">
                             {/* Job Opening 1 */}
                             <div className="p-4 border rounded shadow-sm bg-gray-100">

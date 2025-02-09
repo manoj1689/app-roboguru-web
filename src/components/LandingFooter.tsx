@@ -5,7 +5,7 @@ function LandingFooter() {
   return (
     <div>
       {/* <!-- ========== FOOTER ========== --> */}
-      <footer className="mt-16 bg-white border-t">
+      <footer className="mt-4 bg-white border-t">
         <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Column 1 */}
           <div>
@@ -21,7 +21,7 @@ function LandingFooter() {
             <h4 className="font-bold mb-3 text-lg">Resources</h4>
             <ul className="text-sm space-y-1 text-gray-600 list-disc list-inside">
               <li className="font-semibold"><Link href="#faq" className="hover:underline">FAQ</Link></li>
-              <li className="font-semibold"><Link href="#testimonials" className="hover:underline">Testimonials</Link></li>
+              <li className="font-semibold"><Link href="/Disclaimer" className="hover:underline">Disclaimer</Link></li>
               <li className="font-semibold"><Link href="#resources" className="hover:underline">Blog</Link></li>
             </ul>
           </div>

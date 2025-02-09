@@ -7,59 +7,8 @@ import { useRouter } from "next/router";
 import TrendingTopicsSection from "./TrendingTopic";
 import SubjectList from "./SubjectList";
 import GreetingBar from "@/components/GreetingBar";
+import ImageChat from "../ImageChat";
 const HomePage = () => {
-  const router = useRouter()
-  const handleReferralClick = () => {
-    // Logic for generating or copying the referral link
-    console.log("Get Your Referral Link button clicked");
-    alert("Your referral link has been generated!");
-  };
-  const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
-  const [dragging, setDragging] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-
-  const handleFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setDragging(false);
-    const files = e.dataTransfer.files;
-    if (files.length) {
-      handleFileUpload(files[0]);
-    }
-  };
-
-  const handleFileUpload = (file: File) => {
-    setUploadedFile(file);
-    console.log("File uploaded:", file);
-    alert(`File "${file.name}" uploaded successfully!`);
-  };
-
-  const handleFileRemove = () => {
-    setUploadedFile(null);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setDragging(false);
-  };
-
-  const handleAvatarSelection = (avatar: string) => {
-    setSelectedAvatar(avatar);
-  };
-
-  const handleChatStart = () => {
-    if (!selectedAvatar) {
-      alert("Please select an AI Avatar to proceed!");
-    } else if (!uploadedFile) {
-      alert("Please upload a file or image to proceed!");
-    } else {
-      router.push("/Chat")
-    }
-  };
-
 
   return (
     <div>
@@ -77,91 +26,7 @@ const HomePage = () => {
               <SubjectList />
             </section>
 
-            <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-2xl font-bold ">Scan & Pick Image → AI Chat</h3>
-              <p className="text-base mb-4 leading-relaxed">
-                Upload a file or image, then ask AI about it. Choose an AI avatar/personality for a unique experience.
-              </p>
-
-              {/* Drag-and-Drop Box */}
-              {uploadedFile ? (
-                <div className="text-center">
-                  {uploadedFile.type.startsWith("image/") && (
-                    <img
-                      src={URL.createObjectURL(uploadedFile)}
-                      alt="Uploaded Preview"
-                      className="w-full max-w-sm mx-auto rounded mb-4 "
-                    />
-                  )}
-                  <p className="text-sm text-gray-700 mb-2">File: {uploadedFile.name}</p>
-                  <button
-                    onClick={handleFileRemove}
-                    className="text-xs bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400 mr-2"
-                  >
-                    Remove File
-                  </button>
-                  <button
-                    onClick={() => document.getElementById("fileInput")?.click()}
-                    className="text-xs bg-[#418BBB] text-white px-3 py-1 rounded hover:bg-[#4080aa]"
-                  >
-                    Change File
-                  </button>
-                </div>
-              ) : (
-                <div
-                  className={`border-dashed w-4/5 mx-auto my-8 border border-stone-800 rounded-lg p-6 text-center cursor-pointer transition-all ${dragging ? "border-[#418BBB] bg-white" : "border-gray-300 bg-white"
-                    }`}
-                  onDrop={handleFileDrop}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onClick={() => document.getElementById("fileInput")?.click()}
-                ><div className="flex w-full justify-center">
-                    <MdCloudDownload size={40} color="gray" />
-                  </div>
-
-                  <p className="text-sm text-gray-600">
-                    {dragging
-                      ? "Drop your file here..."
-                      : "Drag & Drop your file here, or click to select"}
-                  </p>
-                </div>
-              )}
-
-              <input
-                id="fileInput"
-                type="file"
-                accept="image/*,.pdf,.docx"
-                className="hidden"
-                onChange={(e) => {
-                  if (e.target.files?.length) {
-                    handleFileUpload(e.target.files[0]);
-                  }
-                }}
-              />
-
-              {/* Quick Question */}
-              <label className="block text-lg font-semibold  text-neutral-800 mb-1 mt-4">
-                Quick question (optional):
-              </label>
-              <input
-                type="text"
-                placeholder="Any specific query about this file?"
-                className="w-full px-3 py-2 border border-gray-300 bg-[#F5F5F5] rounded text-sm focus:outline-none mb-3"
-              />
-
-
-
-
-              {/* Start AI Chat Button */}
-              <div className="flex w-full items-center">
-                <button
-                  onClick={handleChatStart}
-                  className="mt-4 py-4 px-8 text-md font-medium bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa] mx-auto transition-colors"
-                >
-                  Start Ai Chat
-                </button>
-              </div>
-            </section>
+          <ImageChat/>
 
             {/* <!-- RECOMMENDED (5 items) --> */}
             {/* <section className="bg-white rounded shadow p-5 my-4">

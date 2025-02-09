@@ -62,9 +62,9 @@ const Header: React.FC = () => {
             <div className=" py-3 container mx-auto  ">
                 {/* Left: Logo */}
                 <div className="flex w-full items-center">
-                    <div className="flex gap-4 w-1/4   ">
+                    <div className="flex gap-4 w-1/4  max-sm:justify-center  ">
                         {/* Logo */}
-                        <div className="hidden lg:flex max-lg:pl-8  items-center space-x-2">
+                        <div className="hidden lg:flex max-lg:pl-12  items-center space-x-2">
                             <Link href="/Home">
                                 <img
                                     src="/images/robologo.png"

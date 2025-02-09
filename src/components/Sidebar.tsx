@@ -77,13 +77,14 @@ const Sidebar: React.FC = () => {
 
       {/* Sidebar */}
       <div
-        id="sidebar"
-        className={`${isSidebarVisible ? "block" : "hidden"
-          } lg:block max-lg:fixed  ml-4 top-20 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10`}
-      >
+  id="sidebar"
+  className={`${isSidebarVisible ? "block" : "hidden"
+    } lg:block max-lg:fixed ml-4 top-20 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 overflow-y-auto h-[calc(100vh-10rem)]`}
+>
+
         <div className="flex h-20 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE] rounded-t-lg"></div>
         {/* top Circular Image */}
-        <div className="relative flex h-40 w-full ">
+        <div className="relative flex h-32 w-full ">
           <div className="absolute inset-0 flex-col flex">
             <div className="h-1/2  bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE]"></div>
             <div className="h-1/2  "></div>
@@ -93,7 +94,7 @@ const Sidebar: React.FC = () => {
               src={profile?.profile_image || "./images/robo-logo.png"}
               alt="RoboGuru Logo"
               className={`rounded-full object-cover ${profile?.profile_image
-                ? "w-16 h-16 md:w-32 md:h-32 border-gray-100 border-8 " // If image exists
+                ? "w-20 h-20 md:w-28 md:h-28 border-gray-100 border-4 " // If image exists
                 : "w-12 md:w-24  " // If image does not exist
                 }`}
             />
@@ -104,13 +105,13 @@ const Sidebar: React.FC = () => {
         <div className="flex flex-col justify-center items-center">
           <p className="font-semibold text-3xl">{profile?.name || "User"}</p>
 
-          <span className="text-lg text-neutral-800">
+          <span className="text-lg  text-neutral-800">
             {selectedEducationLevel?.name}-{className}
           </span>
 
         </div>
         {/* Side Navigation */}
-        <nav className="flex flex-col p-4 text-sm my-4">
+        <nav className="flex flex-col p-4 text-sm   overflow-y-auto">
           <div
             onClick={() => handleNavigation("/ChatSessionsList")}
             className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center "
