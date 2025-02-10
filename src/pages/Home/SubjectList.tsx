@@ -12,15 +12,24 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import './pagination.css'
 // Array mapping subject names to images
 const subjectImages = [
-  { name: "Mathematics", image: "/images/subjects/math.png" },
-  { name: "Physics", image: "/images/subjects/physics.png" },
-  { name: "Chemistry", image: "/images/subjects/chemistry.png" },
-  { name: "Biology", image: "/images/subjects/biology.png" },
-  { name: "History", image: "/images/subjects/history.png" },
-  { name: "Geography", image: "/images/subjects/geography.png" },
+  { name: "Accountancy", image: "/images/subjects/Accountancy.png" },
+  { name: "Biology", image: "/images/subjects/Biology.png" },
+  { name: "Business Studies", image: "/images/subjects/Business_Studies.png" },
+  { name: "Chemistry", image: "/images/subjects/Chemistry.png" },
+  { name: "Economics", image: "/images/subjects/Economics.png" },
   { name: "English", image: "/images/subjects/english.png" },
-  { name: "Computer Science", image: "/images/subjects/computer.png" },
+  { name: "Environmental Studies", image: "/images/subjects/Environmental_Studies.png" },
+  { name: "Geography", image: "/images/subjects/geography.png" },
+  { name: "Hindi", image: "/images/subjects/Hindi.png" },
+  { name: "History", image: "/images/subjects/History.png" },
+  { name: "Mathematics", image: "/images/subjects/Mathematics.png" },
+  { name: "Physics", image: "/images/subjects/Physics.png" },
+  { name: "Psychology", image: "/images/subjects/Psychology.png" },
+  { name: "Political Science", image: "/images/subjects/Political_Science.png" },
+  { name: "SansKrit", image: "/images/subjects/Sanskrit.png" },
+  { name: "Social Science", image: "/images/subjects/Social_Science.png" },
 ];
+
 
 const SubjectList = () => {
   const dispatch: AppDispatch = useDispatch();

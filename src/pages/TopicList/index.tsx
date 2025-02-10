@@ -3,46 +3,41 @@ import { useRouter } from "next/router";
 import {
   createSession,
   resetSessionState,
-} from '../../redux/slices/sessionSlice';
-import { resetChat } from '../../redux/slices/chatSlice';
+} from "../../redux/slices/sessionSlice";
+import { resetChat } from "../../redux/slices/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
-import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice"; // Ensure path is correct
-import { BsChatFill } from "react-icons/bs";
-import { GoArrowUpRight } from "react-icons/go";
+import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice"; 
 import Layout from "@/components/HomeLayout";
-import { IoMdMic } from "react-icons/io";
 import { BsChatLeftText } from "react-icons/bs";
+import { IoMdMic } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
 import { MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { BsArrowUpRight } from "react-icons/bs";
 import { Line } from "rc-progress";
 import TestBar from "@/components/TestBar";
+
 const TopicScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const { chapterId } = router.query; // Get the chapterId from the query parameter
-  const { subjectId } = router.query;
-  // Get topics from Redux store
+  const { chapterId, subjectId } = router.query;
 
-    // Redux state selectors
-    const { sessionId, status, startedAt, loading: sessionLoading, error: sessionError } = useSelector(
-      (state: RootState) => state.session
-    );
-  const { topics, loading, error } = useSelector((state: RootState) => state.topics);
-  // Get chapters and subjects from Redux store
-  const { chapters, loading: chaptersLoading, error: chaptersError } = useSelector(
-    (state: RootState) => state.chapters
+  // Redux Selectors
+  const { sessionId, loading: sessionLoading } = useSelector(
+    (state: RootState) => state.session
   );
-  // State to manage visible topics
+  const { topics, loading, error } = useSelector((state: RootState) => state.topics);
+  const { chapters } = useSelector((state: RootState) => state.chapters);
+
+  // Local States
   const [visibleTopics, setVisibleTopics] = useState<any[]>([]);
   const [expandedTopics, setExpandedTopics] = useState<{ [key: string]: boolean }>({});
-  const [currentChapter, setCurrentChapter] = useState<{ name: string; tagline: string } | null>(
-    null
-  );
+  const [currentChapter, setCurrentChapter] = useState<{ name: string; tagline: string } | null>(null);
   const [progressValues, setProgressValues] = useState<{ [key: string]: number }>({});
- 
+
+  console.log("Session ID at topic list:", sessionId);
+
   // Generate random progress for each topic when topics are fetched
   useEffect(() => {
     if (topics.length > 0) {
@@ -53,6 +48,7 @@ const TopicScreen = () => {
       setProgressValues(progressMap);
     }
   }, [topics]);
+
   // Fetch topics when chapterId changes
   useEffect(() => {
     if (chapterId) {
@@ -60,13 +56,34 @@ const TopicScreen = () => {
     }
   }, [dispatch, chapterId]);
 
+  // Ensure session is created before navigation
+  useEffect(() => {
+    const initializeSession = async () => {
+      try {
+        await dispatch(resetSessionState()); // Reset session state
+        if (!sessionId) {
+          const result = await dispatch(createSession()); // Ensure session is created
+          console.log("Session Created:", result.payload);
+        }
+        dispatch(resetChat()); // Reset chat after session creation
+      } catch (error) {
+        console.error("Error initializing session:", error);
+      }
+    };
+
+    if (!sessionId) {
+      initializeSession();
+    }
+  }, [dispatch, sessionId]); // ✅ Added sessionId dependency to avoid multiple resets
+
   // Set visible topics when topics are fetched
   useEffect(() => {
     if (topics.length > 0) {
-      setVisibleTopics(topics.slice(0, 7)); // Show first 4 topics initially
+      setVisibleTopics(topics.slice(0, 7)); // Show first 7 topics initially
     }
   }, [topics]);
-  // Filter the current subject from the subject list using subjectId
+
+  // Set current chapter details
   useEffect(() => {
     if (subjectId && chapters.length > 0) {
       const chapter = chapters.find((chapter) => chapter.id === chapterId);
@@ -76,33 +93,28 @@ const TopicScreen = () => {
     }
   }, [chapters, chapterId]);
 
+  // Function to navigate when topic is selected
   const handleTopicChat = async (topicId: string) => {
-    try {
-         await dispatch(createSession())
-      // Reset chat before navigating
-      dispatch(resetChat());
-  
-      router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&chatSessionId=${sessionId}`);
-    } catch (error) {
-      console.error("Error creating session:", error);
+    if (!sessionId) {
+      console.error("Session ID is null, waiting for session...");
+      return;
     }
+
+    router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&chatSessionId=${sessionId}`);
   };
   
   const handleSubTopicChat = async (topicId: string, subTopicId: number) => {
-    try {
-     
-      await dispatch(createSession())
-      // Reset chat before navigating
-      dispatch(resetChat());
-  
-  
-      router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&subtopicId=${subTopicId}&chatSessionId=${sessionId}`);
-    } catch (error) {
-      console.error("Error creating session:", error);
+    if (!sessionId) {
+      console.error("Session ID is null, waiting for session...");
+      return;
     }
-  };
+      router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&subtopicId=${subTopicId}&chatSessionId=${sessionId}`);
+    }; 
   
- 
+  
+  const goBack = () => {
+    router.back();
+  };
   const handleViewMore = () => {
     setVisibleTopics(topics); // Show all topics when "View More" is clicked
   };
@@ -114,14 +126,9 @@ const TopicScreen = () => {
     }));
   };
 
-  if (loading) return <div>Loading topics...</div>;
+  if (loading || sessionLoading) return <div>Loading topics...</div>;
   if (error) return <div>{error}</div>;
-  console.log("chapter topic list", topics)
 
-  const goBack = () => {
-    router.back(); // Goes one step back in history
-  };
- 
   return (
     <Layout>
    

@@ -389,7 +389,7 @@ const AiChatComponent = () => {
 
   return (
     < >
-      <div className='flex h-20 w-full  fixed ' >
+      <div className='flex h-20 w-full fixed ' >
         <HomeNavbar />
       </div>
       <div className='flex w-full container   mx-auto px-4'>
