@@ -14,6 +14,9 @@ import chatHistoryReducer from './slices/chatSessionHistorySlice';
 import progressReducer from './slices/progressSlice'
 import imageUploadReducer from './slices/imageUploadSlice'
 import imageSliceReducer from './slices/imageSlice'
+import examModuleSliceReducer from './slices/examModuleSlice'
+import objectiveExamSliceReducer from './slices/objectiveExamSlice'
+import trueFalseSliceReducer from './slices/trueFalseExamSlice'
 
 // Define the store
 const store = configureStore({
@@ -32,7 +35,10 @@ const store = configureStore({
         chatHistory:chatHistoryReducer,
         progress:progressReducer,
         imageUpload:imageUploadReducer,
-        image:imageSliceReducer
+        image:imageSliceReducer,
+        examModule:examModuleSliceReducer,
+        objectiveExam:objectiveExamSliceReducer,
+        trueFalseExam:trueFalseSliceReducer
        
     },
     

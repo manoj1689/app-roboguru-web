@@ -10,6 +10,7 @@ import { IoChevronForward } from "react-icons/io5";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
 import { Line } from "rc-progress";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import TestBar from "@/components/TestBar";
 const ChapterScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -92,7 +93,19 @@ const ChapterScreen = () => {
       <Layout>
 
         <div className="flex flex-col w-full ">
-          <GreetingBar />
+          <div className="flex w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+            <div>
+              <TestBar />
+            </div>
+            <div>
+              <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
+              onClick={()=>router.push(`/ExamModule?subjectId=${subjectId}`)}
+              >
+                Take a Test
+              </button>
+            </div>
+
+          </div>
           {currentSubject && (
             <div className="flex gap-4 w-full  mt-4">
 
@@ -127,31 +140,31 @@ const ChapterScreen = () => {
                 className="flex  w-full border-l-8 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border rounded-r-lg px-4 hover:shadow transition-shadow"
               >
                 <div className=" flex flex-col w-3/4">
-                
-                 <span className="flex bg-gray-300 w-32 justify-center items-center gap-2 rounded-b-md">
-                 <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className=" font-medium italic">Chapter {index + 1}</span>
+
+                  <span className="flex bg-gray-300 w-32 justify-center items-center gap-2 rounded-b-md">
+                    <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className=" font-medium italic">Chapter {index + 1}</span>
                   </span>
 
-                
-                 
+
+
 
                   <h4 className="text-xl mt-2 text-black font-semibold">{chapter.name}</h4>
                   <p className="text-sm text-black">{chapter.description}</p>
 
                   <div className="justify-center items-center">
-                  <div className="flex w-full mx-auto my-2 ">
-                    <Line
-                      percent={parseFloat(getChapterProgress(chapter.id).toFixed(2))}
-                      strokeWidth={1.5}
-                      trailWidth={1.5}
-                      strokeColor="#63A7D4"
-                      trailColor="#CDE6F7"
-                    />
+                    <div className="flex w-full mx-auto my-2 ">
+                      <Line
+                        percent={parseFloat(getChapterProgress(chapter.id).toFixed(2))}
+                        strokeWidth={1.5}
+                        trailWidth={1.5}
+                        strokeColor="#63A7D4"
+                        trailColor="#CDE6F7"
+                      />
+                    </div>
+                    <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm  font-semibold">progress achieve</span></div>
                   </div>
-                  <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm  font-semibold">progress achieve</span></div>
                 </div>
-                </div>
-               
+
                 <div className="flex flex-col justify-center items-center w-1/4">
                   <button
                     onClick={() =>
@@ -168,8 +181,8 @@ const ChapterScreen = () => {
           </div>
 
         </div>
-     
-      
+
+
       </Layout>
     </>
   );

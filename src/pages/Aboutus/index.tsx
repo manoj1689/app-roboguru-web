@@ -1,166 +1,114 @@
-'use client'
- import React from 'react'
+'use client';
+import React from 'react';
 import Layout from '@/components/LandingLayout';
- import { useRouter } from 'next/router';
- import { FaArrowLeft } from "react-icons/fa";
+import { useRouter } from 'next/navigation';
+import { FaArrowLeft } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 
- const index = () => {
+const AboutPage = () => {
+  const { t } = useTranslation();
   const router = useRouter();
-  const handleNavigation = (path: string) => {
-    
-    // Navigate to the selected page
-    router.push(path);
-  };
+
   return (
-    <div>
-   <Layout>
-    {/* Hero Section */}
-
- <section className=" mt-20 px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] " >
-                                    {/* Gradient overlay */}
-                                    
-                                    <div
-                                        onClick={() => handleNavigation("/Landing")}
-                                        className="flex  container mx-auto hover:text-pink-300 font-bold  gap-3 items-center text-white cursor-pointer"
-                                    >
-                                        <span><FaArrowLeft size={16} /></span><span>Back</span>
-                                    </div>
-                                    <div className="container mx-auto text-center rounded">
-                                        <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">About Us</h1>
-                                        <p className="text-md md:text-lg leading-relaxed text-center text-white font-medium ">
-                                        Transforming education through AI-driven solutions tailored to every learner's needs.
-                                        </p>
-                                    </div>
-                                </section>
-                <main className="container mx-auto py-8">
-       
-        {/* Introduction Section */}
-        <div className="bg-white shadow-md rounded-lg p-4 mb-8">
-          <h2 className="text-2xl font-bold ">Our Mission</h2>
-          <p className="text-lg leading-relaxed  ">
-            At RoboGuru, our mission is to make education accessible, engaging, and effective for everyone. 
-            We aim to empower learners by providing tools that personalize their learning experiences and encourage continuous growth.
-          </p>
+    <Layout>
+      {/* Hero Section */}
+      <section className="mt-20 px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE]">
+        <div
+          onClick={() => router.push('/Landing')}
+          className="flex container mx-auto hover:text-pink-300 font-bold gap-3 items-center text-white cursor-pointer"
+        >
+          <FaArrowLeft size={16} />
+          <span>{t('aboutUs.back')}</span>
         </div>
+        <div className="container mx-auto text-center rounded">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{t('aboutUs.title')}</h1>
+          <p className="text-md md:text-lg leading-relaxed text-white font-medium">{t('aboutUs.description')}</p>
+        </div>
+      </section>
 
-        {/* Statistics Section */}
+      <main className="container mx-auto py-8">
+        {/* Our Mission */}
         <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-6 text-left">Our Impact</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <h3 className="text-4xl font-bold text-red-600">50+</h3>
-                <p className="text-gray-600">Courses Offered</p>
-              </div>
-              <div>
-                <h3 className="text-4xl font-bold text-purple-600">10K+</h3>
-                <p className="text-gray-600">Happy Learners</p>
-              </div>
-              <div>
-                <h3 className="text-4xl font-bold text-indigo-600">25+</h3>
-                <p className="text-gray-600">Expert Instructors</p>
-              </div>
+          <h2 className="text-2xl font-bold">{t('aboutUs.ourMission.title')}</h2>
+          <p className="text-lg leading-relaxed">{t('aboutUs.ourMission.description')}</p>
+        </section>
+
+        {/* Our Impact */}
+        <section className="bg-white shadow-md rounded-lg p-4 mb-8">
+          <h2 className="text-2xl font-bold mb-6">{t('aboutUs.ourImpact.title')}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <h3 className="text-4xl font-bold text-red-600">{t('aboutUs.ourImpact.courses')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourImpact.coursesLabel')}</p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold text-purple-600">{t('aboutUs.ourImpact.learners')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourImpact.learnersLabel')}</p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold text-indigo-600">{t('aboutUs.ourImpact.instructors')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourImpact.instructorsLabel')}</p>
             </div>
           </div>
         </section>
 
-        {/* Values Section */}
+        {/* Our Core Values */}
         <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold  text-left">Our Core Values</h2>
-            <p className="text-lg leading-relaxed  text-left">
-              A diverse array of learning materials to enhance your educational journey.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 mt-10 ">
-            {/* Value 1: Innovation */}
-            <div className="text-left border border-gray-400 rounded-md px-4 py-2 bg-[#DFF3FF] hover:shadow-xl transform duration-300 hover:cursor-pointer">
-              <div className="flex items-center justify-center mx-auto mb-4">
-                <img src="/images/aboutus_img1.png" alt="img" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Innovation</h3>
-              <p className="text-gray-600">
-                Driving advancements in AI and educational technologies to create exceptional learning experiences.
-              </p>
+          <h2 className="text-2xl font-bold">{t('aboutUs.ourValues.title')}</h2>
+          <p className="text-lg leading-relaxed">{t('aboutUs.ourValues.description')}</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8 mt-10">
+            <div className="text-left border border-gray-400 rounded-md px-4 py-2 bg-[#DFF3FF]">
+              <img src={t('aboutUs.ourValues.innovation.image')} alt="Innovation" className="mx-auto mb-4" />
+              <h3 className="text-xl font-semibold">{t('aboutUs.ourValues.innovation.title')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourValues.innovation.description')}</p>
             </div>
-            {/* Value 2: Accessibility */}
-            <div className="text-left border border-gray-400 rounded-md px-4 py-2 bg-[#FBFFDC] hover:shadow-xl transform duration-300 hover:cursor-pointer">
-              <div className="flex items-center justify-center mx-auto mb-4">
-                <img src="/images/aboutus_img2.png" alt="img" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Accessibility</h3>
-              <p className="text-gray-600">
-                Making education accessible to all, breaking barriers to ensure no one is left behind.
-              </p>
+
+            <div className="text-left border border-gray-400 rounded-md px-4 py-2 bg-[#FBFFDC]">
+              <img src={t('aboutUs.ourValues.accessibility.image')} alt="Accessibility" className="mx-auto mb-4" />
+              <h3 className="text-xl font-semibold">{t('aboutUs.ourValues.accessibility.title')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourValues.accessibility.description')}</p>
             </div>
-            {/* Value 3: Excellence */}
-            <div className="text-left border border-gray-400 rounded-md px-4 py-2 hover:shadow-xl transform duration-300 hover:cursor-pointer">
-              <div className="flex items-center justify-center mx-auto mb-4">
-                <img src="/images/aboutus_img3.png" alt="img" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Excellence</h3>
-              <p className="text-gray-600">
-                Committed to delivering high-quality educational tools, ensuring a superior learning experience.
-              </p>
+
+            <div className="text-left border border-gray-400 rounded-md px-4 py-2">
+              <img src={t('aboutUs.ourValues.excellence.image')} alt="Excellence" className="mx-auto mb-4" />
+              <h3 className="text-xl font-semibold">{t('aboutUs.ourValues.excellence.title')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourValues.excellence.description')}</p>
             </div>
           </div>
         </section>
 
-        {/* Team Section */}
+        {/* Meet Our Team */}
         <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-          <div className="text-left">
-            <h2 className="text-2xl font-bold ">Meet Our Team</h2>
-            <p className="text-lg leading-relaxed  ">
-              Our team of passionate educators, AI experts, and technologists is committed to redefining the future of learning.
-            </p>
-          </div>
+          <h2 className="text-2xl font-bold">{t('aboutUs.ourTeam.title')}</h2>
+          <p className="text-lg leading-relaxed">{t('aboutUs.ourTeam.description')}</p>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-            {/* Team Member 1 */}
             <div className="bg-[#F3F3F3] p-4 rounded-tl-3xl rounded-br-3xl">
-              <img src="/images/story1.png" alt="John Doe" className="w-20 h-20 rounded-full mb-4 shadow-lg" />
-              <h3 className="text-xl font-bold">Asly Roe</h3>
-              <p className="text-gray-600 mb-3"><i>Chief AI Architect</i></p>
-              <p className="text-sm text-gray-500">An AI pioneer with 15+ years of experience in education technology.</p>
+              <img src={t('aboutUs.ourTeam.members.member1.image')} alt="Asly Roe" className="w-20 h-20 rounded-full mb-4 shadow-lg" />
+              <h3 className="text-xl font-bold">{t('aboutUs.ourTeam.members.member1.name')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourTeam.members.member1.role')}</p>
+              <p className="text-sm text-gray-500">{t('aboutUs.ourTeam.members.member1.description')}</p>
             </div>
-            {/* Team Member 2 */}
+
             <div className="bg-[#F3F3F3] p-4 rounded-tl-3xl rounded-br-3xl">
-              <img src="/images/story2.png" alt="Jane Smith" className="w-20 h-20 rounded-full mb-4 shadow-lg" />
-              <h3 className="text-xl font-bold">Jane Smith</h3>
-              <p className="text-gray-600 mb-3">Head of Education</p>
-              <p className="text-sm text-gray-500">Leads curriculum development with a focus on personalized learning.</p>
+              <img src={t('aboutUs.ourTeam.members.member2.image')} alt="Jane Smith" className="w-20 h-20 rounded-full mb-4 shadow-lg" />
+              <h3 className="text-xl font-bold">{t('aboutUs.ourTeam.members.member2.name')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourTeam.members.member2.role')}</p>
+              <p className="text-sm text-gray-500">{t('aboutUs.ourTeam.members.member2.description')}</p>
             </div>
-            {/* Team Member 3 */}
+
             <div className="bg-[#F3F3F3] p-4 rounded-tl-3xl rounded-br-3xl">
-              <img src="/images/story3.png" alt="Michael Brown" className="w-20 h-20 rounded-full  mb-4 shadow-lg" />
-              <h3 className="text-xl font-bold">Michael Brown</h3>
-              <p className="text-gray-600 mb-3">Product Manager</p>
-              <p className="text-sm text-gray-500">Oversees product innovation to deliver user-friendly experiences.</p>
+              <img src={t('aboutUs.ourTeam.members.member3.image')} alt="Michael Brown" className="w-20 h-20 rounded-full mb-4 shadow-lg" />
+              <h3 className="text-xl font-bold">{t('aboutUs.ourTeam.members.member3.name')}</h3>
+              <p className="text-gray-600">{t('aboutUs.ourTeam.members.member3.role')}</p>
+              <p className="text-sm text-gray-500">{t('aboutUs.ourTeam.members.member3.description')}</p>
             </div>
           </div>
         </section>
-
-        {/* Call-to-Action */}
-        {/* <section className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-12">
-          <div className="container mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to Join RoboGuru?</h2>
-            <p className="text-lg font-light max-w-2xl mx-auto mb-6">
-              Start your learning journey today and explore the endless possibilities with our AI-driven platform.
-            </p>
-            <a href="/signup" className="bg-white text-purple-600 px-6 py-3 rounded-lg shadow-lg hover:bg-gray-100">
-              Sign Up Now
-            </a>
-          </div>
-        </section> */}
       </main>
-   
-
-   </Layout>
-    
-
- 
-    </div>
-   
+    </Layout>
   );
- }
- 
- export default index
+};
+
+export default AboutPage;

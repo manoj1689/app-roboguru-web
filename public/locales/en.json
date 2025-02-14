@@ -1,0 +1,848 @@
+{
+  "landingNavbar": {
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "community": "Community",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "download": "Download",
+    "signIn": "Sign In"
+  },
+  "landingPage": {
+    "heroTitle": "Empowering Learning with AI Excellence",
+    "heroDescription": "Learn anytime, anywhere with instant AI guidance. Master any subject through interactive lessons and personalized tracking.",
+    "getStarted": "Get Started for Free",
+    "heroImageAlt": "Header-banner",
+    "featuresTitle": "Our Key Features",
+    "featuresDescription": "Explore our AI-driven tools that make learning faster, smarter, and more interactive.",
+    "features": [
+      {
+        "title": "AI Chat & Voice Mode",
+        "description": "Ask questions via text or voice and get instant, step-by-step explanations.",
+        "image": "/images/chatAi.png",
+        "alt": "AI Chat Icon"
+      },
+      {
+        "title": "Personalized Dashboard",
+        "description": "Track your progress, see completed chapters, and get custom study suggestions.",
+        "image": "/images/dashboard.png",
+        "alt": "Dashboard Icon"
+      },
+      {
+        "title": "Subject & Chapter Navigation",
+        "description": "Find topics by class/grade. Each chapter has key concepts, practice, and tips.",
+        "image": "/images/subjectNavigation.png",
+        "alt": "Navigation Icon"
+      }
+    ],
+    "accessibility": {
+      "title": "Accessibility Features",
+      "description": "Our platform supports screen readers, voice input, and large-text modes to accommodate diverse learners."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "description": "Get started in just a few simple steps to supercharge your learning with AI.",
+      "buttonText": "Try Now For Free",
+      "steps": [
+        {
+          "title": "Sign Up / Create Profile",
+          "description": "Use your email or phone to create an account, then set your class or grade level.",
+          "image": "/images/img1.png"
+        },
+        {
+          "title": "Select Subjects",
+          "description": "Choose topics you want to learn, like Math, Science, or Languages.",
+          "image": "/images/img2.png"
+        },
+        {
+          "title": "Ask AI or Explore Chapters",
+          "description": "Use text or voice mode to ask questions, or browse structured lessons.",
+          "image": "/images/img3.png"
+        },
+        {
+          "title": "Track Progress & Get Suggestions",
+          "description": "Monitor your learning stats, see recommended next steps, and stay motivated.",
+          "image": "/images/img4.png"
+        }
+      ]
+    },
+    "sampleChat": {
+      "title": "Preview a Sample AI Chat",
+      "description": "See a quick example of RoboGuru in action.",
+      "userLabel": "User:",
+      "userMessage": "Explain the Pythagorean theorem with an example.",
+      "aiLabel": "RoboGuru AI:",
+      "aiResponse": "The Pythagorean theorem states that in a right triangle, c² = a² + b².\nFor example, if a = 3 and b = 4, then c = 5."
+    },
+    "community": {
+      "title": "Join Our Community",
+      "description": "Connect with peers, get tips, and share insights on our discussion forums.",
+      "joinDiscussion": "Discussion Here",
+      "discussions": {
+        "0": {
+          "title": "AI in Education",
+          "description": "Discuss the latest trends and innovations in AI-powered learning."
+        },
+        "1": {
+          "title": "Study Tips & Tricks",
+          "description": "Share your best study techniques and productivity hacks."
+        }
+      }
+    },
+    "leaderboard": {
+      "title": "Community Leaderboard",
+      "description": "See who’s earning the most badges or providing top answers in the forum.",
+      "points": "{points} points",
+      "viewFull": "View Full Leaderboard"
+    },
+    "teacherPortal": {
+      "comingSoon": "Coming Soon...",
+      "title": "Teacher & Parent Portal",
+      "description": "Manage multiple students, assign chapters, and track progress all in one place.",
+      "imageAlt": "Teacher Dashboard Screenshot",
+      "teacher": {
+        "title": "Teacher",
+        "features": {
+          "assignHomework": "Assign homework or practice quizzes",
+          "monitorChat": "Monitor each student’s AI chat logs",
+          "performanceReports": "Generate performance reports & analytics"
+        }
+      },
+      "parent": {
+        "title": "Parents",
+        "features": {
+          "assignHomework": "Assign homework or practice quizzes",
+          "monitorChat": "Monitor each student’s AI chat logs",
+          "performanceReports": "Generate performance reports & analytics"
+        }
+      }
+    },
+    "achievements": {
+      "title": "Achievements & Badges",
+      "description": "Keep up the good work—collect badges as you master new concepts.",
+      "badges": {
+        "mathWhiz": {
+          "label": "Math Whiz",
+          "alt": "Math Whiz Badge"
+        },
+        "scienceStar": {
+          "label": "Science Star",
+          "alt": "Science Star Badge"
+        },
+        "literatureLover": {
+          "label": "Literature Lover",
+          "alt": "Literature Lover Badge"
+        },
+        "historyBuff": {
+          "label": "History Buff",
+          "alt": "History Buff Badge"
+        },
+        "codingGuru": {
+          "label": "Coding Guru",
+          "alt": "Coding Guru Badge"
+        },
+        "physicsChamp": {
+          "label": "Physics Champ",
+          "alt": "Physics Champ Badge"
+        }
+      }
+    },
+    "certificates": {
+      "title": "Certificates of Completion",
+      "description": "Earn shareable certificates for completing courses or mastering specific skill sets.",
+      "image": {
+        "src": "/images/certificate.webp",
+        "alt": "Certificate Example"
+      }
+    },
+    "successStories": {
+      "title": "Success Stories",
+      "description": "Discover how learners improved their scores and gained confidence.",
+      "stories": [
+        {
+          "name": "Alice W.",
+          "scoreImprovement": "Math score: 60% → 90%",
+          "image": "/images/story1.png",
+          "testimonial": "RoboGuru’s AI Chat cleared my doubts instantly and gave me extra practice questions!"
+        },
+        {
+          "name": "Rahul G.",
+          "scoreImprovement": "GPA: 2.8 → 3.5",
+          "image": "/images/story2.png",
+          "testimonial": "The personalized dashboard kept me focused on each subject. Highly recommended!"
+        },
+        {
+          "name": "Samantha K.",
+          "scoreImprovement": "Science score: 50% → 85%",
+          "image": "/images/story3.png",
+          "testimonial": "With RoboGuru’s tailored quizzes, I became more confident in science and aced my exams!"
+        }
+      ]
+    },
+    "pressPartners": {
+      "title": "Press, Partners & Awards",
+      "description": "We’re honored to be recognized and collaborate with these amazing organizations.",
+      "partners": {
+        "partner1": {
+          "image": "/images/globalAwards.webp",
+          "alt": "EdTech Global",
+          "name": "Ed Tech Global",
+          "award": "Innovation"
+        },
+        "partner2": {
+          "image": "/images/awards.enc",
+          "alt": "Future Learning Awards",
+          "name": "Future of Learning",
+          "award": "Awards 2024"
+        },
+        "partner3": {
+          "image": "/images/techAwards.jpg",
+          "alt": "Tech Innovations",
+          "name": "Technology Innovations",
+          "award": "Award 2025"
+        }
+      },
+      "quote": {
+        "text": "“RoboGuru is revolutionizing how students learn with AI.”",
+        "source": "Tech Education Times"
+      }
+    },
+    "ctaBlock": {
+      "title": "Ready to Empower Your Learning?",
+      "description": "Sign up now or watch our quick video demo to see RoboGuru in action.",
+      "buttons": {
+        "signUp": {
+          "text": "Sign Up Free",
+          "href": "#signup"
+        },
+        "watchDemo": {
+          "text": "Watch Demo",
+          "href": "#video-demo"
+        }
+      }
+    },
+    "whyChooseRoboGuru": {
+      "title": "Why Choose RoboGuru?",
+      "description": "Here’s how we stack up against other AI or tutoring apps.",
+      "comparisonTable": {
+        "headers": [
+          "Feature",
+          "RoboGuru",
+          "Others"
+        ],
+        "rows": [
+          {
+            "feature": "Unlimited AI Queries (Pro)",
+            "roboguru": "Yes",
+            "others": "Limited"
+          },
+          {
+            "feature": "24/7 Voice Mode",
+            "roboguru": "Yes",
+            "others": "Rare"
+          },
+          {
+            "feature": "Advanced Analytics & Progress",
+            "roboguru": "Yes",
+            "others": "Basic"
+          },
+          {
+            "feature": "Community Discussion Forum",
+            "roboguru": "Yes",
+            "others": "Sometimes"
+          }
+        ]
+      }
+    },
+    "discountBanner": {
+      "title": "Limited Time Offer!",
+      "description": [
+        "Use code ",
+        " at checkout to get ",
+        " off your first 3 months."
+      ],
+      "code": "STUDY20",
+      "discount": "20%",
+      "expiry": "Hurry—offer expires in 7 days!"
+    },
+    "studyPlans": {
+      "title": "Custom Study Plans & Bundles",
+      "description": "Focus on exam prep or specific subjects. Choose from curated study paths like SAT Prep, High School Math Mastery, or Language Fluency.",
+      "items": [
+        "SAT Math Bundle (Chapters 1–12, practice quizzes)",
+        "High School Science Pack (Physics, Chem, Bio consolidated)",
+        "Foundations of Programming (Intro to Python, Java basics)"
+      ]
+    },
+    "pricing": {
+      "title": "Subscription Plans",
+      "description": [
+        "Choose the plan that fits your needs and budget.",
+        "Special Corporate/Institutional pricing also available—see below."
+      ],
+      "plans": [
+        {
+          "title": "Free Plan",
+          "features": "Basic AI queries, limited features.",
+          "price": "$0",
+          "button": "Start Free"
+        },
+        {
+          "title": "Pro Plan",
+          "features": "Unlimited AI queries, voice mode, advanced analytics.",
+          "price": "$9.99",
+          "button": "Upgrade"
+        },
+        {
+          "title": "Enterprise / Schools",
+          "features": "Special bulk pricing for classrooms, tutoring centers, or corporate training.",
+          "price": "Custom/quote",
+          "button": "Contact Sales"
+        }
+      ]
+    },
+    "download": {
+      "title": "Download the RoboGuru App",
+      "description": "Get learning on the go. Our app is available for iOS and Android.",
+      "buttons": {
+        "apple": "Apple Store",
+        "play": "Play Store"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "q1": {
+          "question": "What is RoboGuru?",
+          "answer": "RoboGuru is an AI-driven learning platform that helps you explore academic subjects..."
+        },
+        "q2": {
+          "question": "How do I set up this app?",
+          "answer": "Download the RoboGuru app from the App Store or Google Play. Once installed, sign up or log in..."
+        },
+        "q3": {
+          "question": "Does it cost anything?",
+          "answer": "We offer a free plan with limited AI queries. You can upgrade to a paid subscription..."
+        }
+      }
+    },
+    "webinars": {
+      "title": "Upcoming Webinars & Events",
+      "subtitle": "Watch a quick overview of how RoboGuru transforms your learning.",
+      "event1": {
+        "date": "March 15, 2025",
+        "title": "Mastering Algebraic Expressions",
+        "description": "Share your unique link and get free premium days when friends sign up.",
+        "button": "REGISTER NOW"
+      },
+      "event2": {
+        "date": "April 21, 2025",
+        "title": "Quick Physics Hacks for Exams",
+        "description": "Share your unique link and get free premium days when friends sign up.",
+        "button": "QUICK EXAM"
+      }
+    }
+  },
+  "homeNavbar": {
+    "liveChat": "Live Chat",
+    "updateProfile": "Update Profile",
+    "logout": "Logout"
+  },
+  "sidebar": {
+    "chatHistory": "Chat History",
+    "joinCommunity": "Join Our Community",
+    "feedback": "Feedback",
+    "requestSubject": "Request Subject",
+    "requestTopic": "Request Topic",
+    "subscriptionDetails": "Subscription Details",
+    "faq": "FAQ",
+    "appSetting": "App Setting"
+  },
+  "landingFooter": {
+    "product": {
+      "title": "Product",
+      "careers": "Careers",
+      "contact": "Contact Us",
+      "community": "Community"
+    },
+    "resources": {
+      "title": "Resources",
+      "faq": "FAQ",
+      "disclaimer": "Disclaimer",
+      "blog": "Blog"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy"
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "copyright": "All rights reserved.",
+    "slogan": "Empowering innovation with AI."
+  },
+  "careers": {
+    "back": "back",
+    "header": {
+      "title": "Careers",
+      "description": "Join our team and shape the future!"
+    },
+    "jobs": {
+      "heading": "Current Openings",
+      "apply_now": "Apply Now",
+      "location": "Location",
+      "experience": "Experience",
+      "0": {
+        "title": "Software Engineer - AI/ML",
+        "location": "Remote",
+        "experience": "3+ Years",
+        "description": "Work on cutting-edge AI models.",
+        "apply_link": "https://example.com/apply/ai-ml"
+      },
+      "1": {
+        "title": "Frontend Developer",
+        "location": "New York, USA",
+        "experience": "2+ Years",
+        "description": "Develop responsive user interfaces.",
+        "apply_link": "https://example.com/apply/frontend"
+      }
+    },
+    "whyJoin": {
+      "heading": "Why Join RoboGuru?",
+      "reasons": [
+        "Work on cutting-edge AI technologies.",
+        "Collaborate with talented professionals from diverse backgrounds.",
+        "Enjoy opportunities for growth and learning.",
+        "Be part of a mission-driven organization that’s making a difference in education."
+      ]
+    },
+    "perks": {
+      "heading": "Perks & Benefits",
+      "list": [
+        "Flexible working hours and remote work options.",
+        "Health insurance and wellness programs.",
+        "Competitive salary and performance bonuses.",
+        "Training and development opportunities.",
+        "Inclusive and supportive work environment."
+      ]
+    },
+    "howToApply": {
+      "heading": "How to Apply",
+      "steps": [
+        "Visit the job opening section and click on 'Apply Now' for your desired position.",
+        "Fill out the application form with your details and upload your resume.",
+        "Our HR team will review your application and contact you for further steps."
+      ]
+    },
+    "contactText": "For any queries, reach out to us at",
+    "contactEmail": "hr@roboguru.com"
+  },
+  "contactUs": {
+    "back": "Back",
+    "title": "Contact Us",
+    "description": "We’d love to hear from you! Reach out to us for any questions, feedback, or assistance.",
+    "form": {
+      "title": "Send Us a Message",
+      "name": "Your Name",
+      "email": "Your Email",
+      "message": "Message",
+      "submit": "Send Message"
+    },
+    "details": {
+      "title": "Our Contact Details",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "social": {
+      "title": "Connect with Us on Social Media",
+      "facebook": "Facebook",
+      "twitter": "Twitter",
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram"
+    }
+  },
+  "disclaimer": {
+    "title": "Disclaimer",
+    "effectiveDate": "Effective Date: January 1, 2025 | Last Updated: January 1, 2025",
+    "back": "Back",
+    "sections": {
+      "educationalPurpose": {
+        "title": "Educational Purpose Only",
+        "description": "RoboGuru is an AI-powered educational platform designed to assist students, teachers, and learners with study resources, homework help, and exam preparation.",
+        "points": [
+          "The content, study materials, and AI-generated responses are provided for informational and educational purposes only.",
+          "RoboGuru does not replace professional academic guidance from teachers, educators, or subject-matter experts.",
+          "While we strive for accuracy, we do not guarantee that all answers, explanations, or solutions are error-free or comprehensive."
+        ]
+      },
+      "noGuarantees": {
+        "title": "No Guarantees & Warranties",
+        "description": "RoboGuru is provided 'as is' without any guarantees or warranties, express or implied.",
+        "points": [
+          "We do not guarantee uninterrupted, error-free, or always-available services.",
+          "We do not guarantee that our AI-generated solutions are always accurate, complete, or suitable for every academic need.",
+          "Users assume full responsibility for how they use the app's content and services."
+        ]
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "description": "By using RoboGuru, you agree that:",
+        "points": [
+          "We are not liable for any direct, indirect, incidental, consequential, or special damages arising from the use of the app.",
+          "We are not responsible for any incorrect answers, misinterpretations, or any loss incurred due to reliance on RoboGuru’s AI-generated solutions.",
+          "We do not endorse any third-party links, content, or advertisements that may appear on the platform."
+        ]
+      },
+      "thirdParty": {
+        "title": "Third-Party Services & Advertisements",
+        "points": [
+          "RoboGuru may integrate third-party services, APIs, or advertisements to enhance user experience.",
+          "We do not control, endorse, or assume responsibility for the content, accuracy, or policies of third-party services.",
+          "Users engaging with third-party services do so at their own risk and should review their respective terms and policies."
+        ]
+      },
+      "userResponsibilities": {
+        "title": "User Responsibilities",
+        "points": [
+          "Users are responsible for using RoboGuru ethically and legally.",
+          "Any misuse, including unauthorized content distribution, plagiarism, or inappropriate usage, is strictly prohibited and may result in account suspension.",
+          "We reserve the right to update or modify this Disclaimer at any time without prior notice. Continued use of the app signifies acceptance of the latest version."
+        ]
+      },
+      "contact": {
+        "title": "Contact Information",
+        "description": "For any concerns, queries, or feedback regarding this Disclaimer, please contact us:",
+        "general": {
+          "email": "Email: support@roboguru.com",
+          "phone": "Phone: +1 234 567 890",
+          "address": "Address: 123 RoboGuru Lane, AI City, Techland"
+        },
+        "legal": {
+          "title": "For legal inquiries:",
+          "email": "Email: admin@eramlabs.com",
+          "phone": "Phone: +91-8750860676",
+          "address": "Address: 163 - GF Pocket 2, Jasola, New Delhi 1100025"
+        }
+      }
+    }
+  },
+  "aboutUs": {
+    "title": "About Us",
+    "back": "Back",
+    "description": "Transforming education through AI-driven solutions tailored to every learner's needs.",
+    "ourMission": {
+      "title": "Our Mission",
+      "description": "At RoboGuru, our mission is to make education accessible, engaging, and effective for everyone. We aim to empower learners by providing tools that personalize their learning experiences and encourage continuous growth."
+    },
+    "ourImpact": {
+      "title": "Our Impact",
+      "courses": "50+",
+      "coursesLabel": "Courses Offered",
+      "learners": "10K+",
+      "learnersLabel": "Happy Learners",
+      "instructors": "25+",
+      "instructorsLabel": "Expert Instructors"
+    },
+    "ourValues": {
+      "title": "Our Core Values",
+      "description": "A diverse array of learning materials to enhance your educational journey.",
+      "innovation": {
+        "title": "Innovation",
+        "description": "Driving advancements in AI and educational technologies to create exceptional learning experiences.",
+        "image": "/images/aboutus_img1.png"
+      },
+      "accessibility": {
+        "title": "Accessibility",
+        "description": "Making education accessible to all, breaking barriers to ensure no one is left behind.",
+        "image": "/images/aboutus_img2.png"
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "Committed to delivering high-quality educational tools, ensuring a superior learning experience.",
+        "image": "/images/aboutus_img3.png"
+      }
+    },
+    "ourTeam": {
+      "title": "Meet Our Team",
+      "description": "Our team of passionate educators, AI experts, and technologists is committed to redefining the future of learning.",
+      "members": {
+        "member1": {
+          "name": "Asly Roe",
+          "role": "Chief AI Architect",
+          "description": "An AI pioneer with 15+ years of experience in education technology.",
+          "image": "/images/story1.png"
+        },
+        "member2": {
+          "name": "Jane Smith",
+          "role": "Head of Education",
+          "description": "Leads curriculum development with a focus on personalized learning.",
+          "image": "/images/story2.png"
+        },
+        "member3": {
+          "name": "Michael Brown",
+          "role": "Product Manager",
+          "description": "Oversees product innovation to deliver user-friendly experiences.",
+          "image": "/images/story3.png"
+        }
+      }
+    }
+  },
+  "termAndCondition": {
+    "title": "Terms and Conditions",
+    "back": "Back",
+    "description": "Please read these terms and conditions carefully before using RoboGuru.",
+    "sections": {
+      "generalTerms": {
+        "title": "General Terms",
+        "points": [
+          "By using RoboGuru, you agree to comply with these terms and conditions.",
+          "RoboGuru reserves the right to update these terms at any time without prior notice.",
+          "All content and materials provided by RoboGuru are for personal and educational use only."
+        ]
+      },
+      "userResponsibilities": {
+        "title": "User Responsibilities",
+        "points": [
+          "Users must provide accurate and up-to-date information during registration.",
+          "You are responsible for maintaining the confidentiality of your account credentials.",
+          "Any misuse of the platform, including unauthorized access or distribution of content, is prohibited."
+        ]
+      },
+      "privacyAndSecurity": {
+        "title": "Privacy and Security",
+        "points": [
+          "Your privacy and data security are important to us. Please refer to our Privacy Policy for more details on how we handle your information."
+        ],
+        "privacyPolicyLink": "/Privacypolicy"
+      },
+      "limitationOfLiability": {
+        "title": "Limitation of Liability",
+        "points": [
+          "RoboGuru is not liable for any indirect, incidental, or consequential damages arising from the use of the platform.",
+          "The platform is provided 'as is,' without any warranties of any kind, express or implied.",
+          "RoboGuru does not guarantee uninterrupted or error-free access to the platform."
+        ]
+      },
+      "governingLaw": {
+        "title": "Governing Law",
+        "points": [
+          "These terms and conditions are governed by the laws of the jurisdiction in which RoboGuru operates.",
+          "Any disputes arising from these terms will be resolved in accordance with applicable laws."
+        ]
+      }
+    }
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "description": "Your privacy is important to us. Learn about how we collect, use, and protect your personal data.",
+    "sections": {
+      "introduction": {
+        "title": "Introduction",
+        "content": "At RoboGuru, we are committed to protecting your privacy. This Privacy Policy explains what information we collect, how we use it, and the measures we take to ensure its security."
+      },
+      "informationCollection": {
+        "title": "Information We Collect",
+        "points": [
+          {
+            "label": "Personal Information",
+            "description": "Name, email address, phone number, etc."
+          },
+          {
+            "label": "Usage Data",
+            "description": "Information about how you use our platform, including interactions and preferences."
+          },
+          {
+            "label": "Device Information",
+            "description": "Device type, operating system, and browser details."
+          }
+        ]
+      },
+      "howWeUse": {
+        "title": "How We Use Your Information",
+        "intro": "We use the information we collect for the following purposes:",
+        "points": [
+          "To provide and improve our services.",
+          "To personalize your learning experience.",
+          "To communicate with you about updates and new features.",
+          "To ensure the security and functionality of our platform."
+        ]
+      },
+      "dataProtection": {
+        "title": "How We Protect Your Data",
+        "content": "We implement industry-standard security measures to protect your personal data from unauthorized access, disclosure, alteration, or destruction. This includes encryption, access controls, and regular security audits."
+      },
+      "thirdPartySharing": {
+        "title": "Third-Party Sharing",
+        "content": "We do not sell your personal information to third parties. However, we may share data with trusted partners to improve our services, comply with legal obligations, or protect our users' safety."
+      },
+      "contactUs": {
+        "title": "Contact Us",
+        "intro": "If you have any questions or concerns about our Privacy Policy, please contact us at:",
+        "contacts": {
+          "email": {
+            "label": "Email",
+            "value": "privacy@roboguru.com"
+          },
+          "phone": {
+            "label": "Phone",
+            "value": "+1 234 567 890"
+          },
+          "address": {
+            "label": "Address",
+            "value": "123 RoboGuru Lane, AI City, Techland"
+          }
+        }
+      }
+    }
+  },
+  "greeting": {
+    "title": "Hello",
+    "subtitle": "Keep up the momentum with your daily goals and new topics!",
+    "stats": {
+      "chaptersCompleted": {
+        "label": "Chapters Completed",
+        "value": 12
+      },
+      "overallProgress": {
+        "label": "Overall Progress",
+        "value": "85%"
+      },
+      "subjectsActive": {
+        "label": "Subjects Active",
+        "value": 3
+      }
+    }
+  },
+  "homePage": {
+    "achievements": {
+      "title": "Achievements & Badges",
+      "description": "Keep up the good work—collect badges as you master new concepts.",
+      "badges": {
+        "mathWhiz": {
+          "label": "Math Whiz",
+          "alt": "Math Whiz Badge"
+        },
+        "scienceStar": {
+          "label": "Science Star",
+          "alt": "Science Star Badge"
+        },
+        "literatureLover": {
+          "label": "Literature Lover",
+          "alt": "Literature Lover Badge"
+        },
+        "historyBuff": {
+          "label": "History Buff",
+          "alt": "History Buff Badge"
+        },
+        "codingGuru": {
+          "label": "Coding Guru",
+          "alt": "Coding Guru Badge"
+        },
+        "physicsChamp": {
+          "label": "Physics Champ",
+          "alt": "Physics Champ Badge"
+        }
+      }
+    },
+    "dailyTrivia": {
+      "title": "Daily Trivia",
+      "description": "Boost your knowledge with a quick question! Earn points for correct answers.",
+      "question": "What is the capital of Australia?",
+      "options": {
+        "sydney": {
+          "label": "Sydney",
+          "value": "sydney"
+        },
+        "canberra": {
+          "label": "Canberra",
+          "value": "canberra"
+        },
+        "melbourne": {
+          "label": "Melbourne",
+          "value": "melbourne"
+        },
+        "perth": {
+          "label": "Perth",
+          "value": "perth"
+        }
+      },
+      "buttonText": "Submit",
+      "alertMessage": "Answer submitted!"
+    },
+    "upcomingQuizzes": {
+      "title": "Upcoming Quizzes & Tests",
+      "quizzes": {
+        "quiz1": {
+          "dateTime": "Mar 15, 4 PM",
+          "title": "Algebra Quiz (Ch. 5-7)"
+        },
+        "quiz2": {
+          "dateTime": "Mar 18, 2 PM",
+          "title": "Biology: Cell Structure Test"
+        },
+        "quiz3": {
+          "dateTime": "Mar 20, 10 AM",
+          "title": "Geography: Maps & Regions Quiz"
+        },
+        "quiz4": {
+          "dateTime": "Mar 25, 1 PM",
+          "title": "Programming: Array Challenges"
+        },
+        "quiz5": {
+          "dateTime": "Mar 28, 11 AM",
+          "title": "History: Medieval Era Test"
+        }
+      },
+      "remindMe": "Remind Me"
+    },
+    "leaderboard": {
+      "title": "Community Leaderboard",
+      "description": "Top contributors in the forum this week:",
+      "users": {
+        "user1": {
+          "name": "AlgebraNerd007",
+          "points": "1200 points"
+        },
+        "user2": {
+          "name": "PhysicsPro99",
+          "points": "1100 points"
+        },
+        "user3": {
+          "name": "BioWizard",
+          "points": "950 points"
+        },
+        "user4": {
+          "name": "CodingGuru",
+          "points": "900 points"
+        },
+        "user5": {
+          "name": "LiteratureLover",
+          "points": "850 points"
+        }
+      },
+      "viewFullLeaderboard": "View Full Leaderboard"
+    },
+    "upgradePro": {
+      "title": "Upgrade to Pro",
+      "description": "Get unlimited AI queries, voice mode, advanced analytics, and more with our Pro plan.",
+      "buttonText": "Upgrade Pro"
+    },
+    "limitedTimeOffer": {
+      "title": "Limited Time Offer",
+      "description": "Use code STUDY20 at checkout to get 20% off your first 3 months.",
+      "offerEndsSoon": "Hurry—offer ends soon!",
+      "buttonText": "Upgrade Pro"
+    }
+  },
+  "homeFooter": {
+  "copyright": "© 2024 EramLabs. All rights reserved.",
+  "tagline": "Empowering innovation with AI."
+}
+
+}

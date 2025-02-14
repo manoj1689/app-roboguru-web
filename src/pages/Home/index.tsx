@@ -8,8 +8,11 @@ import TrendingTopicsSection from "./TrendingTopic";
 import SubjectList from "./SubjectList";
 import GreetingBar from "@/components/GreetingBar";
 import ImageChat from "../ImageChat";
-const HomePage = () => {
+import { useTranslation } from "react-i18next";
 
+
+const HomePage = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <Layout>
@@ -26,7 +29,7 @@ const HomePage = () => {
               <SubjectList />
             </section>
 
-          <ImageChat/>
+            <ImageChat />
 
             {/* <!-- RECOMMENDED (5 items) --> */}
             {/* <section className="bg-white rounded shadow p-5 my-4">
@@ -186,173 +189,163 @@ const HomePage = () => {
               </div>
             </section> */}
             {/* <!-- ACHIEVEMENTS (5 badges) --> */}
-            <section className="bg-white rounded shadow pt-4 pb-12 px-4">
-              <h3 className="text-2xl font-bold ">Achievements & Badges</h3>
-              <p className="text-base mb-4 leading-relaxed ">
-                Keep up the good work—collect badges as you master new concepts.
+            <section className="container mx-auto bg-white rounded shadow p-5 my-4">
+              <h3 className="text-lg font-bold lg:text-xl">{t("homePage.achievements.title")}</h3>
+              <p className="text-lg mb-4 leading-relaxed font-semibold">
+                {t("homePage.achievements.description")}
               </p>
-              <div className="flex flex-wrap justify-around">
-                {/* Achievement 1 */}
-                <div className="text-center">
-                  <img
-                    src="/images/badge-award1.png"
-                    alt="Math Whiz Badge"
-                    className="mx-auto mb-2 w-20 lg:w-[108px] rounded-full shadow"
-                  />
-                  <p className="text-xs font-semibold lg:text-lg">Math Whiz</p>
-                </div>
-                {/* Achievement 2 */}
-                <div className="text-center">
-                  <img
-                    src="/images/badge-award2.png"
-                    alt="Science Star Badge"
-                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
-                  />
-                  <p className="text-xs font-semibold lg:text-lg">Science Star</p>
-                </div>
-                {/* Achievement 3 */}
-                <div className="text-center">
-                  <img
-                    src="/images/badge-award3.png"
-                    alt="Literature Lover Badge"
-                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
-                  />
-                  <p className="text-xs font-semibold lg:text-lg">Literature Lover</p>
-                </div>
-                {/* Achievement 4 */}
-                <div className="text-center">
-                  <img
-                    src="/images/badge-award4.png"
-                    alt="History Buff Badge"
-                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
-                  />
-                  <p className="text-xs font-semibold lg:text-lg">History Buff</p>
-                </div>
-                {/* Achievement 5 */}
-                <div className="text-center">
-                  <img
-                    src="/images/badge-award5.png"
-                    alt="Coding Guru Badge"
-                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
-                  />
-                  <p className="text-xs font-semibold lg:text-lg">Maths Whiz</p>
-                </div>
-                {/* Achievement 6 */}
-                <div className="text-center">
-                  <img
-                    src="/images/badge-award6.png"
-                    alt="Coding Guru Badge"
-                    className="mx-auto mb-2 w-20 lg:w-[108px]  rounded-full shadow"
-                  />
-                  <p className="text-xs font-semibold lg:text-lg">Physics Champ</p>
-                </div>
 
+              <div className="flex flex-wrap justify-around">
+                {[
+                  { src: "/images/badge-award1.png", alt: "mathWhiz", key: "mathWhiz" },
+                  { src: "/images/badge-award2.png", alt: "scienceStar", key: "scienceStar" },
+                  { src: "/images/badge-award3.png", alt: "literatureLover", key: "literatureLover" },
+                  { src: "/images/badge-award4.png", alt: "historyBuff", key: "historyBuff" },
+                  { src: "/images/badge-award5.png", alt: "codingGuru", key: "codingGuru" },
+                  { src: "/images/badge-award6.png", alt: "physicsChamp", key: "physicsChamp" }
+                ].map((badge) => (
+                  <div key={badge.key} className="text-center">
+                    <img
+                      src={badge.src}
+                      alt={t(`homePage.achievements.badges.${badge.alt}.alt`)}
+                      className="mx-auto mb-2 w-20 lg:w-32 rounded-full border-8 border-gray-100 shadow"
+                    />
+                    <p className="text-xs font-semibold lg:text-sm">{t(`homePage.achievements.badges.${badge.alt}.label`)}</p>
+                  </div>
+                ))}
               </div>
             </section>
             {/* <!-- DAILY TRIVIA --> */}
             <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold lg:text-2xl">Daily Trivia</h3>
-              <p className="text-base mb-4 leading-relaxed">
-                Boost your knowledge with a quick question! Earn points for correct answers.
-              </p>
+              <h3 className="text-lg font-bold lg:text-2xl">{t("homePage.dailyTrivia.title")}</h3>
+              <p className="text-base mb-4 leading-relaxed">{t("homePage.dailyTrivia.description")}</p>
+
               <div className="flex py-4 px-8 border border-neutral-600 rounded-lg">
                 <div className="w-3/4">
-                  <p className="text-sm font-semibold mb-2 lg:text-lg">
-                    Question: What is the capital of Australia?
-                  </p>
+                  <p className="text-sm font-semibold mb-2 lg:text-lg">{t("homePage.dailyTrivia.question")}</p>
                   <ul className="space-y-1 text-sm lg:text-lg">
                     <li>
-                      <input type="radio" name="trivia" className="mr-2" /> Sydney
+                      <input type="radio" name="trivia" className="mr-2" />
+                      {t("homePage.dailyTrivia.options.sydney.label")}
                     </li>
                     <li>
-                      <input type="radio" name="trivia" className="mr-2" /> Canberra
+                      <input type="radio" name="trivia" className="mr-2" />
+                      {t("homePage.dailyTrivia.options.canberra.label")}
                     </li>
                     <li>
-                      <input type="radio" name="trivia" className="mr-2" /> Melbourne
+                      <input type="radio" name="trivia" className="mr-2" />
+                      {t("homePage.dailyTrivia.options.melbourne.label")}
                     </li>
                     <li>
-                      <input type="radio" name="trivia" className="mr-2" /> Perth
+                      <input type="radio" name="trivia" className="mr-2" />
+                      {t("homePage.dailyTrivia.options.perth.label")}
                     </li>
                   </ul>
                   <button
                     className="mt-3 px-8 py-2 text-md lg:text-sm font-medium bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa]"
                     type="button"
-                    onClick={() => alert('Answer submitted!')}
+                    onClick={() => alert(t("homePage.dailyTrivia.alertMessage"))}
                   >
-                    Submit
+                    {t("homePage.dailyTrivia.buttonText")}
                   </button>
-
                 </div>
                 <div className="w-1/4">
-                  <img src="/images/dailyTriva.png" alt="daily Triva" className="" />
+                  <img src="/images/dailyTriva.png" alt="daily Trivia" />
                 </div>
               </div>
-
             </section>
+
+
             {/* <!-- UPCOMING QUIZZES (5 items) --> */}
-            <section className="bg-white rounded shadow p-5  my-4">
-              <h3 className="text-lg font-bold mb-3 lg:text-2xl">Upcoming Quizzes & Tests</h3>
+            <section className="bg-white rounded shadow p-5 my-4">
+              <h3 className="text-lg font-bold mb-3 lg:text-2xl">{t("homePage.upcomingQuizzes.title")}</h3>
               <ul className="space-y-1 text-sm lg:text-lg">
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-
-                  <div><span className="font-sans font-medium">Mar 15, 4 PM:</span>{' '}
-                    <span className="italic">Algebra Quiz (Ch. 5-7)</span>{' '}</div>
+                  <div>
+                    <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz1.dateTime")}:</span>{' '}
+                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz1.title")}</span>
+                  </div>
                   <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
-                    Remind Me
+                    {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
+
                 <li className="flex justify-between bg-gray-50 p-3 rounded-md">
-
-                  <div><span className="font-sans font-medium">Mar 18, 2 PM:</span>{' '}
-                    <span className="italic">Biology: Cell Structure Test</span>{' '}</div>
+                  <div>
+                    <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz2.dateTime")}:</span>{' '}
+                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz2.title")}</span>
+                  </div>
                   <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
-                    Remind Me
+                    {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
+
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-
-                  <div><span className="font-sans font-medium">Mar 20, 10 AM:</span>{' '}
-                    <span className="italic">Geography: Maps & Regions Quiz</span>{' '}</div>
+                  <div>
+                    <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz3.dateTime")}:</span>{' '}
+                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz3.title")}</span>
+                  </div>
                   <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
-                    Remind Me
+                    {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
+
                 <li className="flex justify-between bg-gray-50 p-3 rounded-md">
-
-                  <div><span className="font-sans font-medium">Mar 25, 1 PM:</span>{' '}
-                    <span className="italic">Programming: Array Challenges</span>{' '}</div>
+                  <div>
+                    <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz4.dateTime")}:</span>{' '}
+                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz4.title")}</span>
+                  </div>
                   <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
-                    Remind Me
+                    {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
+
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div><span className="font-sans font-medium">Mar 28, 11 AM:</span>{' '}
-                    <span className="italic">History: Medieval Era Test</span>{' '}</div>
+                  <div>
+                    <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz5.dateTime")}:</span>{' '}
+                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz5.title")}</span>
+                  </div>
                   <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
-                    Remind Me
+                    {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
               </ul>
             </section>
 
+
             {/* <!-- TEAM / CLAN LEADERBOARD (5 items) --> */}
             <section className="bg-white rounded shadow p-5 my-4">
-              <h3 className="text-lg font-bold  lg:text-2xl">Community Leaderboard</h3>
-              <p className="text-base mb-4 leading-relaxed">
-                Top contributors in the forum this week:
-              </p>
+              <h3 className="text-lg font-bold lg:text-2xl">{t("homePage.leaderboard.title")}</h3>
+              <p className="text-base mb-4 leading-relaxed">{t("homePage.leaderboard.description")}</p>
+
               <ol className="list-decimal list-inside text-sm space-y-1 lg:text-lg">
-                <li><span className="font-sans font-medium">AlgebraNerd007</span> – 1200 points</li>
-                <li><span className="font-sans font-medium">PhysicsPro99</span> – 1100 points</li>
-                <li><span className="font-sans font-medium">BioWizard</span> – 950 points</li>
-                <li><span className="font-sans font-medium">CodingGuru</span> – 900 points</li>
-                <li><span className="font-sans font-medium">LiteratureLover</span> – 850 points</li>
+                <li>
+                  <span className="font-sans font-medium">{t("homePage.leaderboard.users.user1.name")}</span> –
+                  {t("homePage.leaderboard.users.user1.points")}
+                </li>
+                <li>
+                  <span className="font-sans font-medium">{t("homePage.leaderboard.users.user2.name")}</span> –
+                  {t("homePage.leaderboard.users.user2.points")}
+                </li>
+                <li>
+                  <span className="font-sans font-medium">{t("homePage.leaderboard.users.user3.name")}</span> –
+                  {t("homePage.leaderboard.users.user3.points")}
+                </li>
+                <li>
+                  <span className="font-sans font-medium">{t("homePage.leaderboard.users.user4.name")}</span> –
+                  {t("homePage.leaderboard.users.user4.points")}
+                </li>
+                <li>
+                  <span className="font-sans font-medium">{t("homePage.leaderboard.users.user5.name")}</span> –
+                  {t("homePage.leaderboard.users.user5.points")}
+                </li>
               </ol>
 
               <a href="#" className="text-sm text-[#418BBB] font-semibold underline mt-2 inline-block lg:text-sm">
-                View Full Leaderboard
+                {t("homePage.leaderboard.viewFullLeaderboard")}
               </a>
             </section>
+
             {/* <!-- COLLABORATION / STUDY GROUPS --> */}
             {/* <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold mb-3 lg:text-xl">Collaboration & Study Groups</h3>
@@ -405,43 +398,32 @@ const HomePage = () => {
 
             </section> */}
             {/* <!-- PROMO / INFO CARDS (Pro upgrade, limited offer) --> */}
-            <section className="flex flex-col md:flex-row md:space-x-4 my-4 ">
+            <section className="flex flex-col md:flex-row md:space-x-4 my-4">
               <div className="bg-pink-50 border justify-between border-pink-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow mb-4 md:mb-0">
                 <div>
-                  <h4 className="text-sm font-bold text-pink-600 mb-2 lg:text-2xl">Upgrade to Pro</h4>
-                  <p className=" text-gray-700 mb-3 lg:text-md">
-                    Get unlimited AI queries, voice mode, advanced analytics, and more with our Pro plan.
-                  </p>
+                  <h4 className="text-sm font-bold text-pink-600 mb-2 lg:text-2xl">{t("homePage.upgradePro.title")}</h4>
+                  <p className="text-gray-700 mb-3 lg:text-md">{t("homePage.upgradePro.description")}</p>
                 </div>
-                <button
-                  className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm"
-                >
-                  Upgrade Pro
+                <button className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm">
+                  {t("homePage.upgradePro.buttonText")}
                 </button>
-
               </div>
+
               <div className="flex flex-col bg-purple-50 border justify-between border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow">
                 <div>
-                  <h4 className="text-sm font-bold text-[#418BBB] mb-2 lg:text-2xl">Limited Time Offer</h4>
-                  <p className=" text-gray-700  lg:text-md text-semibold">
-                    Use code <strong>STUDY20</strong> at checkout to get 20% off your first 3 months.
-                  </p>
-                  <p className=" text-gray-600 italic font-semibold lg:text-md">Hurry—offer ends soon!</p>
+                  <h4 className="text-sm font-bold text-[#418BBB] mb-2 lg:text-2xl">{t("homePage.limitedTimeOffer.title")}</h4>
+                  <p className="text-gray-700 lg:text-md text-semibold">{t("homePage.limitedTimeOffer.description")}</p>
+                  <p className="text-gray-600 italic font-semibold lg:text-md">{t("homePage.limitedTimeOffer.offerEndsSoon")}</p>
                 </div>
 
                 <div>
-
-                  <button
-                    className="bg-[#418BBB] text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-[#3776a0] transition-colors lg:text-sm"
-                  >
-                    Upgrade Pro
+                  <button className="bg-[#418BBB] text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-[#3776a0] transition-colors lg:text-sm">
+                    {t("homePage.limitedTimeOffer.buttonText")}
                   </button>
                 </div>
-
-
               </div>
-
             </section>
+
             {/* <!-- ========== REFERRAL / AFFILIATE SECTION ========== --> */}
             {/* <section id="referral" className="bg-red-50 p-6 rounded shadow my-4">
               <h2 className="text-2xl font-bold mb-2">Referral & Affiliate Program</h2>

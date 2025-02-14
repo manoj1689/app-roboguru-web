@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState, AppDispatch } from "../redux/store";
 import { fetchUserProfile } from "@/redux/slices/profileSlice"; // Import the thunk
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
 
 
 const Sidebar: React.FC = () => {
+  const { t } = useTranslation(); 
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
 
@@ -116,28 +118,28 @@ const Sidebar: React.FC = () => {
             onClick={() => handleNavigation("/ChatSessionsList")}
             className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center "
           >
-             <span><img src="/images/sidebar/feedback.png" alt="feedback" className="w-[24px]" /></span> <span>Chat History</span>
+             <span><img src="/images/sidebar/feedback.png" alt="feedback" className="w-[24px]" /></span> <span>{t("sidebar.chatHistory")}</span>
           </div>
           <div onClick={() => handleNavigation("/JoinCommunity")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center ">
-            <span ><img src="/images/sidebar/community.png" alt="community" className="w-[24px]" /></span> <span>Join Our Community</span>
+            <span ><img src="/images/sidebar/community.png" alt="community" className="w-[24px]" /></span> <span> {t("sidebar.joinCommunity")}</span>
           </div>
           <div onClick={() => handleNavigation("/Feedback")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center ">
-            <span><img src="/images/sidebar/feedback.png" alt="feedback" className="w-[24px]" /></span> <span>Feedback</span>
+            <span><img src="/images/sidebar/feedback.png" alt="feedback" className="w-[24px]" /></span> <span>{t("sidebar.feedback")}</span>
           </div>
           <div onClick={() => handleNavigation("/RequestSubject")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/reqSubject.png" alt="request subject" className="w-[24px]" /></span> <span>Request Subject</span>
+            <span><img src="/images/sidebar/reqSubject.png" alt="request subject" className="w-[24px]" /></span> <span>{t("sidebar.requestSubject")}</span>
           </div>
           <div onClick={() => handleNavigation("/RequestTopic")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/reqTopic.png" alt="request topic" className="w-[24px]" /></span> <span>Request Topic</span>
+            <span><img src="/images/sidebar/reqTopic.png" alt="request topic" className="w-[24px]" /></span> <span>{t("sidebar.requestTopic")}</span>
           </div>
           <div onClick={() => handleNavigation("/Subscriptiondetail")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/subscription.png" alt="subscription details" className="w-[24px]" /></span> <span>Subscription Details</span>
+            <span><img src="/images/sidebar/subscription.png" alt="subscription details" className="w-[24px]" /></span> <span>{t("sidebar.subscriptionDetails")}</span>
           </div>
           <div onClick={() => handleNavigation("/FAQ")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/FAQ.png" alt="faq" className="w-[24px]" /></span> <span>FAQ</span>
+            <span><img src="/images/sidebar/FAQ.png" alt="faq" className="w-[24px]" /></span> <span>{t("sidebar.faq")}</span>
           </div>
           <div onClick={() => handleNavigation("/AppSetting")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal  mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/appSetting.png" alt="app setting" className="w-[24px]" /></span> <span>App Setting</span>
+            <span><img src="/images/sidebar/appSetting.png" alt="app setting" className="w-[24px]" /></span> <span>{t("sidebar.appSetting")}</span>
           </div>
         </nav>
       </div>

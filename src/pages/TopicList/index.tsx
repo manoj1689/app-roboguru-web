@@ -7,7 +7,7 @@ import {
 import { resetChat } from "../../redux/slices/chatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
-import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice"; 
+import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice";
 import Layout from "@/components/HomeLayout";
 import { BsChatLeftText } from "react-icons/bs";
 import { IoMdMic } from "react-icons/io";
@@ -102,16 +102,16 @@ const TopicScreen = () => {
 
     router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&chatSessionId=${sessionId}`);
   };
-  
+
   const handleSubTopicChat = async (topicId: string, subTopicId: number) => {
     if (!sessionId) {
       console.error("Session ID is null, waiting for session...");
       return;
     }
-      router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&subtopicId=${subTopicId}&chatSessionId=${sessionId}`);
-    }; 
-  
-  
+    router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&subtopicId=${subTopicId}&chatSessionId=${sessionId}`);
+  };
+
+
   const goBack = () => {
     router.back();
   };
@@ -131,18 +131,30 @@ const TopicScreen = () => {
 
   return (
     <Layout>
-   
+
       <section className="flex w-full flex-col container  mx-auto px-4" >
-    
-     <TestBar />
-     
+
+        <div className="flex w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+          <div>
+            <TestBar />
+          </div>
+          <div>
+            <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
+              onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}`)}
+            >
+              Take a Test
+            </button>
+          </div>
+
+        </div>
+
         {currentChapter && (
 
 
           <div className="flex gap-4 items-center bg-gray-100 p-4 my-4">
 
             <div className="">
-              <FaArrowLeftLong  size={25} color="black" onClick={goBack} className="hover:cursor-pointer" />
+              <FaArrowLeftLong size={25} color="black" onClick={goBack} className="hover:cursor-pointer" />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-black">{currentChapter.name}</h2>
@@ -151,9 +163,9 @@ const TopicScreen = () => {
 
           </div>
         )}
-       
 
-     
+
+
         <div className="flex flex-col mt-4 gap-4">
           {visibleTopics.map((topic: any, index: number) => (
             <div
@@ -167,23 +179,23 @@ const TopicScreen = () => {
                       <p className="text-sm text-black mb-2">{topic.tagline}</p>
                     </div>
                     <div className="flex gap-2 max-md:flex-col justify-center items-center pr-12">
-                    <div className="flex w-full  md:w-5/6">
-                   <span className="w-full">
-                   <Line
-                     percent={progressValues[topic.id] || 10} // Default to 10% if missing
-                     strokeWidth={1.5}
-                     trailWidth={1.5}
-                     strokeColor="#63A7D4"
-                     trailColor="#CDE6F7"
-                   />
-                   </span>
-                 
-                 </div>
-                 <div className="flex w-full md:w-1/6">
-                 <div> <span className=" text-[#418BBB] space-x-2 text-semibold"><span className="font-semibold">progress:</span><span className="text-semibold text-stone-800">{progressValues[topic.id] || 10}%</span></span></div>
-                 </div>
+                      <div className="flex w-full  md:w-5/6">
+                        <span className="w-full">
+                          <Line
+                            percent={progressValues[topic.id] || 10} // Default to 10% if missing
+                            strokeWidth={1.5}
+                            trailWidth={1.5}
+                            strokeColor="#63A7D4"
+                            trailColor="#CDE6F7"
+                          />
+                        </span>
+
+                      </div>
+                      <div className="flex w-full md:w-1/6">
+                        <div> <span className=" text-[#418BBB] space-x-2 text-semibold"><span className="font-semibold">progress:</span><span className="text-semibold text-stone-800">{progressValues[topic.id] || 10}%</span></span></div>
+                      </div>
                     </div>
-                    
+
                     <div className="flex w-full justify-start">
                       {topic.subtopics?.length > 0 && (
                         <button
@@ -207,7 +219,7 @@ const TopicScreen = () => {
                   <div className="flex justify-center items-center p-2">
                     <button
 
-                      onClick={()=>handleTopicChat(topic.id)}
+                      onClick={() => handleTopicChat(topic.id)}
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
                       <span className="px-2"><BsChatLeftText /></span>Chat
@@ -223,7 +235,7 @@ const TopicScreen = () => {
                 {expandedTopics[topic.id] && topic.subtopics?.length > 0 && (
                   <div className="flex flex-col gap-4 p-4 ">
                     {topic.subtopics.map((subtopic: any, subIndex: number) => (
-                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer" onClick={()=>handleSubTopicChat(topic.id,subIndex)} >
+                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer" onClick={() => handleSubTopicChat(topic.id, subIndex)} >
                         <div className="flex gap-4">
                           <div className="text-cyan-600">
                             <BsArrowUpRight size={20} />
@@ -238,7 +250,7 @@ const TopicScreen = () => {
                           className="flex cursor-pointer text-[#51AAD4] transition-all gap-8"
                         >
                           <IoChatbubbles size={25} />
-                          <IoMdMic  size={25} />
+                          <IoMdMic size={25} />
                         </div>
                       </div>
                     ))}

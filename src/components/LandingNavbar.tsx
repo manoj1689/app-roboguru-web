@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next"; // Import translation hook
+import i18n from "@/utils/i18n"; // Import i18n configuration
+
 
 const Navbar: React.FC = () => {
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -57,27 +61,27 @@ const Navbar: React.FC = () => {
 
           {/* Left: Logo */}
           <div className="flex max-md:w-1/3 items-center space-x-2">
-          <div className="  ">
-                        {/* Logo */}
-                        <div className="hidden md:flex max-lg:pl-8  items-center space-x-2">
-                            <Link href="/Home">
-                                <img
-                                    src="/images/robologo.png"
-                                    alt="RoboGuru Logo"
-                                    className="w-32 sm:w-48 cursor-pointer"
-                                />
-                            </Link>
-                        </div>
-                        <div className="md:hidden flex pl-4  items-center space-x-2">
-                            <Link href="/Home">
-                                <img
-                                    src="/images/robo-logo.png"
-                                    alt="RoboGuru Logo"
-                                    className="w-12 cursor-pointer"
-                                />
-                            </Link>
-                        </div>
-                    </div>
+            <div className="  ">
+              {/* Logo */}
+              <div className="hidden md:flex max-lg:pl-8  items-center space-x-2">
+                <Link href="/">
+                  <img
+                    src="/images/robologo.png"
+                    alt="RoboGuru Logo"
+                    className="w-32 sm:w-48 cursor-pointer"
+                  />
+                </Link>
+              </div>
+              <div className="md:hidden flex pl-4  items-center space-x-2">
+                <Link href="/">
+                  <img
+                    src="/images/robo-logo.png"
+                    alt="RoboGuru Logo"
+                    className="w-12 cursor-pointer"
+                  />
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Middle: Navigation */}
@@ -88,53 +92,57 @@ const Navbar: React.FC = () => {
           >
             <ul className="flex max-md:flex-col space-y-4 md:space-y-0 sm:space-x-2 lg:space-x-6 items-center max-md:py-4 max-md:px-4">
               <li>
-                <a href="#features" className=" text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
-                  Features
+                <a href="#features" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
+                  {t("landingNavbar.features")}
                 </a>
               </li>
               <li>
-                <a href="#how-it-works" className=" text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
-                  How It Works
+                <a href="#how-it-works" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
+                  {t("landingNavbar.howItWorks")}
                 </a>
               </li>
               <li>
-                <a href="#community" className=" text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
-                  Community
+                <a href="#community" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
+                  {t("landingNavbar.community")}
                 </a>
               </li>
               <li className="max-lg:hidden">
-                <a href="#pricing" className="  text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
-                  Pricing
+                <a href="#pricing" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
+                  {t("landingNavbar.pricing")}
                 </a>
               </li>
               <li>
-                <a href="#faq" className="  text-white  md:text-[#1E2630] text-md font-medium  md:hover:text-[#63A7D4]">
-                  FAQ
+                <a href="#faq" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
+                  {t("landingNavbar.faq")}
                 </a>
               </li>
-            
             </ul>
           </nav>
 
-          {/* Right: Auth Buttons & Download */}
+          {/* Right: Language Selector & Auth Buttons */}
           <div className="flex max-md:w-2/3 justify-end items-center space-x-4">
-           
-              <a
-                href="#download"
-                className="border text-[#1E2630] text-md font-medium  border-[#418BBB]   rounded-sm  p-2 "
-              >
-                Download
-              </a>
-         
+            <select
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              value={i18n.language}
+              className="px-4 py-2 text-sm font-medium text-black rounded-lg outline-none"
+            >
+              <option value="en">English</option>
+              <option value="hi">हिन्दी</option>
+            </select>
+
+            <a href="#download" className="border text-[#1E2630] text-md font-medium border-[#418BBB] rounded-sm p-2">
+              {t("landingNavbar.download")}
+            </a>
+
             {/* Sign In Button */}
             <Link href="/Signin">
-              <button className="  border border-[#418BBB] rounded-sm bg-[#418BBB] px-4 py-2  text-white hover:bg-[#357AA0] ">
-                Sign In
+              <button className="border border-[#418BBB] rounded-sm bg-[#418BBB] px-4 py-2 text-white hover:bg-[#357AA0]">
+                {t("landingNavbar.signIn")}
               </button>
             </Link>
-
-
           </div>
+
+
         </div>
       </div>
     </header>

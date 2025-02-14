@@ -27,19 +27,14 @@ function TestBar() {
     return (
         <div>
             {/* <!-- GREETING BANNER + QUICK STATS --> */}
-            <section className="flex w-full rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+            <section className="">
                 <div className="flex w-full flex-col md:flex-row md:items-center md:justify-between px-4">
                     <div>
                         <h2 className="text-2xl font-bold mb-1">Hello, {profileData?.name || "User"}!</h2>
                         <p className="text-sm text-white font-medium">Keep up the momentum with your daily goals and new topics!</p>
                     </div>
                     {/* Quick Stats Example */}
-                    <div>
-                        <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80">
-                            Take a Test
-                        </button>
-                    </div>
-
+                   
                 </div>
             </section>
 

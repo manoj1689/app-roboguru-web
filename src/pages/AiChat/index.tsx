@@ -407,7 +407,11 @@ const AiChatComponent = () => {
               <p><strong>Chapter:</strong> {chapterName}</p>
 
             </div>
-
+            <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
+              onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}`)}
+            >
+              Take a Test
+            </button>
           </div>
 
           <div className=" w-full    rounded-lg"  >

@@ -4,114 +4,104 @@ import Link from 'next/link';
 import Layout from '@/components/LandingLayout';
 import { useRouter } from 'next/router';
 import { FaArrowLeft } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 
-const index = () => {
+const PrivacyPolicy = () => {
+    const { t } = useTranslation();
     const router = useRouter();
-    const handleNavigation = (path: string) => {
 
-        // Navigate to the selected page
+    const handleNavigation = (path: string) => {
         router.push(path);
     };
+
     return (
         <div>
             <Layout>
-                <section className="  px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] " >
-                    {/* Gradient overlay */}
-
+                <section className="px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE]">
                     <div
                         onClick={() => handleNavigation("/Landing")}
-                        className="flex  container mx-auto hover:text-pink-300 font-bold  gap-3 items-center text-white cursor-pointer"
+                        className="flex container mx-auto hover:text-pink-300 font-bold gap-3 items-center text-white cursor-pointer"
                     >
                         <span><FaArrowLeft size={16} /></span><span>Back</span>
                     </div>
                     <div className="container mx-auto text-center rounded">
-                        <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">Privacy Policy</h1>
-                        <p className="text-md md:text-lg leading-relaxed text-center text-white font-medium ">
-                            Your privacy is important to us. Learn about how we collect, use, and protect your personal data.
+                        <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">{t("privacyPolicy.title")}</h1>
+                        <p className="text-md md:text-lg leading-relaxed text-center text-white font-medium">
+                            {t("privacyPolicy.description")}
                         </p>
                     </div>
                 </section>
-                <main className="container mx-auto  p-4">
+
+                <main className="container mx-auto p-4">
 
                     {/* Introduction Section */}
                     <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Introduction</h2>
-                        <p className="text-md">
-                            At RoboGuru, we are committed to protecting your privacy. This Privacy Policy explains what information we collect, how we use it, and the measures we take to ensure its security.
-                        </p>
+                        <h2 className="text-2xl font-bold mb-4">{t("privacyPolicy.sections.introduction.title")}</h2>
+                        <p className="text-md">{t("privacyPolicy.sections.introduction.content")}</p>
                     </section>
 
                     {/* Information Collection Section */}
                     <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Information We Collect</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t("privacyPolicy.sections.informationCollection.title")}</h2>
                         <ul className="list-disc list-inside space-y-2 ml-4">
-                            <li><span className='font-semibold'>Personal Information:</span> Name, email address, phone number, etc.</li>
-                            <li><span className='font-semibold'>Usage Data: </span> Information about how you use our platform, including interactions and preferences.</li>
-                            <li><span className='font-semibold'>Device Information: </span>  Device type, operating system, and browser details.</li>
+                            {[0, 1, 2].map(index => (
+                                <li key={index}>
+                                    <span className='font-semibold'>{t(`privacyPolicy.sections.informationCollection.points.${index}.label`)}:</span> 
+                                    {t(`privacyPolicy.sections.informationCollection.points.${index}.description`)}
+                                </li>
+                            ))}
                         </ul>
                     </section>
 
                     {/* How We Use Your Information Section */}
                     <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-                        <h2 className="text-2xl font-bold mb-4">How We Use Your Information</h2>
-                        <p className="text-sm mb-4">
-                            We use the information we collect for the following purposes:
-                        </p>
+                        <h2 className="text-2xl font-bold mb-4">{t("privacyPolicy.sections.howWeUse.title")}</h2>
+                        <p className="text-sm mb-4">{t("privacyPolicy.sections.howWeUse.intro")}</p>
                         <ul className="list-disc list-inside space-y-2 ml-4">
-                            <li>To provide and improve our services.</li>
-                            <li>To personalize your learning experience.</li>
-                            <li>To communicate with you about updates and new features.</li>
-                            <li>To ensure the security and functionality of our platform.</li>
+                            {[0, 1, 2, 3].map(index => (
+                                <li key={index}>{t(`privacyPolicy.sections.howWeUse.points.${index}`)}</li>
+                            ))}
                         </ul>
                     </section>
 
                     {/* Data Protection Section */}
                     <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-                        <h2 className="text-2xl font-bold mb-4">How We Protect Your Data</h2>
-                        <p className="text-md">
-                            We implement industry-standard security measures to protect your personal data from unauthorized access, disclosure, alteration, or destruction. This includes encryption, access controls, and regular security audits.
-                        </p>
+                        <h2 className="text-2xl font-bold mb-4">{t("privacyPolicy.sections.dataProtection.title")}</h2>
+                        <p className="text-md">{t("privacyPolicy.sections.dataProtection.content")}</p>
                     </section>
 
                     {/* Third-Party Sharing Section */}
                     <section className="bg-white shadow-md rounded-lg p-4 mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Third-Party Sharing</h2>
-                        <p className="text-md">
-                            We do not sell your personal information to third parties. However, we may share data with trusted partners to improve our services, comply with legal obligations, or protect our users' safety.
-                        </p>
+                        <h2 className="text-2xl font-bold mb-4">{t("privacyPolicy.sections.thirdPartySharing.title")}</h2>
+                        <p className="text-md">{t("privacyPolicy.sections.thirdPartySharing.content")}</p>
                     </section>
 
-                    {/* Your Rights Section */}
-                    {/* <section className="text-left bg-white py-8 px-12 mt-12">
-                        <h2 className="text-2xl font-bold mb-4">Your Rights</h2>
-                        <p className="text-sm mb-4">
-                            You have the right to:
-                        </p>
-                        <ul className="list-disc list-inside space-y-2 ml-4">
-                            <li>Access your personal information.</li>
-                            <li>Request correction or deletion of your data.</li>
-                            <li>Opt-out of receiving marketing communications.</li>
-                            <li>File a complaint with a data protection authority.</li>
-                        </ul>
-                    </section> */}
-
                     {/* Contact Section */}
-                    <section className="bg-white shadow-md rounded-lg p-4 ">
-                        <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-                        <p className="text-md">
-                            If you have any questions or concerns about our Privacy Policy, please contact us at:
-                        </p>
+                    <section className="bg-white shadow-md rounded-lg p-4">
+                        <h2 className="text-2xl font-bold mb-4">{t("privacyPolicy.sections.contactUs.title")}</h2>
+                        <p className="text-md">{t("privacyPolicy.sections.contactUs.intro")}</p>
                         <ul className="list-disc list-inside space-y-2 ml-4 mt-4">
-                            <li>Email: <Link href="mailto:privacy@roboguru.com" className="text-sky-600 text-semibold hover:underline">privacy@roboguru.com</Link></li>
-                            <li>Phone: <Link href="tel:+1234567890" className="text-sky-600 text-semibold  hover:underline">+1 234 567 890</Link></li>
-                            <li>Address: 123 RoboGuru Lane, AI City, Techland</li>
+                            <li>
+                                {t("privacyPolicy.sections.contactUs.contacts.email.label")}: 
+                                <Link href={`mailto:${t("privacyPolicy.sections.contactUs.contacts.email.value")}`} className="text-sky-600 text-semibold hover:underline">
+                                    {t("privacyPolicy.sections.contactUs.contacts.email.value")}
+                                </Link>
+                            </li>
+                            <li>
+                                {t("privacyPolicy.sections.contactUs.contacts.phone.label")}: 
+                                <Link href={`tel:${t("privacyPolicy.sections.contactUs.contacts.phone.value")}`} className="text-sky-600 text-semibold hover:underline">
+                                    {t("privacyPolicy.sections.contactUs.contacts.phone.value")}
+                                </Link>
+                            </li>
+                            <li>
+                                {t("privacyPolicy.sections.contactUs.contacts.address.label")}: {t("privacyPolicy.sections.contactUs.contacts.address.value")}
+                            </li>
                         </ul>
                     </section>
                 </main>
             </Layout>
         </div>
-
     );
 }
 
-export default index
+export default PrivacyPolicy;
