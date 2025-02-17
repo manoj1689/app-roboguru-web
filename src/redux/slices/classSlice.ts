@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../../services/api";
+import axiosApi from "../../services/api";
 
 // Define the state interface for classes
 interface Class {
@@ -34,7 +34,7 @@ export const fetchClasses = createAsyncThunk(
     try {
       console.log("Fetching classes with:", { limit, name });
 
-      const response = await axios.get("/classes/read_class_list", {
+      const response = await axiosApi.get("/classes/read_class_list", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -68,7 +68,7 @@ export const fetchClassDetails = createAsyncThunk(
     try {
       
 
-      const response = await axios.get(`/classes/level/${class_id}`, {
+      const response = await axiosApi.get(`/classes/level/${class_id}`, {
         headers: {
           "Content-Type": "application/json",
         },

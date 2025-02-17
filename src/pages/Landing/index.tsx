@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Layout from '@/components/LandingLayout';
 import Link from 'next/link';
 import { useTranslation } from "react-i18next";
@@ -7,6 +7,13 @@ function index() {
   const { t } = useTranslation();
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Prevent rendering until mounted
 
   const discussions = [
     {

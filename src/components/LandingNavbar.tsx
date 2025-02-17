@@ -130,7 +130,7 @@ const Navbar: React.FC = () => {
               <option value="hi">हिन्दी</option>
             </select>
 
-            <a href="#download" className="border text-[#1E2630] text-md font-medium border-[#418BBB] rounded-sm p-2">
+            <a href="#download" className="border hidden lg:block text-[#1E2630] text-md font-medium border-[#418BBB] rounded-sm p-2">
               {t("landingNavbar.download")}
             </a>
 

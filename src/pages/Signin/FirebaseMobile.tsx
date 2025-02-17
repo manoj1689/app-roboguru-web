@@ -6,8 +6,11 @@ import { useRouter } from 'next/navigation';
 import { firebaseLogin } from '@/redux/slices/firebaseAuthSlice';
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch } from 'react-redux';
+import { useTranslation } from "next-i18next";
+
 const FirebaseMobile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [formattedPhone, setFormattedPhone] = useState<string>('');
@@ -16,7 +19,7 @@ const FirebaseMobile: React.FC = () => {
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false); // Added loading state
-
+  const [mounted, setMounted] = useState(false);
   const auth = getAuth(app); // Correctly initialize Firebase auth
   const router = useRouter();
 
@@ -29,15 +32,18 @@ const FirebaseMobile: React.FC = () => {
         {
           size: 'normal',
           callback: (response: string) => {
-            console.log('reCAPTCHA solved:', response);
+            console.log(t("signInPage.recaptcha.solvedMessage"), response);
           },
           'expired-callback': () => {
-            console.warn('reCAPTCHA expired. Solve it again.');
+            console.warn(t("signInPage.recaptcha.expiredMessage"));
           },
         }
       );
     }
   }, [auth]);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const formatPhoneNumber = (phone: string): string => {
     const cleaned = phone.replace(/\D+/g, ''); // Remove non-numeric characters
@@ -61,7 +67,7 @@ const FirebaseMobile: React.FC = () => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
     setOtp(newOtp);
-  
+
     // Automatically move focus to the next input if filled
     if (e.target.value && index < otp.length - 1) {
       const nextInput = document.getElementById(`otp-input-${index + 1}`);
@@ -70,13 +76,14 @@ const FirebaseMobile: React.FC = () => {
       }
     }
   };
-  
+
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent form submission
     setError(null);
     if (!phoneNumber) {
-      setError('Please enter a valid phone number.');
+      setError(t("signInPage.errors.invalidPhone"));
+
       return;
     }
 
@@ -98,25 +105,25 @@ const FirebaseMobile: React.FC = () => {
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent form submission
     setError(null);
-  
+
     if (otp.some((digit) => digit === '') || !confirmation) {
-      setError('Please enter the OTP sent to your phone.');
+      setError(t("signInPage.errors.otpRequired"));
       return;
     }
-  
+
     setLoading(true); // Set loading true when verifying OTP
     try {
       const otpString = otp.join(''); // Join OTP array to string
       const result = await confirmation.confirm(otpString);
       const user = result.user;
       console.log('Phone number verified successfully!');
-      
+
       // Save the token in localStorage
       const token = await user.getIdToken(); // Get the Firebase authentication token
-      
+
       // Dispatch to firebaseLogin and navigate to Dashboard
       dispatch(firebaseLogin(token));
-  
+
       // Wait for the firebaseLogin to complete before navigating
       router.push('/'); // Redirect after successful verification
     } catch (err) {
@@ -126,22 +133,22 @@ const FirebaseMobile: React.FC = () => {
       setLoading(false); // Set loading false after OTP verification
     }
   };
-  
+
 
   return (
     <div className="firebase-mobile">
-    <div>
-    <div className="flex w-full text-6xl font-normal font-sans justify-center items-center ">LOGIN</div>
-    </div>
-     
+
+      <div className="flex w-full text-6xl font-normal font-sans justify-center items-center "> {mounted ? t("signInPage.login") : "Loading..."}</div>
+
+
       <div className="w-full max-w-md mx-auto">
-     
+
         {!otpSent ? (
           // Send OTP Form
           <form onSubmit={handleSendOtp} className="space-y-4 text-center">
-          <h3 className="text-gray-500 font-medium text-sm uppercase my-4">Enter your mobile number</h3>
+            <h3 className="text-gray-500 font-medium text-sm uppercase my-4">  {mounted ? t("signInPage.sections.phoneNumberInput.title") : "Loading..."}</h3>
 
-            
+
             <input
               type="text"
               placeholder="Ex, +919876543210"
@@ -150,26 +157,31 @@ const FirebaseMobile: React.FC = () => {
               onChange={handlePhoneNumberChange}
             />
             {/* <p className="text-gray-500 text-sm mt-2">Formatted Phone Number: <strong>{formattedPhone}</strong></p> */}
-           
+
             <button
               type="submit"
               className="w-full px-4 py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
               disabled={loading}
             >
-              {loading ? "Sending..." : "Get OTP"}
+              {mounted ? (loading ? t("signInPage.loadingMessages.sendingOtp") : t("signInPage.sections.phoneNumberInput.sendOtpButton")) : "Loading..."}
+
             </button>
+
             {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
-            <p className="text-gray-600 text-md pt-4">We will send you a 6-digit <br /> verification code.</p>
-            <div className='flex w-full justify-center items-center'>
-            <div id="recaptcha-container"></div>
+            <p className="text-gray-600 text-md pt-4">
+              {mounted ? t("signInPage.sections.phoneNumberInput.description") : "Loading..."}
+            </p>
+
+            <div className="flex w-full justify-center items-center">
+              <div id="recaptcha-container"></div>
             </div>
-       
           </form>
         ) : (
-          // Verify OTP Form
           <form onSubmit={handleVerifyOtp} className="space-y-4 text-center">
-            <h3 className="text-gray-700 font-medium text-lg">Enter the OTP</h3>
-         
+            <h3 className="text-gray-700 font-medium text-lg">
+              {mounted ? t("signInPage.sections.otpVerification.title") : "Loading..."}
+            </h3>
+
             <div className="flex justify-center space-x-2">
               {otp.map((digit, index) => (
                 <input
@@ -183,21 +195,32 @@ const FirebaseMobile: React.FC = () => {
                 />
               ))}
             </div>
+
             <button
               type="submit"
               className="w-full px-4 py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
               disabled={loading || otp.some((digit) => digit === '')}
             >
-              {loading ? "Verifying ..." : "Verify "}
+              {mounted
+                ? loading
+                  ? t("signInPage.loadingMessages.verifyingOtp")
+                  : t("signInPage.sections.otpVerification.verifyButton")
+                : "Loading..."}
             </button>
-            <div className='flex justify-center items-center '>
-            <button className='flex text-lg font-semibold text-[#418BBB] underline'> Re-send</button>
+
+            <div className="flex justify-center items-center">
+              <button className="flex text-lg font-semibold text-[#418BBB] underline">
+                {mounted ? t("signInPage.sections.otpVerification.resendOtp") : "Loading..."}
+              </button>
             </div>
-            <p className="text-gray-500 text-md pt-4">Enter the 6-digit code sent to <br/> your mobile number.</p>
+
+            <p className="text-gray-500 text-md pt-4">
+              {mounted ? t("signInPage.sections.otpVerification.instruction") : "Loading..."}
+            </p>
+
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}
-         
       </div>
     </div>
   );

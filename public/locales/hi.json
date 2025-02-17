@@ -837,7 +837,83 @@
     }
   },
   "homeFooter": {
-  "copyright": "© 2024 EramLabs. सभी अधिकार सुरक्षित।",
-  "tagline": "एआई के साथ नवाचार को सशक्त बनाना।"
-}
+    "copyright": "© 2024 EramLabs. सभी अधिकार सुरक्षित।",
+    "tagline": "एआई के साथ नवाचार को सशक्त बनाना।"
+  },
+  "signInPage": {
+    "title": "रोबो गुरु",
+    "subtitle": "सीखें, पूछें और कभी भी, कहीं भी बढ़ें।",
+    "login": "लॉगिन",
+    "sections": {
+      "phoneNumberInput": {
+        "title": "अपना मोबाइल नंबर दर्ज करें",
+        "description": "हम आपको एक 6-अंकीय सत्यापन कोड भेजेंगे।",
+        "sendOtpButton": "ओटीपी प्राप्त करें"
+      },
+      "otpVerification": {
+        "title": "ओटीपी दर्ज करें",
+        "instruction": "अपने मोबाइल नंबर पर भेजा गया 6-अंकीय कोड दर्ज करें।",
+        "verifyButton": "सत्यापित करें",
+        "resendOtp": "फिर से भेजें"
+      }
+    },
+    "errors": {
+      "invalidPhone": "कृपया एक मान्य मोबाइल नंबर दर्ज करें।",
+      "otpRequired": "कृपया अपने फ़ोन पर भेजा गया ओटीपी दर्ज करें।",
+      "otpFailed": "ओटीपी भेजने में विफल। कृपया पुनः प्रयास करें।"
+    },
+    "loadingMessages": {
+      "sendingOtp": "भेजा जा रहा है...",
+      "verifyingOtp": "सत्यापित किया जा रहा है..."
+    },
+    "recaptcha": {
+      "solvedMessage": "reCAPTCHA सफलतापूर्वक हल हो गया।",
+      "expiredMessage": "reCAPTCHA की समय सीमा समाप्त हो गई। कृपया इसे फिर से हल करें।"
+    },
+    "socialLogin": {
+      "or": "या",
+      "secureLogin": "सुरक्षित लॉगिन",
+      "platformText": "अपने पसंदीदा प्लेटफ़ॉर्म के साथ",
+      "sponsoredBy": "प्रायोजित द्वारा",
+      "companyName": "ईराम लैब्स",
+      "copyright": "कॉपीराइट @ मोबिराइज़र2024"
+    }
+  },
+    "profilePage": {
+      "title": "रोबो गुरु",
+      "subtitle": "कभी भी, कहीं भी सीखें, पूछें और बढ़ें।",
+      "login": "लॉगिन",
+      "profile": "प्रोफाइल",
+      "uploadImage": "छवि अपलोड करें",
+      "fullName": {
+        "label": "पूरा नाम",
+        "placeholder": "उदाहरण: जॉन डो"
+      },
+      "educationLevel": {
+        "label": "शिक्षा स्तर",
+        "placeholder": "शिक्षा स्तर चुनें"
+      },
+      "class": {
+        "label": "कक्षा",
+        "placeholder": "उदाहरण: कक्षा 7"
+      },
+      "email": {
+        "label": "ईमेल",
+        "placeholder": "उदाहरण: johndoe@example.com"
+      },
+      "language": {
+        "label": "भाषा चुनें",
+        "options": {
+          "english": "अंग्रेज़ी",
+          "hindi": "हिन्दी",
+          "french": "फ्रेंच"
+        }
+      },
+      "submit": "सबमिट करें",
+      "dataSecurity": "आपका व्यक्तिगत डेटा हमारे साथ सुरक्षित है।",
+      "sponsoredBy": "प्रायोजक",
+      "sponsorName": "ईराम लैब्स",
+      "copyright": "कॉपीराइट © मोबिराइज़र2024"
+    
+  }  
 }

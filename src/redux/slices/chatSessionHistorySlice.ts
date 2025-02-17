@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from '../../services/api'; // Adjust the path if needed
+import axiosApi from '../../services/api'; // Adjust the path if needed
 
 // Define the ChatSession interface
 interface ChatSession {
@@ -49,7 +49,7 @@ export const fetchChatSessions = createAsyncThunk<ChatSession[], void, { rejectV
   'chat/fetchChatSessions',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/chat/sessions', {
+      const response = await axiosApi.get('/chat/sessions', {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -69,7 +69,7 @@ export const fetchChatHistory = createAsyncThunk<ChatHistory, string, { rejectVa
   'chat/fetchChatHistory',
   async (sessionId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/chat/sessions/${sessionId}/chats`, {
+      const response = await axiosApi.get(`/chat/sessions/${sessionId}/chats`, {
         headers: { 'Content-Type': 'application/json' },
       });
 

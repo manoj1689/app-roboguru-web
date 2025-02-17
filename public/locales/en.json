@@ -841,8 +841,82 @@
     }
   },
   "homeFooter": {
-  "copyright": "© 2024 EramLabs. All rights reserved.",
-  "tagline": "Empowering innovation with AI."
-}
-
+    "copyright": "© 2024 EramLabs. All rights reserved.",
+    "tagline": "Empowering innovation with AI."
+  },
+  "signInPage": {
+    "title": "ROBO GURU",
+    "subtitle": "Learn, Ask, and Grow Anytime, Anywhere.",
+    "login": "LOGIN",
+    "sections": {
+      "phoneNumberInput": {
+        "title": "Enter your mobile number",
+        "description": "We will send you a 6-digit verification code.",
+        "sendOtpButton": "Get OTP"
+      },
+      "otpVerification": {
+        "title": "Enter the OTP",
+        "instruction": "Enter the 6-digit code sent to your mobile number.",
+        "verifyButton": "Verify",
+        "resendOtp": "Re-send"
+      }
+    },
+    "errors": {
+      "invalidPhone": "Please enter a valid phone number.",
+      "otpRequired": "Please enter the OTP sent to your phone.",
+      "otpFailed": "Failed to send OTP. Please try again."
+    },
+    "loadingMessages": {
+      "sendingOtp": "Sending...",
+      "verifyingOtp": "Verifying..."
+    },
+    "recaptcha": {
+      "solvedMessage": "reCAPTCHA solved successfully.",
+      "expiredMessage": "reCAPTCHA expired. Solve it again."
+    },
+    "socialLogin": {
+      "or": "OR",
+      "secureLogin": "Secure Login",
+      "platformText": "with Your Favorite Platform",
+      "sponsoredBy": "Sponsored by",
+      "companyName": "ERAM LABS",
+      "copyright": "Copyright @ Mobirizer2024"
+    }
+  },
+  "profilePage": {
+    "title": "ROBO GURU",
+    "subtitle": "Learn, Ask, and Grow Anytime, Anywhere.",
+    "login": "LOGIN",
+    "profile": "Profile",
+    "uploadImage": "Upload Image",
+    "fullName": {
+      "label": "Full Name",
+      "placeholder": "e.g. John Doe"
+    },
+    "educationLevel": {
+      "label": "Education Level",
+      "placeholder": "Select Education Level"
+    },
+    "class": {
+      "label": "Class",
+      "placeholder": "e.g. Class 7"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "e.g. johndoe@example.com"
+    },
+    "language": {
+      "label": "Select Language",
+      "options": {
+        "english": "English",
+        "hindi": "Hindi",
+        "french": "French"
+      }
+    },
+    "submit": "Submit",
+    "dataSecurity": "Your personal data is secure with us.",
+    "sponsoredBy": "Sponsored by",
+    "sponsorName": "ERAM LABS",
+    "copyright": "Copyright © Mobirizer2024"
+  }
 }

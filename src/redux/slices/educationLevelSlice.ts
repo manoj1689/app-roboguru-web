@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Async thunk to fetch education levels
 export const fetchEducationLevels = createAsyncThunk(
@@ -8,7 +8,7 @@ export const fetchEducationLevels = createAsyncThunk(
     try {
       console.log('Fetching education levels with:', { limit, name });
 
-      const response = await axios.get('/level/read_list', {
+      const response = await axiosApi.get('/level/read_list', {
         headers: {
           "Content-Type": "application/json",
         },
@@ -44,7 +44,7 @@ export const fetchEducationLevelById = createAsyncThunk(
     try {
       console.log('Fetching education level with ID:', levelId);
 
-      const response = await axios.get(`/level/${levelId}`, {
+      const response = await axiosApi.get(`/level/${levelId}`, {
         headers: {
           "Content-Type": "application/json",
         },

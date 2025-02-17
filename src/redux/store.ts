@@ -15,9 +15,9 @@ import progressReducer from './slices/progressSlice'
 import imageUploadReducer from './slices/imageUploadSlice'
 import imageSliceReducer from './slices/imageSlice'
 import examModuleSliceReducer from './slices/examModuleSlice'
-import objectiveExamSliceReducer from './slices/objectiveExamSlice'
+import examAnalysisSliceReducer from './slices/examAnalysisSlice'
 import trueFalseSliceReducer from './slices/trueFalseExamSlice'
-
+import mixedQuestionSliceReducer from './slices/mixedQuestionSlice'
 // Define the store
 const store = configureStore({
     reducer: {
@@ -37,8 +37,9 @@ const store = configureStore({
         imageUpload:imageUploadReducer,
         image:imageSliceReducer,
         examModule:examModuleSliceReducer,
-        objectiveExam:objectiveExamSliceReducer,
-        trueFalseExam:trueFalseSliceReducer
+        examAnalysis:examAnalysisSliceReducer,
+        trueFalseExam:trueFalseSliceReducer,
+        mixedQuestionExam:mixedQuestionSliceReducer
        
     },
     

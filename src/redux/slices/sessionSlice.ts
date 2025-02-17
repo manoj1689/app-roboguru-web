@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Async thunk to create a new session
 export const createSession = createAsyncThunk(
   'session/createSession',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/chat/sessions/start');
+      const response = await axiosApi.post('/chat/sessions/start');
       console.log("chat session response in createSESSION",response.data)
       return response.data.data; // Extract the session data
     } catch (error: any) {

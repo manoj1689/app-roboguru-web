@@ -94,8 +94,8 @@ const TrendingTopicsSection = () => {
               <span className="px-4 py-1 rounded-full bg-[#FFB97B]">Trending</span>
             </div>
             <div>
-              <h4 className="text-xl text-black font-semibold mb-1">{topic.name}</h4>
-              <p className="text-sm text-black mb-2">{topic.tagline}</p>
+              <h4 className="text-xl text-black font-semibold mb-1 line-clamp-1">{topic.name}</h4>
+              <p className="text-sm text-black mb-2 line-clamp-1">{topic.tagline}</p>
               <p className="text-md text-black line-clamp-1">{topic.subject_tagline}</p>
             </div>
             <div className="flex pt-2 justify-between items-center">

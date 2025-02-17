@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api'; // Adjust the path based on your actual service
+import axiosApi from '../../services/api'; // Adjust the path based on your actual service
 
 // Define the UserProfile interface
 interface UserProfile {
@@ -39,7 +39,7 @@ export const fetchUserProfile = createAsyncThunk(
   'user/fetchUserProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/users/profile', {
+      const response = await axiosApi.get('/users/profile', {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -64,7 +64,7 @@ export const updateUserProfile = createAsyncThunk(
   'user/updateUserProfile',
   async (userData: UserProfile, { rejectWithValue }) => {
     try {
-      const response = await axios.put('/users/profile/update', userData, {
+      const response = await axiosApi.put('/users/profile/update', userData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -92,7 +92,7 @@ export const uploadProfileImage = createAsyncThunk(
       formData.append('file', file); // Append the file to the FormData
 
       // Send the file via axios POST request
-      const response = await axios.post('/users/profile/upload-image', formData, {
+      const response = await axiosApi.post('/users/profile/upload-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Accept: 'application/json', // Ensures the server returns JSON

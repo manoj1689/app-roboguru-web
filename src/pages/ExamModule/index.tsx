@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { RootState, AppDispatch } from "../../redux/store";
-import {
-  fetchObjectiveQuestions,
-  fetchTrueFalseQuestions,
-  fetchFillInBlankQuestions,
-  fetchDescriptiveQuestions,
-  fetchMixedQuestions,
-} from "../../redux/slices/examModuleSlice";
-import { setExamData } from "../../redux/slices/objectiveExamSlice";
-import {  setTrueFalseExamData } from "../../redux/slices/trueFalseExamSlice";
-
+import { fetchMixedQuestions } from "../../redux/slices/mixedQuestionSlice";
+import { setExamData } from "../../redux/slices/examAnalysisSlice";
+import Layout from "@/components/HomeLayout";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { ImStopwatch } from "react-icons/im";
+import { IoIosWifi } from "react-icons/io";
+import { FaEyeSlash, FaCheckCircle, FaClock, FaSyncAlt } from "react-icons/fa";
 const ExamOptions: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const searchParams = useSearchParams();
@@ -21,185 +18,172 @@ const ExamOptions: React.FC = () => {
   const subjectId = searchParams?.get("subjectId") || "";
   const topicId = searchParams?.get("topicId") || "";
 
+  const [className, setClassName] = useState<string>("");
   const [subjectName, setSubjectName] = useState<string>("");
   const [chapterName, setChapterName] = useState<string>("");
   const [topicName, setTopicName] = useState<string>("");
-  const [className, setClassName] = useState<string>("");
-  const [examTitle, setExamTitle] = useState<string | null>(null);
-  const [examDuration, setExamDuration] = useState<number | null>(null);
-  const [selectedExamType, setSelectedExamType] = useState<string | null>(null); // ✅ Store selected type
-
+  const [checked, setChecked] = useState(false);
+  const { response, status, error } = useSelector((state: RootState) => state.mixedQuestionExam);
   const { classes } = useSelector((state: RootState) => state.class);
+  const { subjects } = useSelector((state: RootState) => state.subjects);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
-  const { subjects } = useSelector((state: RootState) => state.subjects);
-  const { status } = useSelector((state: RootState) => state.examModule);
 
   useEffect(() => {
     const userData = localStorage.getItem("user_profile");
     if (userData) {
       const parsedData = JSON.parse(userData);
-      if (parsedData.user_class && classes.length > 0) {
-        const foundClass = classes.find((cls) => cls.id === parsedData.user_class);
-        setClassName(foundClass ? foundClass.name : "Unknown Class");
-      }
+      const foundClass = classes.find(cls => cls.id === parsedData.user_class);
+      setClassName(foundClass ? foundClass.name : "Unknown Class");
     }
-  }, [classes]);
+
+    setSubjectName(subjects.find(subject => subject.id === subjectId)?.name || "Unknown Subject");
+    setChapterName(chapters.find(chapter => chapter.id === chapterId)?.name || "Unknown Chapter");
+    setTopicName(topics.find(topic => topic.id === topicId)?.name || "Unknown Topic");
+  }, [classes, subjects, chapters, topics, subjectId, chapterId, topicId]);
 
   useEffect(() => {
-    if (subjectId && subjects.length > 0) {
-      const foundSubject = subjects.find((subject) => subject.id === subjectId);
-      setSubjectName(foundSubject ? foundSubject.name : "Unknown Subject");
-    }
-    if (chapterId && chapters.length > 0) {
-      const foundChapter = chapters.find((chapter) => chapter.id === chapterId);
-      setChapterName(foundChapter ? foundChapter.name : "Unknown Chapter");
-    }
-    if (topicId && topics.length > 0) {
-      const foundTopic = topics.find((topic) => topic.id === topicId);
-      setTopicName(foundTopic ? foundTopic.name : "Unknown Topic");
-    }
-  }, [subjectId, chapterId, topicId, subjects, chapters, topics]);
-
-  const handleFetchQuestions = async (type: string) => {
-    setSelectedExamType(type); // ✅ Store selected exam type
-  
     const params = {
       class_name: className,
       subject_name: subjectName,
       chapter_name: chapterName,
       topic_name: topicName,
       num_questions: 5,
-      difficulty: "hard",
+      difficulty: "medium",
+      question_distribution: {
+        objective: 2,
+        true_false: 2,
+        descriptive: 1,
+      },
     };
-  
-    let response: any;
-    switch (type) {
-      case "objective":
-        response = await dispatch(fetchObjectiveQuestions(params)).unwrap();
-        if (response && response.success) {
-          dispatch(
-            setExamData({
-              examId: response.data.exam_id,
-              examTitle: response.data.exam_title,
-              questions: response.data.questions,
-            })
-          );
-        }
-        break;
-  
-      case "true_false":
-        response = await dispatch(fetchTrueFalseQuestions(params)).unwrap();
-        if (response && response.success) {
-          dispatch(
-            setTrueFalseExamData({
-              examId: response.data.exam_id,
-              examTitle: response.data.exam_title,
-              questions: response.data.questions,
-            })
-          );
-        }
-        break;
-  
-      case "fill_in_blank":
-        response = await dispatch(fetchFillInBlankQuestions(params)).unwrap();
-        if (response && response.success) {
-          dispatch(
-            setExamData({
-              examId: response.data.exam_id,
-              examTitle: response.data.exam_title,
-              questions: response.data.questions,
-            })
-          );
-        }
-        break;
-  
-      case "descriptive":
-        response = await dispatch(fetchDescriptiveQuestions(params)).unwrap();
-        if (response && response.success) {
-          dispatch(
-            setExamData({
-              examId: response.data.exam_id,
-              examTitle: response.data.exam_title,
-              questions: response.data.questions,
-            })
-          );
-        }
-        break;
-  
-      case "mixed":
-        response = await dispatch(fetchMixedQuestions(params)).unwrap();
-        if (response && response.success) {
-          dispatch(
-            setExamData({
-              examId: response.data.exam_id,
-              examTitle: response.data.exam_title,
-              questions: response.data.questions,
-            })
-          );
-        }
-        break;
-    }
-  
-    if (response && response.success) {
-      setExamTitle(response.data.exam_title);
-      setExamDuration(response.data.duration || 30); // Default 30 mins if no duration provided
-    }
-  };
-  
+    dispatch(fetchMixedQuestions(params));
+  }, [dispatch, className, subjectName, chapterName, topicName]);
 
   const handleStartExam = () => {
-    if (!selectedExamType) return;
-
-    const routes: Record<string, string> = {
-      objective: "/ObjectiveExam",
-      true_false: "/TrueFalseExam",
-      fill_in_blank: "/fillInBlankExam",
-      descriptive: "/descriptiveExam",
-      mixed: "/mixedExam",
-    };
-
-    const route = routes[selectedExamType] || "/objectiveExam";
-    router.push(route); // ✅ Dynamically navigate based on exam type
+    if (response) {
+      dispatch(setExamData({
+        examId: response.data.exam_id,
+        examTitle: response.data.exam_title,
+        questions: response.data.questions,
+      }));
+      router.push("/mixedExam");
+    }
   };
-
+  const goBack = () => {
+    router.back(); // Goes one step back in history
+  };
   return (
-    <div className="p-6 container mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Select Exam Type</h1>
-      <div className="grid grid-cols-3 gap-4">
-        {["objective", "true_false", "fill_in_blank", "descriptive", "mixed"].map((type) => (
-          <button
-            key={type}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-            onClick={() => handleFetchQuestions(type)}
-          >
-            {type.replace("_", " ").toUpperCase()}
-          </button>
-        ))}
-      </div>
+    <Layout>
+      <div className="p-4 container mx-auto border shadow-lg rounded-lg">
+        <div className="flex gap-4 w-full  ">
 
-      {status === "loading" && <p className="mt-4 text-gray-600">Loading questions...</p>}
-      {status === "failed" && <p className="mt-4 text-red-600">Failed to load questions.</p>}
+          <div className="p-4">
+            <FaArrowLeftLong size={25} color="black" onClick={goBack} className="hover:cursor-pointer" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-black">Please Read Carefully</h2>
+            <p className="text-md text-gray-700">Ensure a fair, smooth exam. Plan time wisely—just like a real board test!</p>
+          </div>
 
-      {examTitle && (
-        <div className="mt-6 border p-4 rounded-lg shadow-lg bg-green-100">
-          <h2 className="text-lg font-semibold mb-2 text-green-700">Exam Ready!</h2>
-          <p className="text-gray-700">
-            <strong>Title:</strong> {examTitle}
-          </p>
-          <p className="text-gray-700">
-            <strong>Duration:</strong> {examDuration} minutes
-          </p>
-          <button
-            className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-            onClick={handleStartExam}
-          >
-            Start Exam
-          </button>
         </div>
-      )}
+        <div className="mt-4 ">
+        <span className="font-semibold italic">This is an online exam, and you will attempt all questions directly on this platform.</span>
+        </div>
+        <ul className="ml-6 mt-2 space-y-4">
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <ImStopwatch />
+          Exam Duration:
+        </strong>
+        30 minutes. The countdown timer starts as soon as you begin.
+      </li>
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <IoIosWifi />
+          Answer Online:
+        </strong>
+        Select or type answers in the provided fields. No external writing or uploads are needed.
+      </li>
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <FaEyeSlash />
+          Hiding Answers:
+        </strong>
+        Correct answers are hidden during the exam and will be revealed after submission.
+      </li>
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <FaCheckCircle />
+          Submission is Final:
+        </strong>
+        Once you submit, your answers cannot be changed.
+      </li>
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <FaClock />
+          Review After Submission:
+        </strong>
+        After submission, you will see your answers, the correct answers, and your final score.
+      </li>
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <IoIosWifi />
+          Stable Internet Required:
+        </strong>
+        If your connection drops, reconnect quickly. The timer continues running.
+      </li>
+      <li className="flex gap-2">
+        <strong className="flex gap-2 items-center">
+          <FaSyncAlt />
+          Time Management:
+        </strong>
+        Ensure you answer all questions before the timer ends.
+      </li>
+    </ul>
+    <div className="flex flex-col p-4 my-4 rounded-lg bg-[#E1F3FF] ">
+    <p className="text-gray-700 mt-4 font-semibold">Important Reminders:</p>
+        <ul className="list-disc ml-6 mt-2">
+          <li>Read all questions carefully before answering.</li>
+          <li>Once submitted, the exam is finalized and cannot be retaken.</li>
+          <li>For assistance, use <strong>Live Chat</strong> or call support immediately. The clock keeps ticking!</li>
+        </ul>
     </div>
+     
+        
+        {status === "loading" && <p className="mt-4 text-gray-600 font-semibold flex justify-center items-center">Loading questions...</p>}
+        {status === "failed" && <p className="mt-4 text-red-600">{error || "Failed to load questions."}</p>}
+       
+{status !== "loading" && response && (
+  <div className="mt-6  border p-4 rounded-lg shadow-lg bg-blue-100">
+    <h2 className="text-lg font-semibold mb-2 text-blue-700">Exam Ready!</h2>
+    <p className="text-gray-700"><strong>Title:</strong> {response.data.exam_title}</p>
+    <p className="text-gray-700"><strong>Topic:</strong> {response.data.topic_name}</p>
+    
+    <div className="mt-4 flex items-center">
+      <input 
+        type="checkbox" 
+        id="readInstructions" 
+        className="mr-2" 
+        onChange={(e) => setChecked(e.target.checked)}
+      />
+      <label htmlFor="readInstructions" className="text-gray-700">I have read & understood these instructions.</label>
+    </div>
+    <div className="flex justify-center items-center">
+    <button
+      className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
+      onClick={handleStartExam}
+      disabled={!checked}
+    >
+      Start Exam
+    </button>
+    </div>
+   
+  </div>
+)}
+      </div>
+    </Layout>
   );
 };
 
 export default ExamOptions;
+

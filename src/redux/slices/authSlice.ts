@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../../services/api";
+import axiosApi from "../../services/api";
 
 // Initial state for authentication
 interface AuthState {
@@ -23,7 +23,7 @@ export const login = createAsyncThunk(
   async (mobile: string, { rejectWithValue }) => {
     try {
       // Send the mobile number in the request body as JSON
-      const response = await axios.post("/signin", {
+      const response = await axiosApi.post("/signin", {
         mobile_number: mobile,
       });
 
@@ -46,7 +46,7 @@ export const verifyOtp = createAsyncThunk(
   ) => {
     try {
       // Send the mobile number and OTP in the request body as JSON
-      const response = await axios.post("/verify_otp", {
+      const response = await axiosApi.post("/verify_otp", {
         mobile_number: mobile,
         otp: otp,
       });

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Define the shape of the AI response
 interface AIResponse {
@@ -35,7 +35,7 @@ export const uploadImages = createAsyncThunk(
       formData.append('file', file); // Append the file to the FormData
 
       // Send the file via axios POST request
-      const response = await axios.post("/openaiengine/upload-image", formData, {
+      const response = await axiosApi.post("/openaiengine/upload-image", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
@@ -61,7 +61,7 @@ export const processImagesWithAI = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post("/openaiengine/images-to-text/", {
+      const response = await axiosApi.post("/openaiengine/images-to-text/", {
         image_urls: imageUrls,
         prompt,
         language_code: languageCode,

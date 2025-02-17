@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from "../../services/api";
+import axiosApi from "../../services/api";
 
 // Define the types for your slice state
 interface FirebaseAuthState {
@@ -25,7 +25,7 @@ export const firebaseLogin = createAsyncThunk(
   async (idToken: string, { rejectWithValue }) => {
     try {
       // Send Firebase ID token in request
-      const response = await axios.post('/firebase/firebase-login', {
+      const response = await axiosApi.post('/firebase/firebase-login', {
         id_token: idToken, 
       });
 

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Async thunk to fetch chapters by subject_id
 export const fetchChaptersBySubjectId = createAsyncThunk(
   'chapters/fetchChaptersBySubjectId',
   async (subjectId: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/chapters/chapter/${subjectId}`);
+      const response = await axiosApi.get(`/chapters/chapter/${subjectId}`);
       return response.data.data;
     } catch (error: any) {
       return rejectWithValue(

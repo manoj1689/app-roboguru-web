@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Async thunk to fetch trending topics by class_id
 export const fetchTrendingTopicsByClassId = createAsyncThunk(
   'trendingTopics/fetchTrendingTopicsByClassId',
   async (classId: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/trending/trending_topics/by_class/${classId}`);
+      const response = await axiosApi.get(`/trending/trending_topics/by_class/${classId}`);
       return response.data.data;
     } catch (error: any) {
       return rejectWithValue(

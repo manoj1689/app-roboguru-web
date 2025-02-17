@@ -130,7 +130,7 @@
 // export default chatSlice.reducer;
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Define the type for the chat response
 type ChatResponse = {
@@ -184,7 +184,7 @@ export const sendChatQuestion = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post('/chat/ask-question', payload, {
+      const response = await axiosApi.post('/chat/ask-question', payload, {
         headers: {
           'Content-Type': 'application/json',
         },

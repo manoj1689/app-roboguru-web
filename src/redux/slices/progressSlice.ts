@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from '../../services/api';
+import axiosApi from '../../services/api';
 
 // Define types for the progress structure
 interface Topic {
@@ -31,7 +31,7 @@ export const fetchUserProgress = createAsyncThunk(
   'userProgress/fetchUserProgress',
   async (userId: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/user_progress/user-progress/${userId}`);
+      const response = await axiosApi.get(`/user_progress/user-progress/${userId}`);
       return response.data.data; // Assuming `data` contains the progress array
     } catch (error: any) {
       return rejectWithValue(
@@ -49,7 +49,7 @@ export const updateUserTopicProgress = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.put('/user_progress/user-progress/', progressData);
+      const response = await axiosApi.put('/user_progress/user-progress/', progressData);
       return response.data; // Return the response data if successful
     } catch (error: any) {
       return rejectWithValue(

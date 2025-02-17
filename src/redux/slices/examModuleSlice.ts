@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from "../../services/api";
+import axiosApi from "../../services/api";
 
 interface ExamQuestion {
   id: string;
@@ -31,7 +31,7 @@ export const fetchObjectiveQuestions = createAsyncThunk<
   'exams/fetchObjectiveQuestions',
   async (params, thunkAPI) => {
     try {
-      const response = await axios.post<ExamQuestion[]>('/exams/objective', params);
+      const response = await axiosApi.post<ExamQuestion[]>('/exams/objective', params);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || 'Failed to fetch questions');
@@ -47,7 +47,7 @@ export const fetchTrueFalseQuestions = createAsyncThunk<
   'exams/fetchTrueFalseQuestions',
   async (params, thunkAPI) => {
     try {
-      const response = await axios.post<ExamQuestion[]>('/exams/true_false', params);
+      const response = await axiosApi.post<ExamQuestion[]>('/exams/true_false', params);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || 'Failed to fetch true/false questions');
@@ -63,7 +63,7 @@ export const fetchFillInBlankQuestions = createAsyncThunk<
   'exams/fetchFillInBlankQuestions',
   async (params, thunkAPI) => {
     try {
-      const response = await axios.post<ExamQuestion[]>('/exams/fill_in_blank', params);
+      const response = await axiosApi.post<ExamQuestion[]>('/exams/fill_in_blank', params);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || 'Failed to fetch fill-in-the-blank questions');
@@ -79,7 +79,7 @@ export const fetchDescriptiveQuestions = createAsyncThunk<
   'exams/fetchDescriptiveQuestions',
   async (params, thunkAPI) => {
     try {
-      const response = await axios.post<ExamQuestion[]>('/exams/descriptive', params);
+      const response = await axiosApi.post<ExamQuestion[]>('/exams/descriptive', params);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || 'Failed to fetch descriptive questions');
@@ -95,7 +95,7 @@ export const fetchMixedQuestions = createAsyncThunk<
   'exams/fetchMixedQuestions',
   async (params, thunkAPI) => {
     try {
-      const response = await axios.post<ExamQuestion[]>('/exams/mixed', params);
+      const response = await axiosApi.post<ExamQuestion[]>('/exams/mixed', params);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data || 'Failed to fetch mixed questions');
