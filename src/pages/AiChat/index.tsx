@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import HomeNavbar from "@/components/HomeNavbar"
@@ -35,7 +35,7 @@ import { MdOutlineMicNone } from "react-icons/md";
 import { MdOutlineMicOff } from "react-icons/md";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import Markdown from 'react-markdown'
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
 import { processImagesWithAI } from "../../redux/slices/imageUploadSlice";
 import speakTTS from 'speak-tts'; // Import speak-tts library
 import { FaArrowLeft } from "react-icons/fa";
@@ -44,17 +44,6 @@ import { IoArrowUp } from "react-icons/io5";
 import { IoStop } from "react-icons/io5";
 import "./aiResponse.css"
 import Sidebar from '@/components/Sidebar';
-// Initialize speakTTS
-const speech = new speakTTS();
-
-speech.init({
-  lang: 'en-US',
-  volume: 1,
-  rate: 1,
-  pitch: 1,
-  voice: 'Google UK English Female', // Choose a voice or leave as default
-}).catch((e) => console.error('Error initializing TTS:', e));
-
 
 const AiChatComponent = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -136,7 +125,7 @@ const AiChatComponent = () => {
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
   const { subjects } = useSelector((state: RootState) => state.subjects);
-  const endOfPageRef = useRef<HTMLDivElement | null>(null);
+
 
   console.log("origal chat Histroy", chat_summary)
 
@@ -187,14 +176,6 @@ const AiChatComponent = () => {
   }, [chatHistory]);
 
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
-
-
   // Fetch subjects based on user's class
   useEffect(() => {
     const userData = localStorage.getItem('user_profile');
@@ -226,7 +207,13 @@ const AiChatComponent = () => {
       }
     }
   }, [classes]);
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Safe to use window here
+      console.log(window.innerWidth);
+    }
+  }, []);
+  
   // Fetch chapters based on subject
   useEffect(() => {
     if (subjectId) {
@@ -292,7 +279,7 @@ const AiChatComponent = () => {
   }, [subjectId, chapterId, topicId, subtopicId, subjects, chapters, topics]);
 
   const handleSendQuestion = () => {
-    const userMessage = { role: 'user', content: transcript || '' || question };
+    const userMessage = { role: 'user', content: question || ''  };
 
     // If there's no valid input, return early
     if (!userMessage.content.trim()) return;
@@ -317,7 +304,7 @@ const AiChatComponent = () => {
 
     // Reset transcript after sending
     setQuestion('')
-    resetTranscript();
+   
   };
 
   const handleSuggestedQuestionClick = (suggestedQuestion: string) => {
@@ -339,52 +326,11 @@ const AiChatComponent = () => {
     dispatch(sendChatQuestion(payload));
   };
 
-  const startListeningHandler = () => {
-    // You can pass ListeningOptions if needed, for example:
-    SpeechRecognition.startListening({ continuous: false, language: 'en-US' });
-    SpeechRecognition.startListening();
-  };
 
-  const stopListeningHandler = () => {
-    SpeechRecognition.stopListening();
-
-  };
-  const playText = (text: string, index: number) => {
-    // Play the text-to-speech audio
-    speech
-      .speak({
-        text,
-        lang: 'en-US',
-        volume: 1,
-        rate: 1,
-        pitch: 1,
-      })
-      .then(() => {
-        setPlayingIndex(null); // Reset after completion
-      })
-      .catch(() => {
-        setPlayingIndex(null); // Handle errors gracefully
-      });
-    setPlayingIndex(index); // Set the currently playing index
-  };
-
-
-  useEffect(() => {
-    if (transcript) {
-      setQuestion(transcript); // Update question with transcript text
-    }
-  }, [transcript]);
-
-  const handleStop = () => {
-    speech.cancel(); // Stops the current speech
-  };
   console.log("chat History", chatHistory)
 
   const goBack = () => {
     router.back(); // Goes one step back in history
-  };
-  const scrollToBottom = () => {
-    endOfPageRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -466,17 +412,7 @@ const AiChatComponent = () => {
 
                             <div className="flex w-full justify-start items-center gap-2 text-black  p-2">
                               {/* Play/Stop Button */}
-                              <div>
-                                {playingIndex === index ? (
-                                  <button onClick={handleStop}>
-                                    <HiMiniSpeakerXMark size={25} className="text-[#2b4a70]" />
-                                  </button>
-                                ) : (
-                                  <button onClick={() => playText(entry.content, index)}>
-                                    <HiMiniSpeakerWave size={25} className="text-[#4F87CC]" />
-                                  </button>
-                                )}
-                              </div>
+                            
                               {/* Like Button */}
                               <div>
                                 <AiOutlineLike size={25} className="text-[#4F87CC]" />
@@ -529,7 +465,7 @@ const AiChatComponent = () => {
 
 
 
-            <div ref={endOfPageRef} />
+           
           </div>
 
           {/* <div className='flex  py-4 justify-center'>
@@ -554,7 +490,7 @@ const AiChatComponent = () => {
 
               </div>
               <span className='flex justify-center items-center'>
-                {listening ? (
+                {/* {listening ? (
                   <MdOutlineMicOff
                     size={30}
                     onClick={stopListeningHandler}
@@ -567,7 +503,7 @@ const AiChatComponent = () => {
                     onClick={startListeningHandler}
                     className="cursor-pointer text-stone-800"
                   />
-                )}
+                )} */}
               </span>
 
               <button onClick={handleSendQuestion} disabled={chatLoading} className='bg-stone-700 p-2 rounded-full hover:bg-stone-800 text-white'>

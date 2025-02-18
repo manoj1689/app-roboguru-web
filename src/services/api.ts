@@ -6,7 +6,7 @@ import store from '../redux/store';
 //const baseURL = 'http://127.0.0.1:8000'
 //const baseURL ='http://103.217.247.201/'
 
-const baseURL = 'https://roboguru.in/api';
+const baseURL = 'https://api.smartgrader.live';
 
 const axiosApi = axios.create({
   baseURL,
@@ -20,7 +20,7 @@ axiosApi.interceptors.request.use(
   (config) => {
     // Retrieve the access token from Redux store or localStorage
     const state = store.getState();
-    console.log("access token in state",state)
+ 
     const token =
       state?.auth?.token ||
       localStorage.getItem('access_token'); 

@@ -102,7 +102,7 @@ export const fetchClassesByLevel = createAsyncThunk(
     try {
       console.log("Fetching classes for level_id:", level_id);
 
-      const response = await axios.get(`/classes/level/${level_id}`, {
+      const response = await axiosApi.get(`/classes/level/${level_id}`, {
         headers: {
           "Content-Type": "application/json",
         },

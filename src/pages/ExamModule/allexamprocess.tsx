@@ -9,7 +9,7 @@ import {
   fetchDescriptiveQuestions,
   fetchMixedQuestions,
 } from "../../redux/slices/examModuleSlice";
-import { setExamData } from "../../redux/slices/objectiveExamSlice";
+import { setExamData } from "../../redux/slices/examAnalysisSlice";
 import {  setTrueFalseExamData } from "../../redux/slices/trueFalseExamSlice";
 
 const ExamOptions: React.FC = () => {

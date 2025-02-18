@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
-import { selectAnswer, submitExam, resetExam } from "../../redux/slices/objectiveExamSlice";
+import { selectAnswer, submitExam, resetExam } from "../../redux/slices/examAnalysisSlice";
 
 const ExamPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { examTitle, questions, userAnswers,totalMarks, score, status } = useSelector((state: RootState) => state.objectiveExam);
+  const { examTitle, questions, userAnswers,totalMarks, score, status } = useSelector((state: RootState) => state.examAnalysis);
 
   if (!examTitle) {
     return <div className="text-center text-xl font-bold mt-10">No Exam Data Available</div>;
@@ -32,7 +32,7 @@ const ExamPage: React.FC = () => {
             <div key={q.id} className="mb-6 p-4 border rounded-lg shadow-md">
               <h3 className="text-lg font-semibold mb-2">{q.text}</h3> {/* Use `q.text` instead of `q.question` */}
               <div className="space-y-2">
-                {q.options.map((option, index) => (
+                {q.options.map((option:any, index:any) => (
                   <label key={index} className="block p-2 border rounded-lg hover:bg-gray-100 cursor-pointer">
                     <input
                       type="radio"
