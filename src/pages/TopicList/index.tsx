@@ -196,11 +196,11 @@ const TopicScreen = () => {
 
       <section className="flex w-full flex-col container  mx-auto px-4" >
 
-        <div className="flex w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
-          <div>
-            <TestBar />
-          </div>
-          <div>
+      <div className="flex flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+            <div className="flex flex-col mb-2 w-full">
+              <TestBar />
+            </div>
+            <div className="flex w-full  justify-end items-center">
             <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
               onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}`)}
             >
@@ -237,11 +237,11 @@ const TopicScreen = () => {
                 <div className={`flex max-md:flex-col w-full border-l-8 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border  ${expandedTopics[topic.id] ? 'rounded-tr-lg' : 'rounded-r-lg'} px-4 hover:shadow transition-shadow`}>
                   <div className="flex w-full px-4 flex-col">
                     <div className="mt-2">
-                      <h4 className="text-xl text-black font-semibold mb-2">{topic.name}</h4>
-                      <p className="text-sm text-black mb-2">{topic.tagline}</p>
+                      <h4 className="text:md sm:text-xl text-black font-semibold mb-2 line-clamp-1">{topic.name}</h4>
+                      <p className="text-sm text-black ">{topic.tagline}</p>
                     </div>
-                    <div className="flex gap-2 max-md:flex-col justify-center items-center pr-12">
-                      <div className="flex w-full  md:w-5/6">
+                    <div className="flex gap-2 max-md:flex-col justify-center items-center ">
+                      <div className="flex w-full  md:w-3/4">
                         <span className="w-full">
                           <Line
                             percent={progressValues[topic.id] || 10} // Default to 10% if missing
@@ -253,7 +253,7 @@ const TopicScreen = () => {
                         </span>
 
                       </div>
-                      <div className="flex w-full md:w-1/6">
+                      <div className="flex w-full md:w-1/4">
                         <div> <span className=" text-[#418BBB] space-x-2 text-semibold"><span className="font-semibold">progress:</span><span className="text-semibold text-stone-800">{progressValues[topic.id] || 10}%</span></span></div>
                       </div>
                     </div>
@@ -262,7 +262,7 @@ const TopicScreen = () => {
                       {topic.subtopics?.length > 0 && (
                         <button
                           onClick={() => handleExpand(topic.id)}
-                          className="py-2 text-[#418BBB] font-semibold tracking-widest underline flex items-center gap-1"
+                          className="py-2 text-[#418BBB] text-sm sm:text-md font-semibold tracking-widest underline flex items-center gap-1"
                         >
                           {expandedTopics[topic.id] ? (
                             <>
@@ -278,7 +278,7 @@ const TopicScreen = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center items-center p-2 gap-4">
+                  <div className="flex justify-end items-center p-2 gap-4">
                   <BsChatLeftText  onClick={() => handleTopicChat(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105"/>
                   <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" />
 

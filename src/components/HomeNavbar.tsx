@@ -77,7 +77,7 @@ const Header: React.FC = () => {
         
         <header className="bg-white fixed shadow-sm w-full top-0 z-50">
             
-            <div className=" py-3 container mx-auto  ">
+            <div className=" p-3 container mx-auto  ">
                 {/* Left: Logo */}
                 <div className="flex w-full items-center">
                     <div className="flex gap-4 w-1/5  max-sm:justify-center  ">
@@ -102,7 +102,7 @@ const Header: React.FC = () => {
                         </div>
                     </div>
                     {/* Center: Search Bar */}
-                    <div className="flex-1  w-2/5 sm:px-4 ">
+                    <div className="flex-1  w-2/5 px-4 ">
                         <ReactSearchAutocomplete
                             items={items}
                             onSearch={handleSearch}
@@ -130,14 +130,22 @@ const Header: React.FC = () => {
 
 
                     {/* Right: Buttons / Avatar */}
-                    <div className="flex items-center justify-end gap-2 w-2/5">
+                    <div className="flex items-center justify-end gap-1 sm:gap-2 w-2/5">
                         <select
                             onChange={(e) => i18n.changeLanguage(e.target.value)}
                             value={i18n.language}
-                            className="px-4 py-2 text-sm font-medium text-black rounded-lg outline-none"
+                            className="px-4 py-2 text-sm font-medium text-black rounded-lg outline-none hidden sm:block"
                         >
                             <option value="en">English</option>
                             <option value="hi">हिन्दी</option>
+                        </select>
+                        <select
+                            onChange={(e) => i18n.changeLanguage(e.target.value)}
+                            value={i18n.language}
+                            className="px-4 py-2 text-sm font-medium text-black rounded-lg outline-none block sm:hidden"
+                        >
+                            <option value="en">En</option>
+                            <option value="hi">Hi</option>
                         </select>
                         <button className="hidden lg:block text-sm font-medium text-red-400 hover:text-red-500">
                             <img

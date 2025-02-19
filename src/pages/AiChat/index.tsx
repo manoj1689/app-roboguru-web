@@ -344,33 +344,39 @@ const AiChatComponent = () => {
         </div>
 
 
-        <div className='flex w-full flex-col px-8 '>
+        <div className='flex w-full flex-col sm:px-8 '>
 
-          <div className="flex  mt-20   bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-lg  justify-between items-center p-4">
-            <div className='text-white'>
+        <div className="flex mt-20 flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+        <div className="flex flex-col mb-2 w-full">
               <p><strong>Class:</strong> {className}</p>
               <p><strong>Subject:</strong> {subjectName}</p>
               <p><strong>Chapter:</strong> {chapterName}</p>
 
             </div>
-            <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
+            <div className='flex w-full justify-end'>
+              <div className='self-center'>
+              <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
               onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}`)}
             >
               Take a Test
             </button>
+              </div>
+           
+            </div>
+           
           </div>
 
           <div className=" w-full    rounded-lg"  >
             <div className='flex p-4  justify-between items-center text-center  rounded-lg text-[#418BBB] cursor-pointer ' onClick={goBack} >
 
               <span className='flex gap-2  justify-center items-center'><span><FaArrowLeft size={16} /></span><span>Back</span></span>
-              <p><strong>Topic:</strong> <span>{topicName}</span></p>
+              <p className='flex max-sm:flex-col text-md max-sm:text-sm '><strong>Topic:</strong> <span className=''>{topicName}</span></p>
               <span><FaShare size={16} /></span>
             </div>
 
             <div>
 
-              <div className="space-y-4 h-[calc(100vh-22rem)] overflow-y-auto ">
+              <div className="space-y-4 md:h-[calc(100vh-22rem)] overflow-y-auto ">
                 {currentChatHistory.map((entry, index) => (
                   <div
                     key={index}
@@ -379,7 +385,7 @@ const AiChatComponent = () => {
 
 
                     <div
-                      className={` px-8 py-2  mx-4 ${entry.role === 'user' ? '' : ''}`}
+                      className={` sm:px-8 py-2  mx-4 ${entry.role === 'user' ? '' : ''}`}
                     >
                       {entry.role === "user" ? (
                         <div className="flex flex-col bg-[#CAE0EF] px-4 py-2 text-black text-right rounded-t-xl rounded-l-xl">
@@ -446,7 +452,7 @@ const AiChatComponent = () => {
                       {suggested_questions.map((suggestedQuestion, index) => (
                         <li
                           key={index}
-                          className="border border-[#418BBB] px-4 py-2 rounded-lg bg-[#DCF1FF] cursor-pointer hover:bg-[#cee6f7] transition shrink-0"
+                          className="border border-[#418BBB] px-4 py-2 rounded-lg bg-[#DCF1FF] cursor-pointer hover:bg-[#cee6f7] transition "
                           onClick={() => handleSuggestedQuestionClick(suggestedQuestion)}
                         >
                           {suggestedQuestion}

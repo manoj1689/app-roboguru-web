@@ -93,11 +93,11 @@ const ChapterScreen = () => {
       <Layout>
 
         <div className="flex flex-col w-full ">
-          <div className="flex w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
-            <div>
+          <div className="flex flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+            <div className="flex flex-col mb-2 w-full">
               <TestBar />
             </div>
-            <div>
+            <div className="flex w-full  justify-end items-center">
               <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
               onClick={()=>router.push(`/ExamModule?subjectId=${subjectId}`)}
               >
@@ -113,7 +113,7 @@ const ChapterScreen = () => {
                 <FaArrowLeftLong size={25} color="black" onClick={goBack} className="hover:cursor-pointer" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-black">{currentSubject.name}</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-black">{currentSubject.name}</h2>
                 <p className="text-md text-gray-700">{currentSubject.tagline}</p>
               </div>
 
@@ -137,18 +137,18 @@ const ChapterScreen = () => {
             {visibleChapters.map((chapter: any, index: number) => (
               <div
                 key={index}
-                className="flex  w-full border-l-8 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border rounded-r-lg px-4 hover:shadow transition-shadow"
+                className="flex flex-col sm:flex-row  w-full border-l-8 border-l-[#418BBB]  border-[#D5D5D5] justify-between  bg-white border rounded-r-lg px-4 hover:shadow transition-shadow"
               >
-                <div className=" flex flex-col w-3/4">
+                <div className=" flex flex-col sm:w-3/4">
 
-                  <span className="flex bg-gray-300 w-32 justify-center items-center gap-2 rounded-b-md">
-                    <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className=" font-medium italic">Chapter {index + 1}</span>
+                  <span className="flex bg-gray-300 w-24 sm:w-32 justify-center items-center gap-2 rounded-b-md">
+                    <span><img src="./images/bookmark.png" alt="bookmark" className="w-4 h-4" /> </span><span className="text-xs sm:text-sm font-medium italic py-1">Chapter {index + 1}</span>
                   </span>
 
 
 
 
-                  <h4 className="text-xl mt-2 text-black font-semibold">{chapter.name}</h4>
+                  <h4 className="text-md sm:text-xl mt-2 text-black font-semibold">{chapter.name}</h4>
                   <p className="text-sm text-black">{chapter.description}</p>
 
                   <div className="justify-center items-center">
@@ -165,15 +165,18 @@ const ChapterScreen = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-center items-center w-1/4">
-                  <button
+                <div className="flex w-full  flex-col  justify-center items-center  max-sm:pb-4 sm:w-1/4">
+               
+                <button
                     onClick={() =>
                       router.push(`/TopicList?subjectId=${subjectId}&chapterId=${chapter.id}`)
                     }
-                    className=" px-4 py-2 text-[#418BBB]  border border-[#D9D9D9] font-medium rounded-lg underline"
+                    className=" px-4 py-2 text-[#418BBB]  border border-[#D9D9D9] self-end font-medium rounded-lg underline text-sm sm:text-md"
                   >
                     View Topics
                   </button>
+                
+               
                 </div>
               </div>
 

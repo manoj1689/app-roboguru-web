@@ -93,11 +93,11 @@ const ChatSessionsPage: React.FC = () => {
                           <BsArrowUpRight size={30} color="#F46D6D" />
                         </button>
                       </div>
-                      <div className='flex w-full '>
-                       <div className='w-1/5'>
+                      <div className='flex flex-col md:flex-row w-full '>
+                       <div className='md:w-1/5'>
                        <p className="text-md text-neutral-800 font-bold text-lg mb-2">{session.subject_name}</p>
                        </div>
-                     <div className='w-4/5'>
+                     <div className='md:w-4/5'>
                      {session.last_message && (
                           <>
                           <div className='flex flex-col '>

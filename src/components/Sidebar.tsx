@@ -6,7 +6,7 @@ import { fetchUserProfile } from "@/redux/slices/profileSlice";
 import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 const Sidebar: React.FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -45,16 +45,12 @@ const Sidebar: React.FC = () => {
   return (
     <>
       <ToastContainer />
-      <button onClick={toggleSidebar} className="lg:hidden text-2xl fixed top-5 left-5 z-50">
-        <span className="block">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
-        </span>
+      <button onClick={toggleSidebar} className="lg:hidden text-2xl fixed top-5 left-4 z-50">
+        {isSidebarVisible ? <AiOutlineClose /> : <AiOutlineMenu />}
       </button>
 
-      <div id="sidebar" className={`${isSidebarVisible ? "block" : "hidden"} lg:block max-lg:fixed ml-4 top-20 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 overflow-y-auto h-[calc(100vh-10rem)]`}>
-        <div className="flex h-20 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE] rounded-t-lg"></div>
+      <div id="sidebar" className={`${isSidebarVisible ? "block" : "hidden"} lg:block max-lg:fixed  top-20 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 overflow-y-auto h-[calc(100vh-6rem)]`}>
+        <div className="flex h-8 md:h-20 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE] rounded-t-lg"></div>
 
         <div className="relative flex h-32 w-full ">
           <div className="absolute inset-0 flex-col flex">

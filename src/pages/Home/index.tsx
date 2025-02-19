@@ -262,53 +262,64 @@ const HomePage = () => {
               <h3 className="text-lg font-bold mb-3 lg:text-2xl">{t("homePage.upcomingQuizzes.title")}</h3>
               <ul className="space-y-1 text-sm lg:text-lg">
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div>
+                  <div className="flex max-sm:flex-col w-2/3">
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz1.dateTime")}:</span>{' '}
                     <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz1.title")}</span>
                   </div>
-                  <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                  <div className="flex justify-center items-center w-1/3 ">
+                  <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
+                  </div>
                 </li>
 
                 <li className="flex justify-between bg-gray-50 p-3 rounded-md">
-                  <div>
+                  <div className="flex max-sm:flex-col w-2/3">
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz2.dateTime")}:</span>{' '}
-                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz2.title")}</span>
+                    <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz2.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                  <div className="flex justify-center items-center w-1/3">
+                  <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
+                  </div>
                 </li>
 
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div>
+                  <div className="flex max-sm:flex-col w-2/3">
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz3.dateTime")}:</span>{' '}
-                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz3.title")}</span>
+                    <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz3.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                  <div className="flex justify-center items-center w-1/3 ">
+                  <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
+                  </div>
                 </li>
 
                 <li className="flex justify-between bg-gray-50 p-3 rounded-md">
-                  <div>
+                  <div className="flex max-sm:flex-col w-2/3">
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz4.dateTime")}:</span>{' '}
-                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz4.title")}</span>
+                    <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz4.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                  <div className="flex justify-center items-center w-1/3 ">
+                  <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
+                  </div>
                 </li>
 
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
-                  <div>
+                  <div className="flex max-sm:flex-col w-2/3">
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz5.dateTime")}:</span>{' '}
-                    <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz5.title")}</span>
+                    <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz5.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                  <div className="flex justify-center items-center w-1/3 ">
+                  <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
+                  </div>
+               
                 </li>
               </ul>
             </section>
