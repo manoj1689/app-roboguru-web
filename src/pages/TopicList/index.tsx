@@ -10,6 +10,7 @@ import { RootState, AppDispatch } from "../../redux/store";
 import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice";
 import Layout from "@/components/HomeLayout";
 import { BsChatLeftText } from "react-icons/bs";
+import { RiVoiceAiLine } from "react-icons/ri";
 import { IoMdMic } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
 import { MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp } from "react-icons/md";
@@ -29,13 +30,21 @@ const TopicScreen = () => {
   );
   const { topics, loading, error } = useSelector((state: RootState) => state.topics);
   const { chapters } = useSelector((state: RootState) => state.chapters);
+  const { classes } = useSelector((state: RootState) => state.class);
+  const { subjects } = useSelector((state: RootState) => state.subjects);
+
 
   // Local States
   const [visibleTopics, setVisibleTopics] = useState<any[]>([]);
   const [expandedTopics, setExpandedTopics] = useState<{ [key: string]: boolean }>({});
   const [currentChapter, setCurrentChapter] = useState<{ name: string; tagline: string } | null>(null);
   const [progressValues, setProgressValues] = useState<{ [key: string]: number }>({});
-
+  const [userName, setUserName] = useState<string>('')
+  const [subjectName, setSubjectName] = useState<string>('');
+  const [chapterName, setChapterName] = useState<string>('');
+  const [topicName, setTopicName] = useState<string>('');
+  const [className, setClassName] = useState<string>('');
+  const [question, setQuestion] = useState<string>('');
   console.log("Session ID at topic list:", sessionId);
 
   // Generate random progress for each topic when topics are fetched
@@ -92,7 +101,27 @@ const TopicScreen = () => {
       }
     }
   }, [chapters, chapterId]);
+  // Update display names for subject, chapter, topic, and handle subtopics
+  useEffect(() => {
+    const userData = localStorage.getItem('user_profile');
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      if (parsedData.name) {
+        setUserName(parsedData.name);
 
+      }
+      if (subjectId && subjects.length > 0) {
+        const foundSubject = subjects.find((subject) => subject.id === subjectId);
+        setSubjectName(foundSubject ? foundSubject.name : 'Unknown Subject');
+      }
+      if (chapterId && chapters.length > 0) {
+        const foundChapter = chapters.find((chapter) => chapter.id === chapterId);
+        setChapterName(foundChapter ? foundChapter.name : 'Unknown Chapter');
+      }
+   
+      }
+    }, [subjectId, chapterId, subjects, chapters, topics]);
+  console.log("subject &  Chapter & User at topic list", subjectName, chapterName,userName)
   // Function to navigate when topic is selected
   const handleTopicChat = async (topicId: string) => {
     if (!sessionId) {
@@ -111,6 +140,39 @@ const TopicScreen = () => {
     router.push(`/AiChat?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}&subtopicId=${subTopicId}&chatSessionId=${sessionId}`);
   };
 
+  const launchChatGPT = (topicId: string, subTopicId?: number) => {
+    if (!topicId || topics.length === 0) {
+      console.error("Invalid topic ID or topics list is empty");
+      return;
+    }
+  
+    const foundTopic = topics.find((topic) => topic.id === topicId);
+    if (!foundTopic) {
+      console.error("Topic not found");
+      return;
+    }
+  
+    setTopicName(foundTopic.name || "Unknown Topic");
+  
+    let questionText = "";
+    if (subTopicId !== undefined && foundTopic.subtopics?.length > subTopicId) {
+      questionText = foundTopic.subtopics[subTopicId] || "Unknown Subtopic";
+    }
+  
+    let modifiedPrompt = `Hey ChatGPT, you need to teach ${userName} the subject ${subjectName} and the chapter ${chapterName}, specifically the topic ${foundTopic.name}.`;
+  
+    if (questionText) {
+      modifiedPrompt += ` The focus should be on the subtopic ${questionText}.`;
+    }
+  
+    modifiedPrompt += ` They are in ${className}. Make the lesson fun, interactive, and engaging. 
+      Encourage questions and participation. Only begin teaching when ${userName} says 'Hello Roboguru'. 
+      Be patient and let ${userName} lead the conversation.`;
+  
+    const chatGPTURL = `https://chat.openai.com/?prompt=${encodeURIComponent(modifiedPrompt)}`;
+    window.open(chatGPTURL, "_blank");
+  };
+  
 
   const goBack = () => {
     router.back();
@@ -216,14 +278,21 @@ const TopicScreen = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-center items-center p-2">
-                    <button
+                  <div className="flex justify-center items-center p-2 gap-4">
+                  <BsChatLeftText  onClick={() => handleTopicChat(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105"/>
+                  <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" />
 
-                      onClick={() => handleTopicChat(topic.id)}
+
+                    {/* <button
+
+                      
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
-                      <span className="px-2"><BsChatLeftText /></span>Chat
+                      <span className="px-2"></span>Chat
                     </button>
+                    <button > 
+                      Voice
+                    </button> */}
                   </div>
                 </div>
               </div>
@@ -235,7 +304,7 @@ const TopicScreen = () => {
                 {expandedTopics[topic.id] && topic.subtopics?.length > 0 && (
                   <div className="flex flex-col gap-4 p-4 ">
                     {topic.subtopics.map((subtopic: any, subIndex: number) => (
-                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer" onClick={() => handleSubTopicChat(topic.id, subIndex)} >
+                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer"  >
                         <div className="flex gap-4">
                           <div className="text-cyan-600">
                             <BsArrowUpRight size={20} />
@@ -247,10 +316,10 @@ const TopicScreen = () => {
                           </div>
                         </div>
                         <div
-                          className="flex cursor-pointer text-[#51AAD4] transition-all gap-8"
+                          className="flex  text-[#51AAD4] transition-all gap-8"
                         >
-                          <IoChatbubbles size={25} />
-                          <IoMdMic size={25} />
+                          <IoChatbubbles size={25} onClick={() => handleSubTopicChat(topic.id, subIndex)} className="cursor-pointer" />
+                          <IoMdMic size={25} onClick={()=>launchChatGPT(topic.id,subIndex)} className="cursor-pointer" />
                         </div>
                       </div>
                     ))}

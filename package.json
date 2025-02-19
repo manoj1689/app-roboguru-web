@@ -37,6 +37,7 @@
     "react-search-autocomplete": "^8.5.2",
     "react-slick": "^0.30.3",
     "react-speech-recognition": "^3.10.0",
+    "react-toastify": "^11.0.3",
     "reactjs-popup": "^2.0.6",
     "slick-carousel": "^1.8.1",
     "speak-tts": "^2.0.8"

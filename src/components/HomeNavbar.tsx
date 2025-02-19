@@ -11,6 +11,7 @@ import { RootState, AppDispatch } from "../redux/store";
 import { fetchUserProfile } from "@/redux/slices/profileSlice"; // Import the thunk
 import { useTranslation } from "react-i18next"; // Import translation hook
 import i18n from "@/utils/i18n"; // Import i18n configuration
+import { ToastContainer, toast } from 'react-toastify';
 const Header: React.FC = () => {
     const { t } = useTranslation(); // Initialize translation function
     const router = useRouter();
@@ -19,8 +20,16 @@ const Header: React.FC = () => {
     const { profile, loading: profileLoading } = useSelector(
         (state: RootState) => state.profile
     );
-    const [profileData, setProfileData] = useState<any>(null);
 
+    const notify = () => toast(toast.info('🦄 Wow so easy!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        }));
 
     // Load user profile on component mount
     useEffect(() => {
@@ -64,11 +73,14 @@ const Header: React.FC = () => {
         i18n.changeLanguage(newLang);
     };
     return (
+        <>
+        
         <header className="bg-white fixed shadow-sm w-full top-0 z-50">
+            
             <div className=" py-3 container mx-auto  ">
                 {/* Left: Logo */}
                 <div className="flex w-full items-center">
-                    <div className="flex gap-4 w-1/4  max-sm:justify-center  ">
+                    <div className="flex gap-4 w-1/5  max-sm:justify-center  ">
                         {/* Logo */}
                         <div className="hidden lg:flex max-lg:pl-12  items-center space-x-2">
                             <Link href="/Home">
@@ -90,7 +102,7 @@ const Header: React.FC = () => {
                         </div>
                     </div>
                     {/* Center: Search Bar */}
-                    <div className="flex-1  w-2/4 sm:px-4 ">
+                    <div className="flex-1  w-2/5 sm:px-4 ">
                         <ReactSearchAutocomplete
                             items={items}
                             onSearch={handleSearch}
@@ -118,7 +130,7 @@ const Header: React.FC = () => {
 
 
                     {/* Right: Buttons / Avatar */}
-                    <div className="flex items-center justify-end gap-2 w-1/4">
+                    <div className="flex items-center justify-end gap-2 w-2/5">
                         <select
                             onChange={(e) => i18n.changeLanguage(e.target.value)}
                             value={i18n.language}
@@ -134,15 +146,17 @@ const Header: React.FC = () => {
                                 className="w-8  cursor-pointer"
                             />
                         </button>
-                        <Link href="/chat">
-                            <button className="hidden lg:block px-4 py-2 text-sm font-medium text-white bg-[#418BBB]  rounded-full">
-                                <div className="flex gap-2 items-center">
+                     
+                            <button className="hidden lg:block px-4 py-2 text-sm font-medium text-white bg-[#418BBB]  rounded-full" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                                <div className="flex gap-2 items-center" >
                                     <span><img src="/images/chatlogo.png" alt="chat logo" className="w-4" /></span>
                                     <span className="font-semibold">{t("homeNavbar.liveChat")}</span>
                                 </div>
 
                             </button>
-                        </Link>
+                            <ToastContainer />
+
+                        
                         <div className="flex gap-2 items-end ">
                             <img
                                 src={profile?.profile_image || "./images/user.webp"}
@@ -167,13 +181,13 @@ const Header: React.FC = () => {
                                             <span className="font-semibold">Live Chat</span>
                                         </div>
                                         <div className="flex w-full text-[#63A7D4] ">
-                                        {t("homeNavbar.updateProfile")}
+                                            {t("homeNavbar.updateProfile")}
                                         </div>
                                         <button
                                             onClick={handleLogout}
                                             className="bg-red-400 text-white py-2 w-full px-4 rounded mt-2"
                                         >
-                                         {t("homeNavbar.logout")}
+                                            {t("homeNavbar.logout")}
                                         </button>
 
                                     </div>
@@ -186,7 +200,10 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </header>
+          
+        </header> 
+        </>
+     
     );
 };
 

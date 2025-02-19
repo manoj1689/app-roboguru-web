@@ -9,7 +9,8 @@ import SubjectList from "./SubjectList";
 import GreetingBar from "@/components/GreetingBar";
 import ImageChat from "../ImageChat";
 import { useTranslation } from "react-i18next";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ const HomePage = () => {
       <Layout>
         <div >
           {/* Left Menu */}
-
+        <ToastContainer/>
           {/* Right Sections */}
           <div className=' '>
             <GreetingBar />
@@ -265,7 +266,7 @@ const HomePage = () => {
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz1.dateTime")}:</span>{' '}
                     <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz1.title")}</span>
                   </div>
-                  <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
+                  <button className="text-xs mr-4 lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
@@ -275,7 +276,7 @@ const HomePage = () => {
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz2.dateTime")}:</span>{' '}
                     <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz2.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
@@ -285,7 +286,7 @@ const HomePage = () => {
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz3.dateTime")}:</span>{' '}
                     <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz3.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
@@ -295,7 +296,7 @@ const HomePage = () => {
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz4.dateTime")}:</span>{' '}
                     <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz4.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
@@ -305,7 +306,7 @@ const HomePage = () => {
                     <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz5.dateTime")}:</span>{' '}
                     <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz5.title")}</span>
                   </div>
-                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]">
+                  <button className="mr-4 text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                     {t("homePage.upcomingQuizzes.remindMe")}
                   </button>
                 </li>
@@ -404,12 +405,12 @@ const HomePage = () => {
                   <h4 className="text-sm font-bold text-pink-600 mb-2 lg:text-2xl">{t("homePage.upgradePro.title")}</h4>
                   <p className="text-gray-700 mb-3 lg:text-md">{t("homePage.upgradePro.description")}</p>
                 </div>
-                <button className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm">
+                <button className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                   {t("homePage.upgradePro.buttonText")}
                 </button>
               </div>
 
-              <div className="flex flex-col bg-purple-50 border justify-between border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow">
+              <div className="flex flex-col bg-purple-50 border justify-between border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                 <div>
                   <h4 className="text-sm font-bold text-[#418BBB] mb-2 lg:text-2xl">{t("homePage.limitedTimeOffer.title")}</h4>
                   <p className="text-gray-700 lg:text-md text-semibold">{t("homePage.limitedTimeOffer.description")}</p>

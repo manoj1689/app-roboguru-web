@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Prompt Launcher</title>
+</head>
+<body>
+    <h2>OpenAI Prompt Launcher</h2>
+    <label for="topic">Topic Name:</label>
+    <input type="text" id="topic" value="Alphabet Recognition" placeholder="Enter topic name">
+    <br><br>
+    <label for="className">Class Name:</label>
+    <input type="text" id="className" value="Kindergarten" placeholder="Enter class name">
+    <br><br>
+    <label for="studentName">Student Name:</label>
+    <input type="text" id="studentName" value="Alex" placeholder="Enter student name">
+    <br><br>
+    <button onclick="launchChatGPT()">Launch ChatGPT</button>
+
+    <script>
+        function launchChatGPT() {
+            const topic = document.getElementById("topic").value.trim();
+            const className = document.getElementById("className").value.trim();
+            const studentName = document.getElementById("studentName").value.trim();
+
+            if (!topic || !className || !studentName) {
+                alert("Please fill in all fields before proceeding.");
+                return;
+            }
+
+            let modifiedPrompt = `Hey ChatGPT, you need to teach ${topic} to ${studentName}. They are in ${className}. Help them understand the topic in a fun and interactive way.`;
+            modifiedPrompt += ` Make the conversation interactive and engaging, asking questions and encouraging participation. Only start the lesson when ${studentName} says 'Hello Roboguru.' Be patient and wait for ${studentName} to initiate the conversation.`;
+            
+            const chatGPTURL = `https://chat.openai.com/?prompt=${encodeURIComponent(modifiedPrompt)}`;
+            window.open(chatGPTURL, "_blank");
+        }
+    </script>
+</body>
+</html>

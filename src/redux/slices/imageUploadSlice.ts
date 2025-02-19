@@ -35,7 +35,7 @@ export const uploadImages = createAsyncThunk(
       formData.append('file', file); // Append the file to the FormData
 
       // Send the file via axios POST request
-      const response = await axiosApi.post("/openaiengine/upload-image", formData, {
+      const response = await axiosApi.post("/openaiengine/upload-image/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",

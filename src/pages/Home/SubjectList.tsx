@@ -17,7 +17,7 @@ const subjectImages = [
   { name: "Business Studies", image: "/images/subjects/Business_Studies.png" },
   { name: "Chemistry", image: "/images/subjects/Chemistry.png" },
   { name: "Economics", image: "/images/subjects/Economics.png" },
-  { name: "English", image: "/images/subjects/english.png" },
+  { name: "English", image: "/images/subjects/English.png" },
   { name: "Environmental Studies", image: "/images/subjects/Environmental_Studies.png" },
   { name: "Geography", image: "/images/subjects/geography.png" },
   { name: "Hindi", image: "/images/subjects/Hindi.png" },
@@ -27,6 +27,7 @@ const subjectImages = [
   { name: "Psychology", image: "/images/subjects/Psychology.png" },
   { name: "Political Science", image: "/images/subjects/Political_Science.png" },
   { name: "SansKrit", image: "/images/subjects/Sanskrit.png" },
+  { name: "Science", image: "/images/subjects/Science.png" },
   { name: "Social Science", image: "/images/subjects/Social_Science.png" },
 ];
 

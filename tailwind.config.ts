@@ -11,10 +11,7 @@ export default {
       fontFamily: {
         roboto: ['raleway', 'sans-serif'], // Add Google Font here
       },
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
+     
     },
   },
   plugins: [],
