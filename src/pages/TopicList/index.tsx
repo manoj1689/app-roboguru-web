@@ -118,10 +118,10 @@ const TopicScreen = () => {
         const foundChapter = chapters.find((chapter) => chapter.id === chapterId);
         setChapterName(foundChapter ? foundChapter.name : 'Unknown Chapter');
       }
-   
-      }
-    }, [subjectId, chapterId, subjects, chapters, topics]);
-  console.log("subject &  Chapter & User at topic list", subjectName, chapterName,userName)
+
+    }
+  }, [subjectId, chapterId, subjects, chapters, topics]);
+  console.log("subject &  Chapter & User at topic list", subjectName, chapterName, userName)
   // Function to navigate when topic is selected
   const handleTopicChat = async (topicId: string) => {
     if (!sessionId) {
@@ -145,34 +145,34 @@ const TopicScreen = () => {
       console.error("Invalid topic ID or topics list is empty");
       return;
     }
-  
+
     const foundTopic = topics.find((topic) => topic.id === topicId);
     if (!foundTopic) {
       console.error("Topic not found");
       return;
     }
-  
+
     setTopicName(foundTopic.name || "Unknown Topic");
-  
+
     let questionText = "";
     if (subTopicId !== undefined && foundTopic.subtopics?.length > subTopicId) {
       questionText = foundTopic.subtopics[subTopicId] || "Unknown Subtopic";
     }
-  
+
     let modifiedPrompt = `Hey ChatGPT, you need to teach ${userName} the subject ${subjectName} and the chapter ${chapterName}, specifically the topic ${foundTopic.name}.`;
-  
+
     if (questionText) {
       modifiedPrompt += ` The focus should be on the subtopic ${questionText}.`;
     }
-  
+
     modifiedPrompt += ` They are in ${className}. Make the lesson fun, interactive, and engaging. 
       Encourage questions and participation. Only begin teaching when ${userName} says 'Hello Roboguru'. 
       Be patient and let ${userName} lead the conversation.`;
-  
+
     const chatGPTURL = `https://chat.openai.com/?prompt=${encodeURIComponent(modifiedPrompt)}`;
     window.open(chatGPTURL, "_blank");
   };
-  
+
 
   const goBack = () => {
     router.back();
@@ -196,11 +196,11 @@ const TopicScreen = () => {
 
       <section className="flex w-full flex-col container  mx-auto px-4" >
 
-      <div className="flex flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
-            <div className="flex flex-col mb-2 w-full">
-              <TestBar />
-            </div>
-            <div className="flex w-full  justify-end items-center">
+        <div className="flex flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+          <div className="flex flex-col mb-2 w-full">
+            <TestBar />
+          </div>
+          <div className="flex w-full  justify-end items-center">
             <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
               onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}`)}
             >
@@ -279,20 +279,17 @@ const TopicScreen = () => {
                   </div>
 
                   <div className="flex justify-end items-center p-2 gap-4">
-                  <BsChatLeftText  onClick={() => handleTopicChat(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105"/>
-                  <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" />
+                    {/* <BsChatLeftText  onClick={() => handleTopicChat(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105"/>
+                  <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" /> */}
+
+                    <button
 
 
-                    {/* <button
-
-                      
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
-                      <span className="px-2"></span>Chat
+                      <span className="px-2 gap-2"><BsChatLeftText size={20}/> <span>Chat</span></span>
                     </button>
-                    <button > 
-                      Voice
-                    </button> */}
+                   
                   </div>
                 </div>
               </div>
@@ -319,7 +316,7 @@ const TopicScreen = () => {
                           className="flex  text-[#51AAD4] transition-all gap-8"
                         >
                           <IoChatbubbles size={25} onClick={() => handleSubTopicChat(topic.id, subIndex)} className="cursor-pointer" />
-                          <IoMdMic size={25} onClick={()=>launchChatGPT(topic.id,subIndex)} className="cursor-pointer" />
+                          <IoMdMic size={25} onClick={() => launchChatGPT(topic.id, subIndex)} className="cursor-pointer" />
                         </div>
                       </div>
                     ))}
