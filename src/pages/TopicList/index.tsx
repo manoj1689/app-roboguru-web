@@ -316,7 +316,8 @@ const TopicScreen = () => {
                           className="flex  text-[#51AAD4] transition-all gap-8"
                         >
                           <IoChatbubbles size={25} onClick={() => handleSubTopicChat(topic.id, subIndex)} className="cursor-pointer" />
-                          <IoMdMic size={25} onClick={() => launchChatGPT(topic.id, subIndex)} className="cursor-pointer" />
+                          {/* <IoMdMic size={25} onClick={() => launchChatGPT(topic.id, subIndex)} className="cursor-pointer" /> */}
+                          <IoMdMic size={25}  className="cursor-pointer" />
                         </div>
                       </div>
                     ))}
