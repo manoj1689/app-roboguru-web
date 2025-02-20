@@ -386,6 +386,67 @@
     "copyright": "All rights reserved.",
     "slogan": "Empowering innovation with AI."
   },
+    "faq": {
+      "back": "Back",
+      "header": {
+        "title": "Frequently Asked Questions",
+        "description": "Find answers to common questions about our platform."
+      },
+      "heading": "Frequently Asked Questions",
+      "questions": [
+        {
+          "question": "What is the purpose of this platform?",
+          "answer": "Our platform provides students with AI-driven learning experiences, offering courses and resources across multiple subjects."
+        },
+        {
+          "question": "How can I sign up?",
+          "answer": "You can sign up by clicking the 'Sign Up' button on the homepage and following the instructions."
+        },
+        {
+          "question": "Is this platform free to use?",
+          "answer": "Yes, our platform offers free courses, with premium options available for advanced learning."
+        }
+      ],
+      "contact": {
+        "heading": "Still have questions?",
+        "text": "If you have any further inquiries, feel free to reach out to us at",
+        "email": "support@example.com"
+      }
+    },  
+      "community": {
+        "back": "Back",
+        "header": {
+          "title": "Join Our Community",
+          "description": "Be a part of our vibrant community and connect with like-minded learners."
+        },
+        "benefits": {
+          "heading": "Why Join Us?",
+          "reasons": [
+            "Access exclusive learning resources and AI-driven tools.",
+            "Engage with a supportive community of learners and educators.",
+            "Participate in webinars, workshops, and live sessions.",
+            "Get career guidance and mentorship opportunities."
+          ]
+        },
+        "howToJoin": {
+          "heading": "How to Join?",
+          "steps": [
+            "Sign up on our platform using your email or Google account.",
+            "Complete your profile and set your learning preferences.",
+            "Start engaging in discussions and attending events.",
+            "Enjoy the benefits of being part of a growing learning community!"
+          ]
+        },
+        "cta": {
+          "text": "Ready to be part of something amazing?",
+          "button": "Join Now"
+        },
+        "contact": {
+          "heading": "Need Help?",
+          "text": "If you have any questions, feel free to reach out to us at",
+          "email": "support@example.com"
+        }
+      },    
   "careers": {
     "back": "back",
     "header": {

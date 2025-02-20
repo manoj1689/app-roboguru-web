@@ -17,7 +17,7 @@ function LandingFooter() {
             <ul className="text-sm space-y-1 text-gray-600 list-disc list-inside">
               <li className="font-semibold"><Link href="/Careers" className="hover:underline">{t("landingFooter.product.careers")}</Link></li>
               <li className="font-semibold"><Link href="/Contactus" className="hover:underline">{t("landingFooter.product.contact")}</Link></li>
-              <li className="font-semibold"><Link href="#community" className="hover:underline">{t("landingFooter.product.community")}</Link></li>
+              <li className="font-semibold"><Link href="/Community" className="hover:underline">{t("landingFooter.product.community")}</Link></li>
             </ul>
           </div>
 
@@ -25,7 +25,7 @@ function LandingFooter() {
           <div>
             <span className="font-bold mb-3 text-lg">{t("landingFooter.resources.title")}</span>
             <ul className="text-sm space-y-1 text-gray-600 list-disc list-inside">
-              <li className="font-semibold"><Link href="#faq" className="hover:underline">{t("landingFooter.resources.faq")}</Link></li>
+              <li className="font-semibold"><Link href="/FAQ" className="hover:underline">{t("landingFooter.resources.faq")}</Link></li>
               <li className="font-semibold"><Link href="/Disclaimer" className="hover:underline">{t("landingFooter.resources.disclaimer")}</Link></li>
               <li className="font-semibold"><Link href="#resources" className="hover:underline">{t("landingFooter.resources.blog")}</Link></li>
             </ul>
