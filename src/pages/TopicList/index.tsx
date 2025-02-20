@@ -287,7 +287,7 @@ const TopicScreen = () => {
 
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
-                      <span className="px-2 gap-2"><BsChatLeftText size={20}/> <span>Chat</span></span>
+                      <span className="flex px-2 gap-2 justify-center items-center"><BsChatLeftText size={20}/> <span>Chat</span></span>
                     </button>
                    
                   </div>
