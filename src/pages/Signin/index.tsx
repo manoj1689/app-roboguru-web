@@ -9,6 +9,7 @@ import { firebaseLogin } from '@/redux/slices/firebaseAuthSlice';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'next-i18next';
+import Cookies from 'js-cookie';
 
 const SignInPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -22,16 +23,18 @@ const SignInPage: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // Helper function to save token and user data in localStorage
   const saveToken = (user: User) => {
     const token = (user as any)?.stsTokenManager?.accessToken;
     if (!token) {
       console.error('No token received from authentication');
       return;
     }
-
+  
+    // Save token in cookies (expires in 7 days)
+    Cookies.set('access_token', token, { expires: 7, path: '/' });
+  
     dispatch(firebaseLogin(token));
-    router.push('/'); // Redirect to Dashboard
+    router.push('/Home'); // Redirect to Home after login
   };
 
   // Google Sign-In

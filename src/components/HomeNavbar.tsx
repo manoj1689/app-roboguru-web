@@ -12,6 +12,7 @@ import { fetchUserProfile } from "@/redux/slices/profileSlice"; // Import the th
 import { useTranslation } from "react-i18next"; // Import translation hook
 import i18n from "@/utils/i18n"; // Import i18n configuration
 import { ToastContainer, toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 const Header: React.FC = () => {
     const { t } = useTranslation(); // Initialize translation function
     const router = useRouter();
@@ -21,16 +22,7 @@ const Header: React.FC = () => {
         (state: RootState) => state.profile
     );
 
-    const notify = () => toast(toast.info('🦄 Wow so easy!', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-        }));
-
+ 
     // Load user profile on component mount
     useEffect(() => {
         dispatch(fetchUserProfile());
@@ -60,7 +52,7 @@ const Header: React.FC = () => {
     };
     // Handle Logout
     const handleLogout = () => {
-
+        Cookies.remove('access_token');
         localStorage.removeItem("access_token");
         localStorage.removeItem("user_profile")
         signOut({ redirect: false });
