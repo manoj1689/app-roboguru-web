@@ -7,13 +7,15 @@ import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+
 const Sidebar: React.FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-
+  
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [className, setClassName] = useState<string>("");
+  const [mounted, setMounted] = useState(false);
 
   const { profile } = useSelector((state: RootState) => state.profile);
   const { selectedEducationLevel } = useSelector((state: RootState) => state.educationLevels);
@@ -21,6 +23,7 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchUserProfile());
+    setMounted(true);
   }, [dispatch]);
 
   useEffect(() => {
@@ -49,19 +52,19 @@ const Sidebar: React.FC = () => {
         {isSidebarVisible ? <AiOutlineClose /> : <AiOutlineMenu />}
       </button>
 
-      <div id="sidebar" className={`${isSidebarVisible ? "block" : "hidden"} lg:block max-lg:fixed  top-20 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 overflow-y-auto h-[calc(100vh-6rem)]`}>
-        <div className="flex h-8 md:h-20 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE] rounded-t-lg"></div>
+      <div id="sidebar" className={`${isSidebarVisible ? "block" : "hidden"} lg:block max-lg:fixed top-20 w-64 bg-white rounded-lg shadow-xl lg:shadow-lg z-10 overflow-y-auto h-[calc(100vh-6rem)]`}>
+        <div className="flex h-8 md:h-20 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] rounded-t-lg"></div>
 
-        <div className="relative flex h-32 w-full ">
+        <div className="relative flex h-32 w-full">
           <div className="absolute inset-0 flex-col flex">
-            <div className="h-1/2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] bg-[#F295BE]"></div>
+            <div className="h-1/2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE]"></div>
             <div className="h-1/2"></div>
           </div>
           <div className="absolute inset-0 flex justify-center items-center">
             <img
               src={profile?.profile_image || "./images/robo-logo.png"}
               alt="Profile"
-              className={`rounded-full object-cover ${profile?.profile_image ? "w-20 h-20 md:w-28 md:h-28 border-gray-100 border-4 " : "w-12 md:w-24  "}`}
+              className={`rounded-full object-cover ${profile?.profile_image ? "w-20 h-20 md:w-28 md:h-28 border-gray-100 border-4" : "w-12 md:w-24"}`}
             />
           </div>
         </div>
@@ -76,28 +79,36 @@ const Sidebar: React.FC = () => {
         {/* Sidebar Links */}
         <nav className="flex flex-col p-4 text-sm overflow-y-auto">
           <div onClick={() => handleNavigation("/ChatSessionsList")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/feedback.png" alt="chat history" className="w-[24px]" /></span> <span>{t("sidebar.chatHistory")}</span>
+            <span><img src="/images/sidebar/feedback.png" alt="chat history" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.chatHistory") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/JoinCommunity")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/community.png" alt="community" className="w-[24px]" /></span> <span>{t("sidebar.joinCommunity")}</span>
+            <span><img src="/images/sidebar/community.png" alt="community" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.joinCommunity") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/Feedback")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/feedback.png" alt="feedback" className="w-[24px]" /></span> <span>{t("sidebar.feedback")}</span>
+            <span><img src="/images/sidebar/feedback.png" alt="feedback" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.feedback") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/RequestSubject")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/reqSubject.png" alt="request subject" className="w-[24px]" /></span> <span>{t("sidebar.requestSubject")}</span>
+            <span><img src="/images/sidebar/reqSubject.png" alt="request subject" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.requestSubject") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/RequestTopic")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/reqTopic.png" alt="request topic" className="w-[24px]" /></span> <span>{t("sidebar.requestTopic")}</span>
+            <span><img src="/images/sidebar/reqTopic.png" alt="request topic" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.requestTopic") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/Subscriptiondetail")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/subscription.png" alt="subscription details" className="w-[24px]" /></span> <span>{t("sidebar.subscriptionDetails")}</span>
+            <span><img src="/images/sidebar/subscription.png" alt="subscription details" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.subscriptionDetails") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/FAQ")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/FAQ.png" alt="faq" className="w-[24px]" /></span> <span>{t("sidebar.faq")}</span>
+            <span><img src="/images/sidebar/FAQ.png" alt="faq" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.faq") : "Loading..."}</span>
           </div>
           <div onClick={() => handleNavigation("/AppSetting")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
-            <span><img src="/images/sidebar/appSetting.png" alt="app setting" className="w-[24px]" /></span> <span>{t("sidebar.appSetting")}</span>
+            <span><img src="/images/sidebar/appSetting.png" alt="app setting" className="w-[24px]" /></span>
+            <span>{mounted ? t("sidebar.appSetting") : "Loading..."}</span>
           </div>
         </nav>
       </div>

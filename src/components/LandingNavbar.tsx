@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useTranslation } from "react-i18next"; // Import translation hook
+import { useTranslation } from "react-i18next";
 import i18n from "@/utils/i18n"; // Import i18n configuration
-
 
 const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -61,9 +65,9 @@ const Navbar: React.FC = () => {
 
           {/* Left: Logo */}
           <div className="flex max-md:w-1/3 items-center space-x-2">
-            <div className="  ">
+            <div>
               {/* Logo */}
-              <div className="hidden md:flex max-lg:pl-8  items-center space-x-2">
+              <div className="hidden md:flex max-lg:pl-8 items-center space-x-2">
                 <Link href="/">
                   <img
                     src="/images/robologo.png"
@@ -72,7 +76,7 @@ const Navbar: React.FC = () => {
                   />
                 </Link>
               </div>
-              <div className="md:hidden flex pl-4  items-center space-x-2">
+              <div className="md:hidden flex pl-4 items-center space-x-2">
                 <Link href="/">
                   <img
                     src="/images/robo-logo.png"
@@ -87,33 +91,32 @@ const Navbar: React.FC = () => {
           {/* Middle: Navigation */}
           <nav
             id="menu"
-            className={`${menuOpen ? "flex" : "hidden"
-              } md:flex flex-col md:flex-row md:space-x-8 max-md:w-11/12 bg-[#418BBB] max-md:rounded-xl md:bg-transparent md:static absolute top-24 left-4 text-center shadow-md md:shadow-none`}
+            className={`${menuOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row md:space-x-8 max-md:w-11/12 bg-[#418BBB] max-md:rounded-xl md:bg-transparent md:static absolute top-24 left-4 text-center shadow-md md:shadow-none`}
           >
             <ul className="flex max-md:flex-col space-y-4 md:space-y-0 sm:space-x-2 lg:space-x-6 items-center max-md:py-4 max-md:px-4">
               <li>
                 <a href="#features" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
-                  {t("landingNavbar.features")}
+                  {mounted ? t("landingNavbar.features") : "Loading..."}
                 </a>
               </li>
               <li>
                 <a href="#how-it-works" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
-                  {t("landingNavbar.howItWorks")}
+                  {mounted ? t("landingNavbar.howItWorks") : "Loading..."}
                 </a>
               </li>
               <li>
                 <a href="#community" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
-                  {t("landingNavbar.community")}
+                  {mounted ? t("landingNavbar.community") : "Loading..."}
                 </a>
               </li>
               <li className="max-lg:hidden">
                 <a href="#pricing" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
-                  {t("landingNavbar.pricing")}
+                  {mounted ? t("landingNavbar.pricing") : "Loading..."}
                 </a>
               </li>
               <li>
                 <a href="#faq" className="text-white md:text-[#1E2630] text-md font-medium md:hover:text-[#63A7D4]">
-                  {t("landingNavbar.faq")}
+                  {mounted ? t("landingNavbar.faq") : "Loading..."}
                 </a>
               </li>
             </ul>
@@ -131,18 +134,16 @@ const Navbar: React.FC = () => {
             </select>
 
             <a href="#download" className="border hidden lg:block text-[#1E2630] text-md font-medium border-[#418BBB] rounded-sm p-2">
-              {t("landingNavbar.download")}
+              {mounted ? t("landingNavbar.download") : "Loading..."}
             </a>
 
             {/* Sign In Button */}
             <Link href="/Signin">
               <button className="border border-[#418BBB] rounded-sm bg-[#418BBB] px-4 py-2 text-white hover:bg-[#357AA0]">
-                {t("landingNavbar.signIn")}
+                {mounted ? t("landingNavbar.signIn") : "Loading..."}
               </button>
             </Link>
           </div>
-
-
         </div>
       </div>
     </header>
