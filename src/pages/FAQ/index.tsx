@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Layout from '@/components/LandingLayout';
+import LandingLayout from '@/components/LandingLayout';
+import HomeLayout from '@/components/HomeLayout';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
@@ -9,21 +10,31 @@ const FAQ = () => {
     const { t } = useTranslation();
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
+    const [hasToken, setHasToken] = useState(false);
 
     useEffect(() => {
         setMounted(true);
+        const token = localStorage.getItem('access_token');
+        setHasToken(!!token);
     }, []);
 
-    const handleNavigation = (path: string) => {
-        router.push(path);
+    const handleNavigation = () => {
+        if (hasToken) {
+            router.push('/Home');
+        } else {
+            router.push('/');
+        }
     };
 
+    const LayoutComponent = hasToken ? HomeLayout : LandingLayout;
+
     return (
-        <Layout>
+        <LayoutComponent>
             {/* Hero Section */}
-            <section className="mt-20 px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE]">
+            <section className='flex  w-full flex-col'>
+            <section className=" px-4 text-white py-4 bg-gradient-to-r from-[#63A7D4] to-[#F295BE]">
                 <div
-                    onClick={() => handleNavigation("/Landing")}
+                    onClick={() => handleNavigation()}
                     className="flex container mx-auto hover:text-pink-300 font-bold gap-3 items-center text-white cursor-pointer"
                 >
                     <span><FaArrowLeft size={16} /></span>
@@ -75,8 +86,10 @@ const FAQ = () => {
                     </p>
                 </section>
             </main>
-        </Layout>
+            </section>
+        
+        </LayoutComponent>
     );
-}
+};
 
 export default FAQ;

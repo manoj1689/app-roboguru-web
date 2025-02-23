@@ -24,7 +24,7 @@ const HomePage = () => {
           <div className=' '>
             <GreetingBar />
             <section>
-              <TrendingTopicsSection />
+              {/* <TrendingTopicsSection /> */}
             </section>
             <section>
               <SubjectList />

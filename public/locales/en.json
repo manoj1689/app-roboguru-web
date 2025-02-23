@@ -74,7 +74,8 @@
       "aiLabel": "RoboGuru AI:",
       "aiResponse": "The Pythagorean theorem states that in a right triangle, c² = a² + b².\nFor example, if a = 3 and b = 4, then c = 5."
     },
-    "community": {
+      
+      "community": {
       "title": "Join Our Community",
       "description": "Connect with peers, get tips, and share insights on our discussion forums.",
       "joinDiscussion": "Discussion Here",
@@ -413,6 +414,33 @@
         "email": "support@example.com"
       }
     },  
+    "feedback": {
+        "back": "Back",
+        "title": "We Value Your Feedback!",
+        "description": "Your feedback helps us improve and provide better experiences for our community.",
+        "form": {
+          "title": "Submit Your Feedback",
+          "name": "Your Name",
+          "email": "Your Email",
+          "message": "Your Message",
+          "submit": "Submit Feedback"
+        },
+        "reviews": {
+          "title": "What Our Users Say",
+          "0": {
+            "message": "This platform has been a game-changer for me. I love the user-friendly interface!",
+            "author": "John Doe"
+          },
+          "1": {
+            "message": "A wonderful community with great resources. Highly recommended!",
+            "author": "Jane Smith"
+          },
+          "2": {
+            "message": "Amazing experience! The feedback system helps everyone improve.",
+            "author": "Michael Johnson"
+          }
+        }
+      },
       "community": {
         "back": "Back",
         "header": {

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState, AppDispatch } from "../../redux/store"; // Adjust path as needed
+import ProtectedRoute from "@/components/ProtectedRoute";
 import {
   setName,
   setEmail,
@@ -129,7 +130,8 @@ const ProfilePage = () => {
   
 
   return (
-    <div className="flex w-full max-md:flex-col justify-center items-center h-full relative">
+    <ProtectedRoute>
+ <div className="flex w-full max-md:flex-col justify-center items-center h-full relative">
       {/* Left Section */}
       <div className="flex w-full md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-screen text-center">
         <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto" />
@@ -252,6 +254,9 @@ const ProfilePage = () => {
          </div>
       </div>
     </div>
+
+    </ProtectedRoute>
+   
   );
   
 };

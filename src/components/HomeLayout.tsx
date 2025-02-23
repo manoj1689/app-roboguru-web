@@ -1,10 +1,12 @@
 import Navbar from "./HomeNavbar";
 import Footer from "./HomeFooter";
 import Sidebar from "./Sidebar";
-
+import ProtectedRoute from "@/components/ProtectedRoute";
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
+        <ProtectedRoute>
+
             <Navbar />
             <div className="max-lg:block lg:hidden">
                 <Sidebar />
@@ -21,6 +23,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
             </main>
             <Footer />
+            </ProtectedRoute>
+
         </>
     );
 };

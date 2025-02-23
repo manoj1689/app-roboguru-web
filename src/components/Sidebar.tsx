@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
   };
 
   const handleNavigation = (path: string) => {
-    if (path === "/ChatSessionsList") {
+    if (path === "/ChatSessionsList" || path ==="/FAQ" || path ==="/Community" || path === "/Feedback") {
       router.push(path);
     } else {
       toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 });
@@ -82,7 +82,7 @@ const Sidebar: React.FC = () => {
             <span><img src="/images/sidebar/feedback.png" alt="chat history" className="w-[24px]" /></span>
             <span>{mounted ? t("sidebar.chatHistory") : "Loading..."}</span>
           </div>
-          <div onClick={() => handleNavigation("/JoinCommunity")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
+          <div onClick={() => handleNavigation("/Community")} className="flex gap-4 hover:text-[#4080aa] text-lg font-normal mb-4 cursor-pointer items-center">
             <span><img src="/images/sidebar/community.png" alt="community" className="w-[24px]" /></span>
             <span>{mounted ? t("sidebar.joinCommunity") : "Loading..."}</span>
           </div>
