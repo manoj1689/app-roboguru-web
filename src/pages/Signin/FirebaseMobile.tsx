@@ -4,90 +4,72 @@ import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult }
 import app from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { firebaseLogin } from '@/redux/slices/firebaseAuthSlice';
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from "next-i18next";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const FirebaseMobile: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
+  const router = useRouter();
+  const auth = getAuth(app); // Initialize Firebase Auth
 
   const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [formattedPhone, setFormattedPhone] = useState<string>('');
-  const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']); // OTP as an array of 6 digits
+  const [otp, setOtp] = useState<string[]>(Array(6).fill('')); // OTP input fields
   const [confirmation, setConfirmation] = useState<ConfirmationResult | null>(null);
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false); // Added loading state
-  const [mounted, setMounted] = useState(false);
-  const auth = getAuth(app); // Correctly initialize Firebase auth
-  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !window.recaptchaVerifier) {
-      // Initialize reCAPTCHA only once when the window is available
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        'recaptcha-container', // ID of the container where reCAPTCHA is rendered
-        {
-          size: 'normal',
-          callback: (response: string) => {
-            console.log(t("signInPage.recaptcha.solvedMessage"), response);
-          },
-          'expired-callback': () => {
-            console.warn(t("signInPage.recaptcha.expiredMessage"));
-          },
-        }
-      );
-    }
-  }, [auth]);
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const formatPhoneNumber = (phone: string): string => {
-    const cleaned = phone.replace(/\D+/g, ''); // Remove non-numeric characters
-    if (cleaned.startsWith('1')) {
-      return `+1 ${cleaned.slice(1, 4)}-${cleaned.slice(4, 7)}-${cleaned.slice(7, 11)}`;
-    } else if (cleaned.startsWith('91')) {
-      return `+91 ${cleaned.slice(2, 7)}-${cleaned.slice(7, 12)}`;
-    } else if (cleaned.length >= 10) {
-      return `+${cleaned}`;
-    }
-    return phone; // Default format if not recognized
-  };
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: (response: string) => {
+          console.log(t("signInPage.recaptcha.solvedMessage"), response);
+        },
+        'expired-callback': () => {
+          console.warn(t("signInPage.recaptcha.expiredMessage"));
+        },
+      });
 
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    setPhoneNumber(input);
-    setFormattedPhone(formatPhoneNumber(input));
+      window.recaptchaVerifier.render().catch((err:any) => console.error('Recaptcha render error:', err));
+    }
+  }, [auth]);
+
+  const handlePhoneNumberChange = (value: string | undefined) => {
+    if (value) {
+      setPhoneNumber(`+${value.replace(/\D/g, '')}`); // Ensure proper format
+    }
   };
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newOtp = [...otp];
-    newOtp[index] = e.target.value;
+    newOtp[index] = e.target.value.slice(0, 1);
     setOtp(newOtp);
 
-    // Automatically move focus to the next input if filled
     if (e.target.value && index < otp.length - 1) {
-      const nextInput = document.getElementById(`otp-input-${index + 1}`);
-      if (nextInput) {
-        (nextInput as HTMLInputElement).focus();
-      }
+      document.getElementById(`otp-input-${index + 1}`)?.focus();
     }
   };
 
-
   const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
     setError(null);
-    if (!phoneNumber) {
-      setError(t("signInPage.errors.invalidPhone"));
 
+    if (!phoneNumber.match(/^\+\d{10,15}$/)) {
+      setError(t("signInPage.errors.invalidPhone"));
       return;
     }
 
-    setLoading(true); // Set loading true when sending OTP
+    setLoading(true);
     try {
       const appVerifier = window.recaptchaVerifier;
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
@@ -98,12 +80,12 @@ const FirebaseMobile: React.FC = () => {
       console.error('Error sending OTP:', err);
       setError('Failed to send OTP. Please try again.');
     } finally {
-      setLoading(false); // Set loading false after OTP is sent
+      setLoading(false);
     }
   };
 
   const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
     setError(null);
 
     if (otp.some((digit) => digit === '') || !confirmation) {
@@ -111,70 +93,57 @@ const FirebaseMobile: React.FC = () => {
       return;
     }
 
-    setLoading(true); // Set loading true when verifying OTP
+    setLoading(true);
     try {
-      const otpString = otp.join(''); // Join OTP array to string
+      const otpString = otp.join('');
       const result = await confirmation.confirm(otpString);
       const user = result.user;
       console.log('Phone number verified successfully!');
 
-      // Save the token in localStorage
-      const token = await user.getIdToken(); // Get the Firebase authentication token
-
-      // Dispatch to firebaseLogin and navigate to Dashboard
+      const token = await user.getIdToken();
       dispatch(firebaseLogin(token));
-
-      // Wait for the firebaseLogin to complete before navigating
-      router.push('/'); // Redirect after successful verification
+      router.push('/');
     } catch (err) {
       console.error('Error verifying OTP:', err);
       setError('Invalid OTP. Please try again.');
     } finally {
-      setLoading(false); // Set loading false after OTP verification
+      setLoading(false);
     }
   };
 
-
   return (
     <div className="firebase-mobile">
-
-      <div className="flex w-full text-6xl font-normal font-sans justify-center items-center "> {mounted ? t("signInPage.login") : "Loading..."}</div>
-
+      <div className="flex w-full text-6xl font-normal font-sans justify-center items-center">
+        {mounted ? t("signInPage.login") : "Loading..."}
+      </div>
 
       <div className="w-full max-w-md mx-auto">
-
         {!otpSent ? (
-          // Send OTP Form
           <form onSubmit={handleSendOtp} className="space-y-4 text-center">
-            <h3 className="text-gray-500 font-medium text-sm uppercase my-4">  {mounted ? t("signInPage.sections.phoneNumberInput.title") : "Loading..."}</h3>
+            <h3 className="text-gray-500 font-medium text-sm uppercase my-4">
+              {mounted ? t("signInPage.sections.phoneNumberInput.title") : "Loading..."}
+            </h3>
 
-
-            <input
-              type="text"
+            <PhoneInput
               placeholder="Ex, +919876543210"
-              className="w-full px-4 py-2 border rounded-full text-lg font-mono"
               value={phoneNumber}
               onChange={handlePhoneNumberChange}
+              country="in"
+              inputStyle={{ width: '100%', borderRadius: '8px', borderColor: '#FFFFFF' }}
+              dropdownStyle={{ padding: '8px', borderRadius: '8px', borderColor: '#FFFFFF' }}
             />
-            {/* <p className="text-gray-500 text-sm mt-2">Formatted Phone Number: <strong>{formattedPhone}</strong></p> */}
 
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
+              className="w-full py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
               disabled={loading}
             >
               {mounted ? (loading ? t("signInPage.loadingMessages.sendingOtp") : t("signInPage.sections.phoneNumberInput.sendOtpButton")) : "Loading..."}
-
             </button>
 
             {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
-            <p className="text-gray-600 text-md pt-4">
-              {mounted ? t("signInPage.sections.phoneNumberInput.description") : "Loading..."}
-            </p>
 
-            <div className="flex w-full justify-center items-center">
-              <div id="recaptcha-container"></div>
-            </div>
+            <div id="recaptcha-container" className="flex justify-center"></div>
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="space-y-4 text-center">
@@ -191,32 +160,18 @@ const FirebaseMobile: React.FC = () => {
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleOtpChange(e, index)}
-                  className="w-12 h-12 text-center border border-gray-300 font-sans rounded-md text-lg font-bold"
+                  className="w-12 h-12 text-center border border-gray-300 rounded-md text-lg font-bold"
                 />
               ))}
             </div>
 
             <button
               type="submit"
-              className="w-full px-4 py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
+              className="w-full py-2 bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white font-medium rounded-full uppercase"
               disabled={loading || otp.some((digit) => digit === '')}
             >
-              {mounted
-                ? loading
-                  ? t("signInPage.loadingMessages.verifyingOtp")
-                  : t("signInPage.sections.otpVerification.verifyButton")
-                : "Loading..."}
+              {mounted ? (loading ? t("signInPage.loadingMessages.verifyingOtp") : t("signInPage.sections.otpVerification.verifyButton")) : "Loading..."}
             </button>
-
-            <div className="flex justify-center items-center">
-              <button className="flex text-lg font-semibold text-[#418BBB] underline">
-                {mounted ? t("signInPage.sections.otpVerification.resendOtp") : "Loading..."}
-              </button>
-            </div>
-
-            <p className="text-gray-500 text-md pt-4">
-              {mounted ? t("signInPage.sections.otpVerification.instruction") : "Loading..."}
-            </p>
 
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>

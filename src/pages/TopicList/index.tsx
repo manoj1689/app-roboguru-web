@@ -64,26 +64,33 @@ const TopicScreen = () => {
       dispatch(fetchTopicsByChapterId(chapterId as string));
     }
   }, [dispatch, chapterId]);
+    // Fetch topics when chapterId changes
+   
 
-  // Ensure session is created before navigation
-  useEffect(() => {
-    const initializeSession = async () => {
-      try {
-        await dispatch(resetSessionState()); // Reset session state
-        if (!sessionId) {
-          const result = await dispatch(createSession()); // Ensure session is created
-          console.log("Session Created:", result.payload);
+    useEffect(() => {
+      const initializeSession = async () => {
+        try {
+          await dispatch(resetSessionState()); // Reset session state
+          let newSessionId = sessionId;
+          
+          if (!newSessionId) {
+            const result = await dispatch(createSession()); // Ensure session is created
+            newSessionId = result.payload; // Get the new session ID
+            console.log("Session Created:", newSessionId);
+          }
+    
+          // Reset chat only after ensuring session is set
+          await dispatch(resetChat());
+        } catch (error) {
+          console.error("Error initializing session:", error);
         }
-        dispatch(resetChat()); // Reset chat after session creation
-      } catch (error) {
-        console.error("Error initializing session:", error);
+      };
+    
+      if (!sessionId) {
+        initializeSession();
       }
-    };
-
-    if (!sessionId) {
-      initializeSession();
-    }
-  }, [dispatch, sessionId]); // ✅ Added sessionId dependency to avoid multiple resets
+    }, [dispatch, sessionId]); // ✅ Added sessionId dependency to avoid multiple resets
+    
 
   // Set visible topics when topics are fetched
   useEffect(() => {
@@ -124,6 +131,7 @@ const TopicScreen = () => {
   console.log("subject &  Chapter & User at topic list", subjectName, chapterName, userName)
   // Function to navigate when topic is selected
   const handleTopicChat = async (topicId: string) => {
+   
     if (!sessionId) {
       console.error("Session ID is null, waiting for session...");
       return;
@@ -133,6 +141,7 @@ const TopicScreen = () => {
   };
 
   const handleSubTopicChat = async (topicId: string, subTopicId: number) => {
+   
     if (!sessionId) {
       console.error("Session ID is null, waiting for session...");
       return;
@@ -283,13 +292,12 @@ const TopicScreen = () => {
                   <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" /> */}
 
                     <button
-
-
+                      onClick={() => handleTopicChat(topic.id)}
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
-                      <span className="flex px-2 gap-2 justify-center items-center"><BsChatLeftText size={20}/> <span>Chat</span></span>
+                      <span className="flex px-2 gap-2 justify-center items-center"><BsChatLeftText size={20} /> <span>Chat</span></span>
                     </button>
-                   
+
                   </div>
                 </div>
               </div>
@@ -301,13 +309,13 @@ const TopicScreen = () => {
                 {expandedTopics[topic.id] && topic.subtopics?.length > 0 && (
                   <div className="flex flex-col gap-4 p-4 ">
                     {topic.subtopics.map((subtopic: any, subIndex: number) => (
-                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold cursor-pointer"  >
+                      <div key={subIndex} className="text-md flex p-2 rounded-lg justify-between hover:bg-sky-200 hover:font-semibold "  >
                         <div className="flex gap-4">
                           <div className="text-cyan-600">
                             <BsArrowUpRight size={20} />
                           </div>
                           <div
-                            className=" cursor-pointer transition-all"
+                            className="transition-all"
                           >
                             {subtopic}
                           </div>
@@ -315,9 +323,9 @@ const TopicScreen = () => {
                         <div
                           className="flex  text-[#51AAD4] transition-all gap-8"
                         >
-                          <IoChatbubbles size={25} onClick={() => handleSubTopicChat(topic.id, subIndex)} className="cursor-pointer" />
+                          <IoChatbubbles size={25} onClick={() => handleSubTopicChat(topic.id, subIndex)} className="cursor-pointer hover:scale-105" />
                           {/* <IoMdMic size={25} onClick={() => launchChatGPT(topic.id, subIndex)} className="cursor-pointer" /> */}
-                          <IoMdMic size={25}  className="cursor-pointer" />
+                          <IoMdMic size={25} className="cursor-pointer " />
                         </div>
                       </div>
                     ))}

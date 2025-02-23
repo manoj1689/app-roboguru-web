@@ -84,7 +84,7 @@ const SignInPage: React.FC = () => {
       </div>
 
       {/* Right Section */}
-      <div className="w-full md:w-5/12 h-full flex p-4 flex-col items-center md:pr-20 lg:pr-28 justify-around">
+      <div className="w-full md:w-5/12 h-5/6 flex p-4 flex-col items-center md:pr-20 lg:pr-28 justify-around ">
         <FirebaseMobile />
 
         {/* Divider and Social Login */}

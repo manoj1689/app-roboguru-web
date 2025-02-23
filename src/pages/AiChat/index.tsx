@@ -330,8 +330,12 @@ const AiChatComponent = () => {
   console.log("chat History", chatHistory)
 
   const goBack = () => {
-    router.back(); // Goes one step back in history
+    dispatch(resetChat()); // Clear chat history
+    dispatch(resetSessionState()); // Reset session state
+    setCurrentChatHistory([]); // Clear local chat history
+    router.back(); // Navigate back
   };
+  
 
   return (
     < >

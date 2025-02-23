@@ -7,8 +7,19 @@ export const createSession = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosApi.post('/chat/sessions/start');
-      console.log("chat session response in createSESSION",response.data)
-      return response.data.data; // Extract the session data
+      console.log("Chat session response in createSession:", response.data);
+
+      // Ensure response structure before accessing properties
+      const sessionData = response.data?.data;
+      if (!sessionData?.session_id) {
+        throw new Error("Invalid session response");
+      }
+
+      return {
+        session_id: sessionData.session_id || null,
+        status: sessionData.status || "unknown",
+        started_at: sessionData.started_at || new Date().toISOString(),
+      };
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || error.message || 'Failed to start a new session'
@@ -40,11 +51,17 @@ const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    resetSessionState: () => initialState, // Fully reset the state
+    resetSessionState: (state) => {
+      state.sessionId = null;
+      state.status = null;
+      state.startedAt = null;
+      state.loading = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Handle the createSession thunk
+      // Handle createSession thunk
       .addCase(createSession.pending, (state) => {
         state.loading = true;
         state.error = null;
