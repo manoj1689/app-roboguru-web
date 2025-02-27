@@ -69,7 +69,7 @@ export const fetchMixedQuestions = createAsyncThunk<
     async (params, thunkAPI) => {
         try {
             const response = await axiosApi.post<MixedQuestionsResponse>('/exams/mixed', params);
-            console.log("response mixed question",response.data)
+         
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to fetch mixed questions");

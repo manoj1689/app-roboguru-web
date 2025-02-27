@@ -6,7 +6,7 @@ export const fetchEducationLevels = createAsyncThunk(
   'educationLevels/fetchEducationLevels',
   async ({ limit = 10, name = "" }: { limit?: number; name?: string }, { rejectWithValue }) => {
     try {
-      console.log('Fetching education levels with:', { limit, name });
+      
 
       const response = await axiosApi.get('/level/read_list', {
         headers: {
@@ -18,7 +18,7 @@ export const fetchEducationLevels = createAsyncThunk(
         },
       });
 
-      console.log('Received education levels:', response.data);
+      
 
       if (response.data.success) {
         return response.data.data || []; // Ensure it returns an array, even if null
@@ -42,7 +42,7 @@ export const fetchEducationLevelById = createAsyncThunk(
   'educationLevels/fetchEducationLevelById',
   async (levelId: string, { rejectWithValue }) => {
     try {
-      console.log('Fetching education level with ID:', levelId);
+     
 
       const response = await axiosApi.get(`/level/${levelId}`, {
         headers: {
@@ -50,7 +50,7 @@ export const fetchEducationLevelById = createAsyncThunk(
         },
       });
 
-      console.log('Received education level:', response.data);
+     
 
       if (response.data.success) {
         return response.data.data; // Return the fetched education level data

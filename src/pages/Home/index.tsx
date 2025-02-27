@@ -1,9 +1,15 @@
-'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/HomeLayout";
-import Link from 'next/link';
-import { MdCloudDownload } from "react-icons/md";
-import { useRouter } from "next/router";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
+import { fetchUserProfile } from "../../redux/slices/profileSlice";
+import { fetchEducationLevels } from "../../redux/slices/educationLevelSlice";
+import { fetchClasses } from "../../redux/slices/classSlice";
+
+import { FaInfoCircle } from "react-icons/fa";
 import TrendingTopicsSection from "./TrendingTopic";
 import SubjectList from "./SubjectList";
 import GreetingBar from "@/components/GreetingBar";
@@ -11,26 +17,68 @@ import ImageChat from "../ImageChat";
 import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ExamPicker from "../ExamModal/ExamPicker";
 
 const HomePage = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
   const { t } = useTranslation();
+ 
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    
+    if (token) {
+      // Fetch data only if the user is logged in
+      dispatch(fetchUserProfile());
+      
+    }
+  }, [dispatch]);
+ 
   return (
     <div>
       <Layout>
         <div >
           {/* Left Menu */}
-        <ToastContainer/>
+          <ToastContainer />
           {/* Right Sections */}
           <div className=' '>
             <GreetingBar />
             <section>
-              {/* <TrendingTopicsSection /> */}
+              <TrendingTopicsSection />
             </section>
             <section>
               <SubjectList />
             </section>
+            <section className="bg-white rounded shadow p-5 my-4">
+              <h3 className="text-lg font-bold lg:text-2xl">{t("homePage.smartGrader.title")}</h3>
+              <p className="text-md mb-4 leading-relaxed">{t("homePage.smartGrader.description")}</p>
 
+              <h4 className="text-lg font-bold text-[#418BBB] lg:text-lg">{t("homePage.smartGrader.howItWorks")}</h4>
+
+              <ul className="list-disc list-inside text-gray-600 italic mb-2">
+                <li>{t("homePage.smartGrader.steps.0")}</li>
+                <li>{t("homePage.smartGrader.steps.1")}</li>
+                <li>{t("homePage.smartGrader.steps.2")}</li>
+                <li>{t("homePage.smartGrader.steps.3")}</li>
+              </ul>
+
+              <div className="flex w-full justify-center items-center">
+                <button
+                  className="mt-4 px-4 py-2 bg-[#418BBB] text-white font-semibold rounded-lg self-center hover:bg-[#3a7ba7] transition-all"
+                  onClick={() => setOpen(true)}
+                >
+                  {t("homePage.smartGrader.startAiGrading")}
+                </button>
+              </div>
+
+              {/* Modal for ExamPicker */}
+              <Modal open={open} onClose={() => setOpen(false)} center>
+                <ExamPicker />
+              </Modal>
+            </section>
             <ImageChat />
+
 
             {/* <!-- RECOMMENDED (5 items) --> */}
             {/* <section className="bg-white rounded shadow p-5 my-4">
@@ -209,15 +257,205 @@ const HomePage = () => {
                     <img
                       src={badge.src}
                       alt={t(`homePage.achievements.badges.${badge.alt}.alt`)}
-                      className="mx-auto mb-2 w-20 lg:w-32 rounded-full border-8 border-gray-100 shadow"
+                      className="mx-auto mb-2 w-20 lg:w-28 rounded-full border-8 border-gray-100 shadow"
                     />
                     <p className="text-xs font-semibold lg:text-sm">{t(`homePage.achievements.badges.${badge.alt}.label`)}</p>
                   </div>
                 ))}
               </div>
             </section>
+
+            <section className="flex   flex-col xl:flex-row gap-3  ">
+              {/* <!-- DAILY TRIVIA --> */}
+              <section className="flex flex-col bg-white rounded shadow p-5 xl:w-1/3 h-auto ">
+                <div className="flex w-full justify-between items-center">
+                  <div>
+                    <img src="/images/dailyTrivia.png" alt="daily-Trivia" className="w-20 h-20" />
+                  </div>
+                  <div>
+                    <FaInfoCircle size={20} color="gray" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold lg:text-xl">{t("homePage.dailyTrivia.title")}</h3>
+                <p className="text-base mb-4 leading-relaxed">{t("homePage.dailyTrivia.description")}</p>
+
+                <div className="flex py-4 px-4 rounded-lg">
+                  <div className="w-full">
+                    <p className="text-sm font-semibold mb-2 lg:text-lg">
+                      {t("homePage.dailyTrivia.question")}
+                    </p>
+
+                    <div className="flex flex-col space-y-1 text-sm lg:text-md font-semibold">
+                      <div className="flex w-full ">
+                        {/* Sydney Option */}
+                        <div className="flex items-center w-1/2">
+                          <input type="radio" name="trivia" className="mr-2" />
+                          {t("homePage.dailyTrivia.options.sydney.label")}
+                        </div>
+
+                        {/* Canberra Option (Left Radio, Right Text) */}
+                        <div className="flex items-center  w-1/2 ">
+                          <input type="radio" name="trivia" className="mr-2" />
+                          <span >{t("homePage.dailyTrivia.options.canberra.label")}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex w-full  ">
+                        {/* Melbourne Option */}
+                        <div className="flex items-center w-1/2">
+                          <input type="radio" name="trivia" className="mr-2" />
+                          {t("homePage.dailyTrivia.options.melbourne.label")}
+                        </div>
+
+                        {/* Perth Option */}
+                        <div className="flex items-center w-1/2">
+                          <input type="radio" name="trivia" className="mr-2" />
+                          {t("homePage.dailyTrivia.options.perth.label")}
+                        </div>
+                      </div>
+
+                    </div>
+                    <div className="flex w-full justify-center">
+                      <button
+                        className="mt-8 px-8 py-2 text-md lg:text-sm font-medium bg-[#418BBB] text-white rounded-lg hover:bg-[#4080aa]"
+                        type="button"
+                        onClick={() => alert(t("homePage.dailyTrivia.alertMessage"))}
+                      >
+                        {t("homePage.dailyTrivia.buttonText")}
+                      </button>
+                    </div>
+
+                  </div>
+                  {/* <div className="w-1/4">
+                    <img src="/images/dailyTriva.png" alt="daily Trivia" />
+                  </div> */}
+                </div>
+              </section>
+
+              {/* <!-- TEAM / CLAN LEADERBOARD (5 items) --> */}
+              <section className="bg-white rounded shadow p-5 xl:w-1/3">
+                <div className="flex w-full justify-between items-center">
+                  <div>
+                    <img src="/images/communityLeader.png" alt="community-Leader" className="w-20 h-20" />
+                  </div>
+                  <div>
+                    <FaInfoCircle size={20} color="gray" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold lg:text-2xl">{t("homePage.leaderboard.title")}</h3>
+                <p className="text-base mb-4 leading-relaxed">{t("homePage.leaderboard.description")}</p>
+
+                <ul className="list-disc list-inside text-sm space-y-1 lg:text-lg ">
+                  <li>
+                    <span className="font-sans font-medium">{t("homePage.leaderboard.users.user1.name")}</span> –
+                    {t("homePage.leaderboard.users.user1.points")}
+                  </li>
+                  <li>
+                    <span className="font-sans font-medium">{t("homePage.leaderboard.users.user2.name")}</span> –
+                    {t("homePage.leaderboard.users.user2.points")}
+                  </li>
+                  <li>
+                    <span className="font-sans font-medium">{t("homePage.leaderboard.users.user3.name")}</span> –
+                    {t("homePage.leaderboard.users.user3.points")}
+                  </li>
+                  <li>
+                    <span className="font-sans font-medium">{t("homePage.leaderboard.users.user4.name")}</span> –
+                    {t("homePage.leaderboard.users.user4.points")}
+                  </li>
+                  <li>
+                    <span className="font-sans font-medium">{t("homePage.leaderboard.users.user5.name")}</span> –
+                    {t("homePage.leaderboard.users.user5.points")}
+                  </li>
+                </ul>
+                <div className="flex w-full justify-end">
+                  <a href="#" className="text-sm text-[#418BBB] font-semibold underline mt-8 inline-block lg:text-sm right-0">
+                    {t("homePage.leaderboard.viewFullLeaderboard")}
+                  </a>
+                </div>
+
+              </section>
+              {/* <!-- UPCOMING QUIZZES (5 items) --> */}
+              <section className="bg-white rounded shadow p-5  xl:w-1/3 ">
+                <div className="flex w-full justify-between items-center">
+                  <div>
+                    <img src="/images/quiz.png" alt="quiz" className="w-20 h-20" />
+                  </div>
+                  <div>
+                    <FaInfoCircle size={20} color="gray" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold mb-3 lg:text-2xl">{t("homePage.upcomingQuizzes.title")}</h3>
+                <ul className="space-y-4 text-sm lg:text-lg">
+                  <li className="flex flex-row  justify-between bg-gray-100 p-3 rounded-md">
+                    <div className="flex flex-col w-2/3 ">
+                      <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz1.dateTime")}:</span>{' '}
+                      <span className="italic">{t("homePage.upcomingQuizzes.quizzes.quiz1.title")}</span>
+                    </div>
+                    <div className="flex justify-center items-start w-1/3  ">
+                      <button className=" text-xs lg:text-sm text-[#418BBB] underline font-semibold px-2 py-1 rounded-lg hover:text-[#4080aa]" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                        {t("homePage.upcomingQuizzes.remindMe")}
+                      </button>
+                    </div>
+                  </li>
+
+                  <li className="flex flex-row  justify-between bg-gray-50 p-3 rounded-md">
+                    <div className="flex flex-col w-2/3 ">
+                      <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz2.dateTime")}:</span>{' '}
+                      <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz2.title")}</span>
+                    </div>
+                    <div className="flex justify-center items-start w-1/3  ">
+                      <button className=" text-xs lg:text-sm text-[#418BBB] underline font-semibold px-2 py-1 rounded-lg hover:text-[#4080aa]" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                        {t("homePage.upcomingQuizzes.remindMe")}
+                      </button>
+                    </div>
+                  </li>
+
+                  <li className="flex flex-row justify-between bg-gray-100 p-3 rounded-md">
+                    <div className="flex flex-col w-2/3 ">
+                      <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz3.dateTime")}:</span>{' '}
+                      <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz3.title")}</span>
+                    </div>
+                    <div className="flex justify-center items-start w-1/3  ">
+                      <button className=" text-xs lg:text-sm text-[#418BBB] underline font-semibold px-2 py-1 rounded-lg hover:text-[#4080aa]" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                        {t("homePage.upcomingQuizzes.remindMe")}
+                      </button>
+                    </div>
+                  </li>
+
+                  {/* <li className="flex justify-between bg-gray-50 p-3 rounded-md">
+                    <div className="flex max-sm:flex-col w-2/3">
+                      <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz4.dateTime")}:</span>{' '}
+                      <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz4.title")}</span>
+                    </div>
+                    <div className="flex justify-center items-center w-1/3 ">
+                      <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                        {t("homePage.upcomingQuizzes.remindMe")}
+                      </button>
+                    </div>
+                  </li>
+
+                  <li className="flex justify-between bg-gray-100 p-3 rounded-md">
+                    <div className="flex max-sm:flex-col w-2/3">
+                      <span className="font-sans font-medium">{t("homePage.upcomingQuizzes.quizzes.quiz5.dateTime")}:</span>{' '}
+                      <span className="italic line-clamp-1">{t("homePage.upcomingQuizzes.quizzes.quiz5.title")}</span>
+                    </div>
+                    <div className="flex justify-center items-center w-1/3 ">
+                      <button className=" text-xs lg:text-sm bg-[#418BBB] text-white px-2 py-1 rounded-lg hover:bg-[#4080aa]" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                        {t("homePage.upcomingQuizzes.remindMe")}
+                      </button>
+                    </div>
+
+                  </li> */}
+                </ul>
+              </section>
+            </section>
+
+
+
+
+
             {/* <!-- DAILY TRIVIA --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
+            {/* <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold lg:text-2xl">{t("homePage.dailyTrivia.title")}</h3>
               <p className="text-base mb-4 leading-relaxed">{t("homePage.dailyTrivia.description")}</p>
 
@@ -254,11 +492,11 @@ const HomePage = () => {
                   <img src="/images/dailyTriva.png" alt="daily Trivia" />
                 </div>
               </div>
-            </section>
+            </section> */}
 
 
             {/* <!-- UPCOMING QUIZZES (5 items) --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
+            {/* <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold mb-3 lg:text-2xl">{t("homePage.upcomingQuizzes.title")}</h3>
               <ul className="space-y-1 text-sm lg:text-lg">
                 <li className="flex justify-between bg-gray-100 p-3 rounded-md">
@@ -322,11 +560,11 @@ const HomePage = () => {
                
                 </li>
               </ul>
-            </section>
+            </section> */}
 
 
             {/* <!-- TEAM / CLAN LEADERBOARD (5 items) --> */}
-            <section className="bg-white rounded shadow p-5 my-4">
+            {/* <section className="bg-white rounded shadow p-5 my-4">
               <h3 className="text-lg font-bold lg:text-2xl">{t("homePage.leaderboard.title")}</h3>
               <p className="text-base mb-4 leading-relaxed">{t("homePage.leaderboard.description")}</p>
 
@@ -356,7 +594,7 @@ const HomePage = () => {
               <a href="#" className="text-sm text-[#418BBB] font-semibold underline mt-2 inline-block lg:text-sm">
                 {t("homePage.leaderboard.viewFullLeaderboard")}
               </a>
-            </section>
+            </section> */}
 
             {/* <!-- COLLABORATION / STUDY GROUPS --> */}
             {/* <section className="bg-white rounded shadow p-5 my-4">
@@ -416,12 +654,12 @@ const HomePage = () => {
                   <h4 className="text-sm font-bold text-pink-600 mb-2 lg:text-2xl">{t("homePage.upgradePro.title")}</h4>
                   <p className="text-gray-700 mb-3 lg:text-md">{t("homePage.upgradePro.description")}</p>
                 </div>
-                <button className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+                <button className="bg-pink-500 text-white text-md font-semibold mt-4 px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors lg:text-sm" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                   {t("homePage.upgradePro.buttonText")}
                 </button>
               </div>
 
-              <div className="flex flex-col bg-purple-50 border justify-between border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow" onClick={()=> toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
+              <div className="flex flex-col bg-purple-50 border justify-between border-purple-100 rounded-lg p-4 shadow-sm w-full md:w-1/2 hover:shadow-md transition-shadow" onClick={() => toast.info("Coming Soon...", { position: "top-right", autoClose: 2000 })}>
                 <div>
                   <h4 className="text-sm font-bold text-[#418BBB] mb-2 lg:text-2xl">{t("homePage.limitedTimeOffer.title")}</h4>
                   <p className="text-gray-700 lg:text-md text-semibold">{t("homePage.limitedTimeOffer.description")}</p>

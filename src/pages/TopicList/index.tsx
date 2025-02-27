@@ -28,6 +28,7 @@ const TopicScreen = () => {
   const { sessionId, loading: sessionLoading } = useSelector(
     (state: RootState) => state.session
   );
+  const { profile } = useSelector((state: RootState) => state.profile);
   const { topics, loading, error } = useSelector((state: RootState) => state.topics);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { classes } = useSelector((state: RootState) => state.class);
@@ -45,7 +46,7 @@ const TopicScreen = () => {
   const [topicName, setTopicName] = useState<string>('');
   const [className, setClassName] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
-  console.log("Session ID at topic list:", sessionId);
+  
 
   // Generate random progress for each topic when topics are fetched
   useEffect(() => {
@@ -71,12 +72,12 @@ const TopicScreen = () => {
       const initializeSession = async () => {
         try {
           await dispatch(resetSessionState()); // Reset session state
-          let newSessionId = sessionId;
+          let newSessionId:any = sessionId;
           
           if (!newSessionId) {
             const result = await dispatch(createSession()); // Ensure session is created
             newSessionId = result.payload; // Get the new session ID
-            console.log("Session Created:", newSessionId);
+           
           }
     
           // Reset chat only after ensuring session is set
@@ -110,11 +111,11 @@ const TopicScreen = () => {
   }, [chapters, chapterId]);
   // Update display names for subject, chapter, topic, and handle subtopics
   useEffect(() => {
-    const userData = localStorage.getItem('user_profile');
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      if (parsedData.name) {
-        setUserName(parsedData.name);
+    
+    if (profile) {
+      
+      if (profile.name) {
+        setUserName(profile.name);
 
       }
       if (subjectId && subjects.length > 0) {
@@ -128,7 +129,7 @@ const TopicScreen = () => {
 
     }
   }, [subjectId, chapterId, subjects, chapters, topics]);
-  console.log("subject &  Chapter & User at topic list", subjectName, chapterName, userName)
+  
   // Function to navigate when topic is selected
   const handleTopicChat = async (topicId: string) => {
    
@@ -263,7 +264,7 @@ const TopicScreen = () => {
 
                       </div>
                       <div className="flex w-full md:w-1/4">
-                        <div> <span className=" text-[#418BBB] space-x-2 text-semibold"><span className="font-semibold">progress:</span><span className="text-semibold text-stone-800">{progressValues[topic.id] || 10}%</span></span></div>
+                        <div> <span className=" text-[#418BBB] space-x-2 text-semibold"><span className="font-semibold">Progress:</span><span className="text-semibold text-stone-800">{progressValues[topic.id] || 10}%</span></span></div>
                       </div>
                     </div>
 

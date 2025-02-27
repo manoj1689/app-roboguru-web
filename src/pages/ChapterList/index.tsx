@@ -15,7 +15,7 @@ const ChapterScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { subjectId } = router.query; // Get the subjectId from the query parameter
-
+  const { profile } = useSelector((state: RootState) => state.profile);
   const { userProgress, loading: progressLoading = false, error: progressError = null } =
     useSelector((state: RootState) => state.progress || {});
 
@@ -31,18 +31,14 @@ const ChapterScreen = () => {
   const [currentSubject, setCurrentSubject] = useState<{ name: string; tagline: string } | null>(null);
 
   useEffect(() => {
-    const userData = localStorage.getItem("user_profile");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-
-      if (parsedData.user_class) {
-        dispatch(fetchSubjectsByClassId(parsedData.user_class));
-      }
-
-      if (parsedData.id) {
-        dispatch(fetchUserProgress(parsedData.id));
-      }
+    if (profile?.user_class) {
+      dispatch(fetchSubjectsByClassId(profile.user_class));
     }
+
+    if (profile?.id) {
+      dispatch(fetchUserProgress(profile.id));
+    }
+
   }, [dispatch]);
 
   useEffect(() => {
@@ -99,7 +95,7 @@ const ChapterScreen = () => {
             </div>
             <div className="flex w-full  justify-end items-center">
               <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
-              onClick={()=>router.push(`/ExamModule?subjectId=${subjectId}`)}
+                onClick={() => router.push(`/ExamModule?subjectId=${subjectId}`)}
               >
                 Take a Test
               </button>
@@ -161,13 +157,13 @@ const ChapterScreen = () => {
                         trailColor="#CDE6F7"
                       />
                     </div>
-                    <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm  font-semibold">progress achieve</span></div>
+                    <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm  font-semibold">Progress Achieve</span></div>
                   </div>
                 </div>
 
                 <div className="flex w-full  flex-col  justify-center items-center  max-sm:pb-4 sm:w-1/4">
-               
-                <button
+
+                  <button
                     onClick={() =>
                       router.push(`/TopicList?subjectId=${subjectId}&chapterId=${chapter.id}`)
                     }
@@ -175,8 +171,8 @@ const ChapterScreen = () => {
                   >
                     View Topics
                   </button>
-                
-               
+
+
                 </div>
               </div>
 

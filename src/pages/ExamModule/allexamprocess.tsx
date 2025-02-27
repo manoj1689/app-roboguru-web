@@ -28,23 +28,19 @@ const ExamOptions: React.FC = () => {
   const [examTitle, setExamTitle] = useState<string | null>(null);
   const [examDuration, setExamDuration] = useState<number | null>(null);
   const [selectedExamType, setSelectedExamType] = useState<string | null>(null); // ✅ Store selected type
-
+  const { profile } = useSelector((state: RootState) => state.profile);
   const { classes } = useSelector((state: RootState) => state.class);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
   const { subjects } = useSelector((state: RootState) => state.subjects);
   const { status } = useSelector((state: RootState) => state.examModule);
 
-  useEffect(() => {
-    const userData = localStorage.getItem("user_profile");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      if (parsedData.user_class && classes.length > 0) {
-        const foundClass = classes.find((cls) => cls.id === parsedData.user_class);
+   useEffect(() => {
+      if (profile?.user_class && classes?.length > 0) {
+        const foundClass = classes.find((cls: any) => cls.id === profile.user_class);
         setClassName(foundClass ? foundClass.name : "Unknown Class");
       }
-    }
-  }, [classes]);
+    }, [classes, profile]);
 
   useEffect(() => {
     if (subjectId && subjects.length > 0) {

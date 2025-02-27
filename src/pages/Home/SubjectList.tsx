@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { fetchSubjectsByClassId } from "../../redux/slices/subjectSlice";
+import { fetchUserProfile } from "@/redux/slices/profileSlice";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
 import { Line } from "rc-progress";
 import ResponsivePagination from 'react-responsive-pagination';
@@ -18,7 +19,7 @@ const subjectImages = [
   { name: "Chemistry", image: "/images/subjects/Chemistry.png" },
   { name: "Economics", image: "/images/subjects/Economics.png" },
   { name: "English", image: "/images/subjects/English.png" },
-  { name: "Environmental Studies", image: "/images/subjects/Environmental_Studies.png" },
+  { name: "Environmental Studies (EVS)", image: "/images/subjects/Environmental_Studies.png" },
   { name: "Geography", image: "/images/subjects/geography.png" },
   { name: "Hindi", image: "/images/subjects/Hindi.png" },
   { name: "History", image: "/images/subjects/History.png" },
@@ -26,7 +27,7 @@ const subjectImages = [
   { name: "Physics", image: "/images/subjects/Physics.png" },
   { name: "Psychology", image: "/images/subjects/Psychology.png" },
   { name: "Political Science", image: "/images/subjects/Political_Science.png" },
-  { name: "SansKrit", image: "/images/subjects/Sanskrit.png" },
+  { name: "Sanskrit", image: "/images/subjects/Sanskrit.png" },
   { name: "Science", image: "/images/subjects/Science.png" },
   { name: "Social Science", image: "/images/subjects/Social_Science.png" },
 ];
@@ -38,24 +39,28 @@ const SubjectList = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const subjectsPerPage = 4;
-
+   const { profile } = useSelector((state: RootState) => state.profile);
   const { userProgress } = useSelector((state: RootState) => state.progress || {});
   const { subjects = [] } = useSelector((state: RootState) => state.subjects || {});
+ 
+ 
+ 
+ 
 
   useEffect(() => {
-    const userData = localStorage.getItem("user_profile");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
+    
+   
+     
 
-      if (parsedData.user_class) {
-        dispatch(fetchSubjectsByClassId(parsedData.user_class));
+      if (profile?.user_class) {
+        dispatch(fetchSubjectsByClassId(profile.user_class));
       }
 
-      if (parsedData.id) {
-        dispatch(fetchUserProgress(parsedData.id));
+      if (profile?.id) {
+        dispatch(fetchUserProgress(profile.id));
       }
-    }
-  }, [dispatch]);
+    
+  }, [dispatch,profile]);
 
   // Helper function to find progress by subject_id
   const getSubjectProgress = (subjectId: string) => {
@@ -66,7 +71,7 @@ const SubjectList = () => {
 
   // Helper function to get subject image
   const getSubjectImage = (subjectName: string) => {
-    const match = subjectImages.find((item) => item.name.toLowerCase() === subjectName.toLowerCase());
+    const match = subjectImages.find((item) => item.name === subjectName);
     return match ? match.image : "/images/default.jpg"; // Default image if not found
   };
 

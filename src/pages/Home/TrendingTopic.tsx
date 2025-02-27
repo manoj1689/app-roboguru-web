@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   createSession,
   resetSessionState,
@@ -14,58 +15,53 @@ import 'react-responsive-pagination/themes/minimal.css';
 const TrendingTopicsSection = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-
-  // Selectors from Redux store
-  const { trendingTopics, loading, error } = useSelector((state: RootState) => state.trendingTopics);
-  const { sessionId, sessionLoading } = useSelector((state: RootState) => ({
-    sessionId: state.session.sessionId,
-    sessionLoading: state.session.loading,
-  }));
-
+  const { profile } = useSelector((state: RootState) => state.profile);
+  const [isClient, setIsClient] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const topicsPerPage = 3;
 
-  // Calculate indices for pagination
-  const startIndex = (currentPage - 1) * topicsPerPage;
-  const endIndex = startIndex + topicsPerPage;
-  const paginatedTopics = trendingTopics.slice(startIndex, endIndex);
-
-  // Fetch user data from local storage and dispatch trending topics
+  // Ensure Redux store is accessed only on the client
   useEffect(() => {
-    const userData = localStorage.getItem("user_profile");
+    setIsClient(true);
+  }, []);
 
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      const user_class_id = parsedData?.user_class;
+  // Selectors from Redux store
+  const { trendingTopics, loading, error } = useSelector((state: RootState) => 
+    isClient ? state.trendingTopics : { trendingTopics: [], loading: true, error: null }
+  );
+  const { sessionId, sessionLoading } = useSelector((state: RootState) => 
+    isClient ? { sessionId: state.session.sessionId, sessionLoading: state.session.loading } : { sessionId: null, sessionLoading: true }
+  );
 
-      if (user_class_id) {
-        dispatch(fetchTrendingTopicsByClassId(user_class_id));
-      }
-    }
-  }, [dispatch]);
+ // Fetch user data from local storage and dispatch trending topics
+useEffect(() => {
+  if (!isClient || !profile?.user_class) return;
+
+  dispatch(fetchTrendingTopicsByClassId(profile.user_class));
+}, [dispatch, isClient, profile?.user_class]);
+
 
   // Ensure session is created before navigating to chat
   useEffect(() => {
+    if (!isClient || sessionId) return;
+
     const initializeSession = async () => {
       try {
         await dispatch(resetSessionState()); // Reset session state
-        if (!sessionId) {
-          await dispatch(createSession()); // Ensure session is created
-        }
+        await dispatch(createSession()); // Ensure session is created
         await dispatch(resetChat()); // Reset chat after session creation
       } catch (error) {
         console.error("Error initializing session:", error);
       }
     };
 
-    if (!sessionId) {
-      initializeSession();
-    }
-  }, [dispatch, sessionId]); // Ensuring dependencies are correct
+    initializeSession();
+  }, [dispatch, sessionId, isClient]); // Ensuring dependencies are correct
 
-  // Ensure hooks execute before rendering UI
-  if (loading || sessionLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  // Pagination logic
+  const startIndex = (currentPage - 1) * topicsPerPage;
+  const endIndex = startIndex + topicsPerPage;
+  const paginatedTopics = trendingTopics.slice(startIndex, endIndex);
 
   // Handle chat navigation
   const handleTrendingTopicChat = async (topicId: string) => {
@@ -79,6 +75,10 @@ const TrendingTopicsSection = () => {
       console.error("Error navigating to chat:", error);
     }
   };
+
+  // Ensure hooks execute before rendering UI
+  if (!isClient || loading || sessionLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <section className="bg-white rounded shadow p-5 my-4">
@@ -122,4 +122,5 @@ const TrendingTopicsSection = () => {
   );
 };
 
-export default TrendingTopicsSection;
+// Disable SSR for this component
+export default dynamic(() => Promise.resolve(TrendingTopicsSection), { ssr: false });

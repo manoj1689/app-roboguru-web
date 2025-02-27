@@ -28,19 +28,17 @@ const ExamOptions: React.FC = () => {
   const { subjects } = useSelector((state: RootState) => state.subjects);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
-
+  const { profile } = useSelector((state: RootState) => state.profile);
   useEffect(() => {
-    const userData = localStorage.getItem("user_profile");
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      const foundClass = classes.find(cls => cls.id === parsedData.user_class);
+
+    if (profile?.user_class && classes?.length > 0) {
+      const foundClass = classes.find((cls: any) => cls.id === profile.user_class);
       setClassName(foundClass ? foundClass.name : "Unknown Class");
     }
-
     setSubjectName(subjects.find(subject => subject.id === subjectId)?.name || "Unknown Subject");
     setChapterName(chapters.find(chapter => chapter.id === chapterId)?.name || "Unknown Chapter");
     setTopicName(topics.find(topic => topic.id === topicId)?.name || "Unknown Topic");
-  }, [classes, subjects, chapters, topics, subjectId, chapterId, topicId]);
+  }, [classes, subjects, chapters, topics, subjectId, chapterId, topicId,profile]);
 
   useEffect(() => {
     const params = {
@@ -87,99 +85,99 @@ const ExamOptions: React.FC = () => {
 
         </div>
         <div className="mt-4 ">
-        <span className="font-semibold italic">This is an online exam, and you will attempt all questions directly on this platform.</span>
+          <span className="font-semibold italic">This is an online exam, and you will attempt all questions directly on this platform.</span>
         </div>
         <ul className="ml-6 mt-2 space-y-4">
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <ImStopwatch />
-          Exam Duration:
-        </strong>
-        30 minutes. The countdown timer starts as soon as you begin.
-      </li>
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <IoIosWifi />
-          Answer Online:
-        </strong>
-        Select or type answers in the provided fields. No external writing or uploads are needed.
-      </li>
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <FaEyeSlash />
-          Hiding Answers:
-        </strong>
-        Correct answers are hidden during the exam and will be revealed after submission.
-      </li>
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <FaCheckCircle />
-          Submission is Final:
-        </strong>
-        Once you submit, your answers cannot be changed.
-      </li>
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <FaClock />
-          Review After Submission:
-        </strong>
-        After submission, you will see your answers, the correct answers, and your final score.
-      </li>
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <IoIosWifi />
-          Stable Internet Required:
-        </strong>
-        If your connection drops, reconnect quickly. The timer continues running.
-      </li>
-      <li className="flex gap-2">
-        <strong className="flex gap-2 items-center">
-          <FaSyncAlt />
-          Time Management:
-        </strong>
-        Ensure you answer all questions before the timer ends.
-      </li>
-    </ul>
-    <div className="flex flex-col p-4 my-4 rounded-lg bg-[#E1F3FF] ">
-    <p className="text-gray-700 mt-4 font-semibold">Important Reminders:</p>
-        <ul className="list-disc ml-6 mt-2">
-          <li>Read all questions carefully before answering.</li>
-          <li>Once submitted, the exam is finalized and cannot be retaken.</li>
-          <li>For assistance, use <strong>Live Chat</strong> or call support immediately. The clock keeps ticking!</li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <ImStopwatch />
+              Exam Duration:
+            </strong>
+            30 minutes. The countdown timer starts as soon as you begin.
+          </li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <IoIosWifi />
+              Answer Online:
+            </strong>
+            Select or type answers in the provided fields. No external writing or uploads are needed.
+          </li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <FaEyeSlash />
+              Hiding Answers:
+            </strong>
+            Correct answers are hidden during the exam and will be revealed after submission.
+          </li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <FaCheckCircle />
+              Submission is Final:
+            </strong>
+            Once you submit, your answers cannot be changed.
+          </li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <FaClock />
+              Review After Submission:
+            </strong>
+            After submission, you will see your answers, the correct answers, and your final score.
+          </li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <IoIosWifi />
+              Stable Internet Required:
+            </strong>
+            If your connection drops, reconnect quickly. The timer continues running.
+          </li>
+          <li className="flex gap-2">
+            <strong className="flex gap-2 items-center">
+              <FaSyncAlt />
+              Time Management:
+            </strong>
+            Ensure you answer all questions before the timer ends.
+          </li>
         </ul>
-    </div>
-     
-        
+        <div className="flex flex-col p-4 my-4 rounded-lg bg-[#E1F3FF] ">
+          <p className="text-gray-700 mt-4 font-semibold">Important Reminders:</p>
+          <ul className="list-disc ml-6 mt-2">
+            <li>Read all questions carefully before answering.</li>
+            <li>Once submitted, the exam is finalized and cannot be retaken.</li>
+            <li>For assistance, use <strong>Live Chat</strong> or call support immediately. The clock keeps ticking!</li>
+          </ul>
+        </div>
+
+
         {status === "loading" && <p className="mt-4 text-gray-600 font-semibold flex justify-center items-center">Loading questions...</p>}
         {status === "failed" && <p className="mt-4 text-red-600">{error || "Failed to load questions."}</p>}
-       
-{status !== "loading" && response && (
-  <div className="mt-6  border p-4 rounded-lg shadow-lg bg-blue-100">
-    <h2 className="text-lg font-semibold mb-2 text-blue-700">Exam Ready!</h2>
-    <p className="text-gray-700"><strong>Title:</strong> {response.data.exam_title}</p>
-    <p className="text-gray-700"><strong>Topic:</strong> {response.data.topic_name}</p>
-    
-    <div className="mt-4 flex items-center">
-      <input 
-        type="checkbox" 
-        id="readInstructions" 
-        className="mr-2" 
-        onChange={(e) => setChecked(e.target.checked)}
-      />
-      <label htmlFor="readInstructions" className="text-gray-700">I have read & understood these instructions.</label>
-    </div>
-    <div className="flex justify-center items-center">
-    <button
-      className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
-      onClick={handleStartExam}
-      disabled={!checked}
-    >
-      Start Exam
-    </button>
-    </div>
-   
-  </div>
-)}
+
+        {status !== "loading" && response && (
+          <div className="mt-6  border p-4 rounded-lg shadow-lg bg-blue-100">
+            <h2 className="text-lg font-semibold mb-2 text-blue-700">Exam Ready!</h2>
+            <p className="text-gray-700"><strong>Title:</strong> {response.data.exam_title}</p>
+            <p className="text-gray-700"><strong>Topic:</strong> {response.data.topic_name}</p>
+
+            <div className="mt-4 flex items-center">
+              <input
+                type="checkbox"
+                id="readInstructions"
+                className="mr-2"
+                onChange={(e) => setChecked(e.target.checked)}
+              />
+              <label htmlFor="readInstructions" className="text-gray-700">I have read & understood these instructions.</label>
+            </div>
+            <div className="flex justify-center items-center">
+              <button
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
+                onClick={handleStartExam}
+                disabled={!checked}
+              >
+                Start Exam
+              </button>
+            </div>
+
+          </div>
+        )}
       </div>
     </Layout>
   );

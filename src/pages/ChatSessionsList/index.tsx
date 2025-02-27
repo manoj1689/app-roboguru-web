@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchChatSessions, resetChat } from '../../redux/slices/chatSessionHistorySlice';
 import { useRouter } from 'next/router'; // If using Next.js
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { BsArrowUpRight } from "react-icons/bs";
 
 import Layout from '@/components/HomeLayout';
@@ -18,7 +18,7 @@ const ChatSessionsPage: React.FC = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  console.log("chat sessions List", chatSessions)
+ 
   const goBack = () => {
     router.back(); // Goes one step back in history
   };
@@ -62,12 +62,16 @@ const ChatSessionsPage: React.FC = () => {
     <Layout>
 
       <section className='flex  flex-col w-full lg:pl-4'>
-        <div >
-          <TestBar />
-        </div>
+      <div className="flex flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+            <div className="flex flex-col mb-2 w-full">
+              <TestBar />
+            </div>
+            
+
+          </div>
         <div className="flex w-full gap-2 items-center">
           <div className="p-4">
-            <FaArrowLeft size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />
+            <FaArrowLeftLong  size={20} color="black" onClick={goBack} className="hover:cursor-pointer" />
           </div>
           <div>
             <h3 className="text-lg font-bold">Chat Sessions</h3>

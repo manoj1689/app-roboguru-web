@@ -56,13 +56,13 @@ const ImageUploader = () => {
   const handleRemoveImage = (index: number) => {
     setImageUrls((prev) => prev.filter((_, i) => i !== index));
   };
- console.log("custom input",customInput)
+
 
 
  const startAIChat = async () => {
   try {
    await dispatch(createSession()).unwrap();  
-    console.log("session id at image upload  page", sessionId);
+    
 
     dispatch(resetChat());
 

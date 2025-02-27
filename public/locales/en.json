@@ -809,6 +809,18 @@
     }
   },
   "homePage": {
+    "smartGrader": {
+      "title": "Smart Grader - AI-Powered Evaluation",
+      "description": "Understand how Smart Grader works and how it helps in AI-powered answer evaluation.",
+      "howItWorks": "How Smart Grader Works?",
+      "steps": [
+        "Submit your answers for AI evaluation.",
+        "Our AI analyzes content, accuracy, and structure.",
+        "Receive instant feedback with improvement suggestions.",
+        "Track progress and enhance learning efficiency."
+      ],
+      "startAiGrading": "Start AI Grading"
+    },
     "achievements": {
       "title": "Achievements & Badges",
       "description": "Keep up the good work—collect badges as you master new concepts.",
@@ -917,6 +929,7 @@
       },
       "viewFullLeaderboard": "View Full Leaderboard"
     },
+
     "upgradePro": {
       "title": "Upgrade to Pro",
       "description": "Get unlimited AI queries, voice mode, advanced analytics, and more with our Pro plan.",

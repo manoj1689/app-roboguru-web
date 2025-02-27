@@ -7,8 +7,7 @@ export const createSession = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosApi.post('/chat/sessions/start');
-      console.log("Chat session response in createSession:", response.data);
-
+      
       // Ensure response structure before accessing properties
       const sessionData = response.data?.data;
       if (!sessionData?.session_id) {

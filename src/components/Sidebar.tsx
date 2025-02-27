@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState, AppDispatch } from "../redux/store";
-import { fetchUserProfile } from "@/redux/slices/profileSlice";
+import { fetchEducationLevels } from "@/redux/slices/educationLevelSlice";
+import { fetchClasses } from "@/redux/slices/classSlice";
 import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,23 +16,33 @@ const Sidebar: React.FC = () => {
   
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [className, setClassName] = useState<string>("");
+  const [educationLevel, setEducationLevel] = useState<string>("");
   const [mounted, setMounted] = useState(false);
 
   const { profile } = useSelector((state: RootState) => state.profile);
-  const { selectedEducationLevel } = useSelector((state: RootState) => state.educationLevels);
-  const { classDetails } = useSelector((state: RootState) => state.class);
+  const { educationLevels } = useSelector((state: RootState) => state.educationLevels);
+  const { classes } = useSelector((state: RootState) => state.class);
 
   useEffect(() => {
-    dispatch(fetchUserProfile());
+  
+    dispatch(fetchEducationLevels({ limit: 10, name: "" }));
+    dispatch(fetchClasses({ limit: 20, name: "" })); // Provide default arguments
     setMounted(true);
   }, [dispatch]);
-
+ 
   useEffect(() => {
-    if (profile?.user_class && classDetails?.data?.length > 0) {
-      const foundClass = classDetails.data.find((cls: any) => cls.id === profile.user_class);
+    if (profile?.user_class && classes?.length > 0) {
+      const foundClass = classes.find((cls: any) => cls.id === profile.user_class);
       setClassName(foundClass ? foundClass.name : "Unknown Class");
     }
-  }, [classDetails, profile]);
+  }, [classes, profile]);
+
+  useEffect(() => {
+    if (profile?.education_level && educationLevels?.length > 0) {
+      const foundEducationLevel = educationLevels.find((edulevel: any) => edulevel.id === profile.education_level);
+      setEducationLevel(foundEducationLevel ? foundEducationLevel.name : "Unknown Class");
+    }
+  }, [classes, profile]);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -72,7 +83,7 @@ const Sidebar: React.FC = () => {
         <div className="flex flex-col justify-center items-center">
           <p className="font-semibold text-3xl">{profile?.name || "User"}</p>
           <span className="text-lg text-neutral-800">
-            {selectedEducationLevel?.name}-{className}
+            {educationLevel}-{className}
           </span>
         </div>
 

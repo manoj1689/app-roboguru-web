@@ -2,21 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState, AppDispatch } from "../../redux/store"; // Adjust path as needed
-import ProtectedRoute from "@/components/ProtectedRoute";
-import {
-  setName,
-  setEmail,
-  setDateOfBirth,
-  setOccupation,
-  setEducationLevel,
-  setClass,
-  setLanguage,
-  setProfileImage
-} from '../../redux/slices/profileSlice';
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { setProfileImage } from '../../redux/slices/profileSlice';
 import { fetchEducationLevels } from '../../redux/slices/educationLevelSlice'; // Import the thunk
 import { fetchClassesByLevel } from '@/redux/slices/classSlice'; // Import the new thunk
 import { updateUserProfile, uploadProfileImage } from '@/redux/slices/profileSlice';
 import { useTranslation } from 'next-i18next';
+import { signOut } from "next-auth/react";
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 type EducationLevel = {
   id: number;
@@ -34,23 +27,22 @@ const ProfilePage = () => {
   
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const profile = useSelector((state: RootState) => state.profile.profile);
+   // ✅ Managing state locally using useState instead of Redux
+   const [name, setName] = useState('');
+   const [email, setEmail] = useState('');
+   const [dateOfBirth, setDateOfBirth] = useState('1990-10-10');
+   const [occupation, setOccupation] = useState('');
+   const [educationLevel, setEducationLevel] = useState('');
+   const [selectedClass, setSelectedClass] = useState('');
+   const [language, setLanguage] = useState('english');
 
-  const name = profile?.name || '';
-  const email = profile?.email || '';
-  const dateOfBirth = profile?.date_of_birth || '';
-  const occupation = profile?.occupation || '';
-  const educationLevel = profile?.education_level || '';
-  const selectedClass = profile?.user_class || '';
-  const language = profile?.language || 'english';
-  const profile_image = profile?.profile_image || ''
+ 
 
   const { educationLevels, loading } = useSelector((state: RootState) => state.educationLevels);
-  const { classes, } = useSelector((state: RootState) => state.class); // Added state for classes
+  const { classes } = useSelector((state: RootState) => state.class); // Added state for classes
   const profileImage = useSelector((state: RootState) => state.profile.profile.profile_image);
   // Get the authentication state from Redux
-  const { profile_updated,user_profile, token, isLoading } = useSelector(
-    (state: RootState) => state.firebaseAuth
-  );
+ 
 
 
   useEffect(() => {
@@ -83,7 +75,7 @@ const ProfilePage = () => {
     }
   };
 
-  console.log("image url", profileImage)
+ 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,24 +93,24 @@ const ProfilePage = () => {
       education_level: educationLevel,
       user_class: selectedClass,
       language,
-      profile_image,
+      profile_image: profileImage,
     };
   
     try {
-      console.log('Submitted Profile Data:', profileData);
-      localStorage.setItem('user_profile', JSON.stringify(profileData));
+     
+      
       const result = await dispatch(updateUserProfile(profileData)).unwrap();
       
-      console.log('Profile updated successfully api response :', result);
+     
       
       // Reset form fields
-      dispatch(setName(''));
-      dispatch(setEmail(''));
-      dispatch(setDateOfBirth(''));
-      dispatch(setOccupation(''));
-      dispatch(setEducationLevel(''));
-      dispatch(setClass(''));
-      dispatch(setLanguage('english'));
+      setName('');
+      setEmail('');
+      setDateOfBirth('');
+      setOccupation('');
+      setEducationLevel('');
+      setSelectedClass('');
+      setLanguage('english');
       dispatch(setProfileImage(''));
   
       router.push('/Home');
@@ -127,20 +119,32 @@ const ProfilePage = () => {
       alert('Failed to update profile. Please try again.');
     }
   };
-  
+  const Logout = () => {
+     signOut({ redirect: false });
+            dispatch({ type: 'auth/logout' });
+            router.push('/'); // Redirect to landing page
+  };
 
   return (
-    <ProtectedRoute>
+   <ProtectedRoute>
  <div className="flex w-full max-md:flex-col justify-center items-center h-full relative">
       {/* Left Section */}
-      <div className="flex w-full md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-screen text-center">
-        <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto" />
-        <h1 className="text-2xl md:text-3xl lg:text-6xl font-sans font-extrabold pt-4 text-white tracking-wide">
-          {mounted ? t('profilePage.title') : 'Loading...'}
-        </h1>
-        <p className="text-white tracking-normal font-sans text-lg md:text-xl mt-4 lg:text-2xl">
-          {mounted ? t('profilePage.subtitle') : 'Loading...'}
-        </p>
+      <div className="flex w-full md:w-5/12 flex-col justify-around items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-screen text-center">
+       <div className="flex w-full text-white px-8 ">
+                 <span onClick={Logout} className="flex gap-4 hover:cursor-pointer items-center">
+                   <span><FaArrowLeftLong size={20} color="white" /></span><span className='text-lg font-semibold'>Logout</span>
+                 </span>
+       
+               </div>
+               <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto" />
+               <div>
+                 <h1 className="text-2xl md:text-3xl lg:text-6xl font-sans font-extrabold pt-4 text-white tracking-wide">
+                   {mounted ? t('signInPage.title') : 'Loading...'}
+                 </h1>
+                 <p className="text-white tracking-normal font-sans text-lg md:text-xl mt-4 lg:text-2xl">
+                   {mounted ? t('signInPage.subtitle') : 'Loading...'}
+                 </p>
+               </div>
       </div>
   
       {/* Center Circular Image */}
@@ -156,27 +160,29 @@ const ProfilePage = () => {
   
       {/* Right Section */}
       <div className="flex w-full md:w-5/12 flex-col h-screen md:overflow-y-auto items-center justify-around pt-4 md:pt-16 pb-4 px-4">
-        <div className="w-full flex flex-col justify-center items-center">
-          {profile_image && (
+      <div className="w-full flex flex-col justify-center items-center">
+          {profileImage && (
             <div className="relative">
-              <img src={profile_image} alt="Uploaded Profile" className="w-20 h-20 rounded-full object-cover border-gray-400 shadow-lg" />
-              <button className="absolute -top-2 -right-4 bg-red-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-sm hover:bg-red-600"
+              <img src={profileImage} alt="Profile" className="w-20 h-20 rounded-full object-cover border-gray-400 shadow-lg" />
+              <button
+                className="absolute -top-2 -right-4 bg-red-500 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-sm hover:bg-red-600"
                 onClick={() => dispatch(setProfileImage(''))}>
                 X
               </button>
             </div>
           )}
           <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleImageChange} />
-          {!profile_image && (
+          {!profileImage && (
             <div className="flex flex-col text-xl md:text-2xl px-4 font-bold justify-center hover:scale-110 shadow-lg hover:shadow-xl cursor-pointer hover:bg-gray-200 border-gray-400 rounded-xl items-center"
               onClick={handleDivClick}>
-              <img src="/images/add.png" alt="add profile" className="w-12 md:w-16" />
+              <img src="/images/add.png" alt="Add Profile" className="w-12 md:w-16" />
               <div className="text-sm md:text-lg font-bold text-gray-400 pb-2">
                 {mounted ? t('profilePage.uploadImage') : 'Upload Image'}
               </div>
             </div>
           )}
         </div>
+
   
         {/* Form Section */}
         <form onSubmit={handleSubmit} className="flex flex-col w-full space-y-4 lg:w-5/6 mx-auto">
@@ -186,7 +192,7 @@ const ProfilePage = () => {
             </label>
             <input type="text" placeholder={mounted ? t('profilePage.fullName.placeholder') : 'e.g. John Doe'}
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:outline-none rounded-t-lg focus:border-[#63A7D4] bg-[#f8fafa] hover:bg-white"
-              value={name} onChange={(e) => dispatch(setName(e.target.value))} required />
+              value={name} onChange={(e) => setName(e.target.value)} required />
           </div>
   
           <div>
@@ -194,7 +200,7 @@ const ProfilePage = () => {
               {mounted ? t('profilePage.educationLevel.label') : 'EDUCATION LEVEL'}
             </label>
             <select className="w-full px-4 py-2 border-b-2 border-gray-300 focus:outline-none rounded-t-lg focus:border-[#63A7D4] bg-[#f8fafa] hover:bg-white"
-              value={educationLevel} onChange={(e) => dispatch(setEducationLevel(e.target.value))} required>
+              value={educationLevel} onChange={(e) => setEducationLevel(e.target.value)} required>
               <option value="" disabled>{mounted ? t('profilePage.educationLevel.placeholder') : 'Select Education Level'}</option>
               {loading ? <option>Loading...</option> : educationLevels.map((level) => (
                 <option key={level.id} value={level.id}>{level.name}</option>
@@ -207,7 +213,7 @@ const ProfilePage = () => {
               {mounted ? t('profilePage.class.label') : 'CHOOSE CLASS'}
             </label>
             <select className="w-full px-4 py-2 border-b-2 border-gray-300 focus:outline-none rounded-t-lg focus:border-[#63A7D4] bg-[#f8fafa] hover:bg-white"
-              value={selectedClass} onChange={(e) => dispatch(setClass(e.target.value))} required>
+              value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)} required>
               <option value="" disabled>{mounted ? t('profilePage.class.placeholder') : 'e.g. Class 7'}</option>
               {loading ? <option>Loading...</option> : classes.map((classItem) => (
                 <option key={classItem.id} value={classItem.id}>{classItem.name}</option>
@@ -221,7 +227,7 @@ const ProfilePage = () => {
             </label>
             <input type="email" placeholder={mounted ? t('profilePage.email.placeholder') : 'e.g. johndoe@example.com'}
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:outline-none rounded-t-lg focus:border-[#63A7D4] bg-[#f8fafa] hover:bg-white"
-              value={email} onChange={(e) => dispatch(setEmail(e.target.value))} required />
+              value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
   
           <div>
@@ -229,7 +235,7 @@ const ProfilePage = () => {
               {mounted ? t('profilePage.language.label') : 'SELECT LANGUAGE'}
             </label>
             <select className="w-full px-4 py-2 border-b-2 border-gray-300 focus:outline-none rounded-t-lg focus:border-[#63A7D4] bg-[#f8fafa] hover:bg-white"
-              value={language} onChange={(e) => dispatch(setLanguage(e.target.value))} required>
+              value={language} onChange={(e) => setLanguage(e.target.value)} required>
               <option value="english">{mounted ? t('profilePage.language.options.english') : 'English'}</option>
               <option value="hindi">{mounted ? t('profilePage.language.options.hindi') : 'Hindi'}</option>
               <option value="french">{mounted ? t('profilePage.language.options.french') : 'French'}</option>
@@ -254,8 +260,10 @@ const ProfilePage = () => {
          </div>
       </div>
     </div>
+   </ProtectedRoute>
 
-    </ProtectedRoute>
+
+
    
   );
   

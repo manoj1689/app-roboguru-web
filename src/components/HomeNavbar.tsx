@@ -12,13 +12,15 @@ import { fetchUserProfile } from "@/redux/slices/profileSlice";
 import { useTranslation } from "react-i18next";
 import i18n from "@/utils/i18n";
 import { ToastContainer, toast } from "react-toastify";
-import Cookies from "js-cookie";
-
+import { MdUpdate } from "react-icons/md";
+import { MdLogout } from "react-icons/md";
+import { IoMdChatbubbles } from "react-icons/io";
+import { IoNotifications } from "react-icons/io5";
 const Header: React.FC = () => {
     const { t } = useTranslation();
     const router = useRouter();
     const dispatch: AppDispatch = useDispatch();
-    
+
     const [mounted, setMounted] = useState(false);
 
     const { profile, loading: profileLoading } = useSelector(
@@ -51,11 +53,11 @@ const Header: React.FC = () => {
     };
 
     const handleLogout = () => {
-        Cookies.remove("access_token");
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("user_profile");
         signOut({ redirect: false });
-        router.push("/");
+        dispatch({ type: 'auth/logout' });
+        router.push('/'); // Redirect to landing page
+
+
     };
 
     return (
@@ -169,27 +171,25 @@ const Header: React.FC = () => {
                                         }
                                         position="bottom right"
                                     >
-                                        <div className="flex flex-col px-8 py-2">
-                                            <div className="flex lg:hidden items-center gap-2 text-[#63A7D4]">
-                                                <span>Notification</span>
+                                        <div className="flex flex-col  py-2">
+                                            <div className="flex w-full lg:hidden gap-4 hover:scale-105 hover:bg-gray-100 p-2 text-[#63A7D4]">
+                                              <span><IoNotifications size={20}/></span>  <span>Notification</span>
                                             </div>
-                                            <div className="flex lg:hidden text-[#63A7D4]">
-                                                <span>
-                                                    <img src="/images/chatlogo.png" alt="chat logo" className="w-4" />
-                                                </span>
-                                                <span className="font-semibold">
-                                                    {mounted ? t("homeNavbar.liveChat") : "Loading..."}
-                                                </span>
+                                            <div className="flex w-full lg:hidden gap-4 hover:scale-105 hover:bg-gray-100 p-2 text-[#63A7D4]">
+                                                <span><IoMdChatbubbles size={20} /></span> <span>{mounted ? t("homeNavbar.liveChat") : "Loading..."}</span> 
                                             </div>
-                                            <div className="flex w-full text-[#63A7D4]">
-                                                {mounted ? t("homeNavbar.updateProfile") : "Loading..."}
+                                            <div className="flex w-full gap-4 hover:scale-105 hover:bg-gray-100 p-2 text-[#63A7D4] cursor-pointer" onClick={()=>router.push("/Profile")}>
+                                              <span><MdUpdate size={20} /></span> <span>{mounted ? t("homeNavbar.updateProfile") : "Loading..."}</span> 
                                             </div>
+                                            <div className="flex w-full justify-center items-center">
                                             <button
                                                 onClick={handleLogout}
-                                                className="bg-red-400 text-white py-2 w-full px-4 rounded mt-2"
+                                                className="flex w-full gap-4 text-red-400 hover:scale-105 hover:bg-gray-100 p-2 "
                                             >
-                                                {mounted ? t("homeNavbar.logout") : "Loading..."}
+                                               <span><MdLogout  size={20}/></span> <span>{mounted ? t("homeNavbar.logout") : "Loading..."}</span> 
                                             </button>
+                                            </div>
+                                           
                                         </div>
                                     </Popup>
                                 </div>

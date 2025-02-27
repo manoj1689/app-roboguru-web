@@ -1,16 +1,17 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosApi from '../../services/api'; // Adjust the path based on your actual service
+import axiosApi from '../../services/api';
 
 // Define the UserProfile interface
 interface UserProfile {
   name: string;
+  id?: string; // Made optional
   email: string;
   date_of_birth: string;
   occupation: string;
   education_level: string;
   user_class: string;
   language: string;
-  profile_image: string; // Profile image URL
+  profile_image: string;
 }
 
 interface ProfileState {
@@ -28,92 +29,64 @@ const initialState: ProfileState = {
     education_level: '',
     user_class: '',
     language: '',
-    profile_image: '', // Initialize with an empty string
+    profile_image: '',
   },
   loading: false,
   error: null,
 };
 
-// Async thunk to fetch user profile
+// Fetch user profile from API
 export const fetchUserProfile = createAsyncThunk(
   'user/fetchUserProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.get('/users/profile', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const response = await axiosApi.get('/users/profile');
       if (response.data.success) {
-        console.log('Profile data:', response.data.data);
         return response.data.data;
       } else {
         throw new Error(response.data.message || 'Failed to fetch user profile');
       }
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message || 'An unexpected error occurred'
-      );
+      return rejectWithValue(error.response?.data?.message || 'An unexpected error occurred');
     }
   }
 );
 
-// Async thunk to update user profile
+// Update user profile
 export const updateUserProfile = createAsyncThunk(
   'user/updateUserProfile',
   async (userData: UserProfile, { rejectWithValue }) => {
     try {
-      const response = await axiosApi.put('/users/profile/update', userData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const response = await axiosApi.put('/users/profile/update', userData);
       if (response.data.success) {
         return response.data.data;
       } else {
         throw new Error(response.data.message || 'Failed to update user profile');
       }
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || error.message || 'An unexpected error occurred'
-      );
+      return rejectWithValue(error.response?.data?.message || 'An unexpected error occurred');
     }
   }
 );
 
+// Upload profile image
 export const uploadProfileImage = createAsyncThunk(
   'profile/uploadProfileImage',
-  async (file: File, { rejectWithValue, dispatch }) => {
+  async (file: File, { rejectWithValue }) => {
     try {
-      // Create a FormData object to send the file
       const formData = new FormData();
-      formData.append('file', file); // Append the file to the FormData
+      formData.append('file', file);
 
-      // Send the file via axios POST request
       const response = await axiosApi.post('/users/profile/upload-image', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Accept: 'application/json', // Ensures the server returns JSON
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      // Check if the response was successful
       if (response.data.success) {
-        console.log('Image uploaded successfully:', response.data.data.image_url);
-        
-        // Dispatch the setProfileImage action to update the profile image in the Redux state
-        dispatch(setProfileImage(response.data.data.image_url));
-
-        // Return the image URL
         return response.data.data.image_url;
       } else {
-        console.log('Upload failed:', response.data.message);
         throw new Error(response.data.message || 'Failed to upload image');
       }
     } catch (error: any) {
-      console.error('Error during image upload:', error);
       return rejectWithValue(error.response?.data?.message || 'Upload failed');
     }
   }
@@ -123,32 +96,14 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    setName(state, action: PayloadAction<string>) {
-      state.profile.name = action.payload;
-    },
-    setEmail(state, action: PayloadAction<string>) {
-      state.profile.email = action.payload;
-    },
-    setDateOfBirth(state, action: PayloadAction<string>) {
-      state.profile.date_of_birth = action.payload;
-    },
-    setOccupation(state, action: PayloadAction<string>) {
-      state.profile.occupation = action.payload;
-    },
-    setEducationLevel(state, action: PayloadAction<string>) {
-      state.profile.education_level = action.payload;
-    },
-    setClass(state, action: PayloadAction<string>) {
-      state.profile.user_class = action.payload;
-    },
-    setLanguage(state, action: PayloadAction<string>) {
-      state.profile.language = action.payload;
+    setProfile(state, action: PayloadAction<UserProfile>) {
+      state.profile = action.payload;
     },
     setProfileImage(state, action: PayloadAction<string>) {
       state.profile.profile_image = action.payload;
     },
     resetProfile(state) {
-      state.profile = initialState.profile; // Reset profile state
+      state.profile = initialState.profile;
       state.loading = false;
       state.error = null;
     },
@@ -195,16 +150,5 @@ const profileSlice = createSlice({
 });
 
 // Export actions
-export const {
-  setName,
-  setEmail,
-  setDateOfBirth,
-  setOccupation,
-  setEducationLevel,
-  setClass,
-  setLanguage,
-  setProfileImage,
-  resetProfile, // Add resetProfile
-} = profileSlice.actions;
-
+export const { setProfile, setProfileImage, resetProfile } = profileSlice.actions;
 export default profileSlice.reducer;

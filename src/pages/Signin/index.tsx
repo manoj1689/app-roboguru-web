@@ -1,22 +1,23 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // Fix for Next.js App Router
+import { useRouter } from 'next/navigation';
 import { googleProvider, facebookProvider } from '@/lib/firebase';
 import { getAuth, signInWithPopup, User } from 'firebase/auth';
 import app from '@/lib/firebase';
 import FirebaseMobile from './FirebaseMobile';
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { firebaseLogin } from '@/redux/slices/firebaseAuthSlice';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
 import { useTranslation } from 'next-i18next';
-import Cookies from 'js-cookie';
 
 const SignInPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const profileUpdated = useSelector((state: RootState) => state.firebaseAuth.profile_updated);
+  const accessToken = useSelector((state: RootState) => state.firebaseAuth.token);
   const { t } = useTranslation();
   const auth = getAuth(app);
   const router = useRouter();
-
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -29,12 +30,7 @@ const SignInPage: React.FC = () => {
       console.error('No token received from authentication');
       return;
     }
-  
-    // Save token in cookies (expires in 7 days)
-    Cookies.set('access_token', token, { expires: 7, path: '/' });
-  
     dispatch(firebaseLogin(token));
-    router.push('/Home'); // Redirect to Home after login
   };
 
   // Google Sign-In
@@ -59,17 +55,40 @@ const SignInPage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (!accessToken) {
+      router.push('/Signin'); // Redirect to sign-in if token is missing
+      return;
+    }
+
+    if (profileUpdated !== null) {
+
+      router.push(profileUpdated ? '/Home' : '/Profile'); // Redirect based on profile status
+    }
+  }, [accessToken, profileUpdated, router]);
+  const goBack = () => {
+    router.back(); // Goes one step back in history
+  };
+
   return (
     <div className="flex max-md:flex-col justify-center items-center h-screen scroll-auto overflow-y-auto relative">
       {/* Left Section */}
-      <div className="flex w-full md:w-5/12 flex-col justify-center items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-full text-center max-md:py-12">
+      <div className="flex w-full md:w-5/12 flex-col justify-around items-center bg-gradient-to-r from-[#63A7D4] to-[#F295BE] md:h-full text-center max-md:py-12">
+        <div className="flex w-full text-white px-8 ">
+          <span onClick={goBack} className="flex gap-4 hover:cursor-pointer items-center">
+            <span><FaArrowLeftLong size={20} color="white" /></span><span className='text-lg font-semibold'>Back</span>
+          </span>
+
+        </div>
         <img src="/images/leftbanner.png" alt="Banner" className="max-md:hidden w-5/6 mx-auto" />
-        <h1 className="text-2xl md:text-3xl lg:text-6xl font-sans font-extrabold pt-4 text-white tracking-wide">
-          {mounted ? t('signInPage.title') : 'Loading...'}
-        </h1>
-        <p className="text-white tracking-normal font-sans text-lg md:text-xl mt-4 lg:text-2xl">
-          {mounted ? t('signInPage.subtitle') : 'Loading...'}
-        </p>
+        <div>
+          <h1 className="text-2xl md:text-3xl lg:text-6xl font-sans font-extrabold pt-4 text-white tracking-wide">
+            {mounted ? t('signInPage.title') : 'Loading...'}
+          </h1>
+          <p className="text-white tracking-normal font-sans text-lg md:text-xl mt-4 lg:text-2xl">
+            {mounted ? t('signInPage.subtitle') : 'Loading...'}
+          </p>
+        </div>
       </div>
 
       {/* Center Circular Image */}
@@ -95,7 +114,7 @@ const SignInPage: React.FC = () => {
         </div>
 
         {/* Social Login Buttons */}
-        <div className="flex w-full space-x-8 justify-center items-center">
+        <div className="flex w-full space-x-8  justify-center items-center my-4">
           <button
             onClick={handleFacebookSignIn}
             className="flex justify-center items-center rounded-full shadow-md hover:shadow-lg"
@@ -113,12 +132,12 @@ const SignInPage: React.FC = () => {
           </button>
         </div>
 
-        <div className="flex w-full text-gray-500 text-lg gap-2 justify-center text-center">
+        <div className="flex  flex-col lg:flex-row w-full text-gray-500 text-lg gap-2 justify-center text-center">
           <span className="font-semibold">{mounted ? t('signInPage.socialLogin.secureLogin') : 'Loading...'}</span> {mounted ? t('signInPage.socialLogin.platformText') : 'Loading...'}
         </div>
 
         {/* Footer */}
-        <div className="flex w-full flex-col justify-between items-center">
+        <div className="flex w-full flex-col justify-between mt-4 items-center">
           <p className="space-x-2 text-sm">
             <span className="font-medium">{mounted ? t('signInPage.socialLogin.sponsoredBy') : 'Loading...'}</span>
             <span className="text-blue-500 font-semibold">{mounted ? t('signInPage.socialLogin.companyName') : 'Loading...'}</span>

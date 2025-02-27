@@ -10,7 +10,7 @@ const ExamPage: React.FC = () => {
   if (!examTitle) {
     return <div className="text-center text-xl font-bold mt-10">No Exam Data Available</div>;
   }
-  console.log("question list at exam Page", questions)
+ 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">{examTitle}</h1>

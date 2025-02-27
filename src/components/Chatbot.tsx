@@ -41,7 +41,7 @@ export default function ChatbotWithStickyButton() {
   return (
     <div>
       {/* Sticky Button */}
-      <div className="fixed bottom-8 right-24 bg-white  px-4 py-2 text-black rounded-full shadow-lg hover:bg-[">
+      <div className="fixed bottom-8 right-24 bg-white  px-4 py-2 text-black rounded-full shadow-lg ">
         chat with us
       </div>
       <button

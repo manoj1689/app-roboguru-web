@@ -15,7 +15,7 @@ interface ClassState {
   selectedClass:any | null;
   loading: boolean;
   error: string | null;
-  classDetails: any | null; // Add a new field to store details of a specific class
+  classDetails: string | null; // Add a new field to store details of a specific class
 }
 
 // Initial state
@@ -30,9 +30,9 @@ const initialState: ClassState = {
 // Async thunk to fetch classes
 export const fetchClasses = createAsyncThunk(
   "classes/fetchClasses",
-  async ({ limit = 10, name = "" }: { limit?: number; name?: string }, { rejectWithValue }) => {
+  async ({ limit = 50, name = "" }: { limit?: number; name?: string }, { rejectWithValue }) => {
     try {
-      console.log("Fetching classes with:", { limit, name });
+     
 
       const response = await axiosApi.get("/classes/read_class_list", {
         headers: {
@@ -44,7 +44,7 @@ export const fetchClasses = createAsyncThunk(
         },
       });
 
-      console.log("Received classes:", response.data);
+    
 
       if (response.data.success) {
         return response.data.data || []; // Ensure it returns an array, even if null
@@ -74,7 +74,7 @@ export const fetchClassDetails = createAsyncThunk(
         },
       });
 
-      console.log("Received class details:", response.data);
+     
 
       if (response.data.success) {
         return response.data || {}; // Return the class details data
@@ -100,7 +100,7 @@ export const fetchClassesByLevel = createAsyncThunk(
   "classes/fetchClassesByLevel",
   async (level_id: string, { rejectWithValue }) => {
     try {
-      console.log("Fetching classes for level_id:", level_id);
+     
 
       const response = await axiosApi.get(`/classes/level/${level_id}`, {
         headers: {
@@ -108,7 +108,7 @@ export const fetchClassesByLevel = createAsyncThunk(
         },
       });
 
-      console.log("Received classes for level:", response.data);
+    
 
       if (response.data.success) {
         return response.data.data || []; // Ensure it returns an array

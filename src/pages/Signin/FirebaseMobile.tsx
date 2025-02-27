@@ -4,8 +4,8 @@ import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult }
 import app from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { firebaseLogin } from '@/redux/slices/firebaseAuthSlice';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../redux/store";
 import { useTranslation } from "next-i18next";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -15,6 +15,8 @@ const FirebaseMobile: React.FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const auth = getAuth(app); // Initialize Firebase Auth
+  const profileUpdated = useSelector((state: RootState) => state.firebaseAuth.profile_updated);
+  const accessToken = useSelector((state: RootState) => state.firebaseAuth.token);
 
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [otp, setOtp] = useState<string[]>(Array(6).fill('')); // OTP input fields
@@ -33,7 +35,7 @@ const FirebaseMobile: React.FC = () => {
       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
         size: 'invisible',
         callback: (response: string) => {
-          console.log(t("signInPage.recaptcha.solvedMessage"), response);
+        
         },
         'expired-callback': () => {
           console.warn(t("signInPage.recaptcha.expiredMessage"));
@@ -75,9 +77,9 @@ const FirebaseMobile: React.FC = () => {
       const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
       setConfirmation(confirmationResult);
       setOtpSent(true);
-      console.log('OTP sent successfully!');
+     
     } catch (err) {
-      console.error('Error sending OTP:', err);
+     
       setError('Failed to send OTP. Please try again.');
     } finally {
       setLoading(false);
@@ -98,11 +100,10 @@ const FirebaseMobile: React.FC = () => {
       const otpString = otp.join('');
       const result = await confirmation.confirm(otpString);
       const user = result.user;
-      console.log('Phone number verified successfully!');
+     
 
       const token = await user.getIdToken();
       dispatch(firebaseLogin(token));
-      router.push('/');
     } catch (err) {
       console.error('Error verifying OTP:', err);
       setError('Invalid OTP. Please try again.');
@@ -110,6 +111,18 @@ const FirebaseMobile: React.FC = () => {
       setLoading(false);
     }
   };
+
+    useEffect(() => {
+      if (!accessToken) {
+        router.push('/Signin'); // Redirect to sign-in if token is missing
+        return;
+      }
+  
+      if (profileUpdated !== null) {
+      
+        router.push(profileUpdated ? '/Home' : '/Profile'); // Redirect based on profile status
+      }
+    }, [accessToken, profileUpdated, router]);
 
   return (
     <div className="firebase-mobile">

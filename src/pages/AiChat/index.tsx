@@ -59,7 +59,7 @@ const AiChatComponent = () => {
   const chatSessionId = searchParams?.get('chatSessionId') || '';
   const imageChatSessionId = searchParams?.get('imageChatSessionId') || '';
   const previousChatSessionId = searchParams?.get('previousChatSessionId') || '';
-  //console.log("chat session id", chatSessionId)
+  
 
   // State for display data and input field
   const [subjectName, setSubjectName] = useState<string>('');
@@ -87,8 +87,7 @@ const AiChatComponent = () => {
   );
   const { images, customQuestion } = useSelector((state: RootState) => state.image);
   const { aiResponse, loading:imageChatLoading, error:imageChatError } = useSelector((state: RootState) => state.imageUpload);
-  console.log("images at aichat page and question", images, customQuestion);
-  console.log("image Ai response ",aiResponse)
+  
   useEffect(() => {
     if ((images.length > 0 || customQuestion) && currentChatHistory.length === 0) {
       setCurrentChatHistory((prev) => [
@@ -120,14 +119,15 @@ const AiChatComponent = () => {
     ]);
   }
 }, [aiResponse]);
- console.log("ai response text response",aiResponse?.text_response)
+
+ const { profile } = useSelector((state: RootState) => state.profile);
   const { classes } = useSelector((state: RootState) => state.class);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
   const { subjects } = useSelector((state: RootState) => state.subjects);
 
 
-  console.log("origal chat Histroy", chat_summary)
+ 
 
 
   // Fetch chat history when previousChatSessionId  is available
@@ -153,8 +153,7 @@ const AiChatComponent = () => {
 
   }, [previousChatSessionId, answer]);
 
-  console.log("session id at chat Page", chatSessionId)
-  console.log("previous session id at chat Page", previousChatSessionId)
+ 
 
   useEffect(() => {
     if (chatHistory) {
@@ -176,43 +175,30 @@ const AiChatComponent = () => {
   }, [chatHistory]);
 
 
-  // Fetch subjects based on user's class
-  useEffect(() => {
-    const userData = localStorage.getItem('user_profile');
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      if (parsedData.user_class) {
-        dispatch(fetchSubjectsByClassId(parsedData.user_class));
-      }
+ 
+useEffect(() => {
+  if (profile) {
+    // Fetch subjects based on user's class
+    if (profile.user_class) {
+      dispatch(fetchSubjectsByClassId(profile.user_class));
     }
-  }, [dispatch]);
 
-  // Fetch classes based on education level
-  useEffect(() => {
-    const educationLevelData = localStorage.getItem('user_profile');
-    if (educationLevelData) {
-      const parsedData = JSON.parse(educationLevelData);
-      dispatch(fetchClassesByLevel(parsedData.education_level));
+    // Fetch classes based on education level
+    if (profile.education_level) {
+      dispatch(fetchClassesByLevel(profile.education_level));
     }
-  }, [dispatch]);
+  }
+}, [dispatch, profile]);
 
-  // Update class name
   useEffect(() => {
-    const userData = localStorage.getItem('user_profile');
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      if (parsedData.user_class && classes.length > 0) {
-        const foundClass = classes.find((cls) => cls.id === parsedData.user_class);
-        setClassName(foundClass ? foundClass.name : 'Unknown Class');
-      }
+    if (profile?.user_class && classes?.length > 0) {
+      const foundClass = classes.find((cls: any) => cls.id === profile.user_class);
+      setClassName(foundClass ? foundClass.name : "Unknown Class");
     }
-  }, [classes]);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Safe to use window here
-      console.log(window.innerWidth);
-    }
-  }, []);
+  }, [classes, profile]);
+
+
+ 
   
   // Fetch chapters based on subject
   useEffect(() => {
@@ -241,18 +227,18 @@ const AiChatComponent = () => {
   useEffect(() => {
     if (trendingTopicId && trendingTopics.length > 0) {
       const topic = trendingTopics.find((trendingTopic) => trendingTopic.id === trendingTopicId);
-      console.log("topic at chat page list", trendingTopics)
+      
       if (topic) {
         setTopicName(topic.name); // Set the topic name
         setChapterName(topic.chapter_name); // Set chapter name
         setSubjectName(topic.subject_name); // Set subject name
 
       }
-      console.log("Selected topic details:", topic);
+     
     }
   }, [trendingTopicId]);
 
-  console.log("topics at topic latest", trendingTopics)
+
 
   // Update display names for subject, chapter, topic, and handle subtopics
   useEffect(() => {
@@ -299,7 +285,7 @@ const AiChatComponent = () => {
 
 
 
-    console.log('Chat payload', payload);
+  
     dispatch(sendChatQuestion(payload));
 
     // Reset transcript after sending
@@ -322,12 +308,12 @@ const AiChatComponent = () => {
       question: suggestedQuestion,
       chat_summary,
     };
-    console.log('Chat payload from suggested question', payload);
+    
     dispatch(sendChatQuestion(payload));
   };
 
 
-  console.log("chat History", chatHistory)
+  
 
   const goBack = () => {
     dispatch(resetChat()); // Clear chat history
