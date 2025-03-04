@@ -184,7 +184,7 @@ console.log(className,"chapter",chapterName,"sub",subjectName)
             </button>
           </>
         ) : (
-          <p className="text-gray-600 text-center mt-6">No questions found. Please try again.</p>
+          <p className="text-gray-600 text-center mt-6">No questions available. Please try again.</p>
         )}
       </div>
     </Layout>
