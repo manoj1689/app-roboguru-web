@@ -7,10 +7,17 @@ import { fetchSubjectsByClassId } from "../../redux/slices/subjectSlice";
 import Layout from "@/components/HomeLayout";
 import GreetingBar from "@/components/GreetingBar";
 import { IoChevronForward } from "react-icons/io5";
+import { RxDividerVertical } from "react-icons/rx";
+import { FaRegEdit } from "react-icons/fa";
 import { fetchUserProgress } from "../../redux/slices/progressSlice";
 import { Line } from "rc-progress";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import TestBar from "@/components/TestBar";
+import ChapterPicker from "../ExamModal/chapterPicker"
+import { Modal } from "react-responsive-modal";
+import { FaBrain } from "react-icons/fa6";
+import "react-responsive-modal/styles.css";
+import "../modal/custom-styling.css"
 const ChapterScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -26,7 +33,7 @@ const ChapterScreen = () => {
   const { subjects, loading: subjectsLoading, error: subjectsError } = useSelector(
     (state: RootState) => state.subjects
   );
-
+  const [open, setOpen] = useState(false);
   const [visibleChapters, setVisibleChapters] = useState<any[]>([]);
   const [currentSubject, setCurrentSubject] = useState<{ name: string; tagline: string } | null>(null);
 
@@ -95,13 +102,18 @@ const ChapterScreen = () => {
             </div>
             <div className="flex w-full  justify-end items-center">
               <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
-                onClick={() => router.push(`/ExamModule?subjectId=${subjectId}`)}
+                //onClick={() => router.push(`/ExamModule?subjectId=${subjectId}`)}
+                onClick={() => setOpen(true)}
               >
                 Take a Test
               </button>
             </div>
 
           </div>
+          {/* Modal for ExamPicker */}
+          <Modal open={open} onClose={() => setOpen(false)} classNames={{ modal: 'customModalGoogle' }} center>
+            <ChapterPicker currentSubject={subjectId} />
+          </Modal>
           {currentSubject && (
             <div className="flex gap-4 w-full  mt-4">
 
@@ -151,13 +163,33 @@ const ChapterScreen = () => {
                     <div className="flex w-full mx-auto my-2 ">
                       <Line
                         percent={parseFloat(getChapterProgress(chapter.id).toFixed(2))}
-                        strokeWidth={1.5}
-                        trailWidth={1.5}
+                        strokeWidth={1}
+                        trailWidth={1}
                         strokeColor="#63A7D4"
                         trailColor="#CDE6F7"
                       />
                     </div>
-                    <div className="flex w-full text-[#418BBB] items-center gap-2  "><span className="text-xl font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm  font-semibold">Progress Achieve</span></div>
+
+                    <div className="flex w-full justify-between   ">
+                      <div className="flex items-center gap-2 ">
+                        <div>
+                          <span className="text-xl text-[#418BBB]  font-bold">{parseFloat(getChapterProgress(chapter.id).toFixed(2))} %</span> <span className="text-sm text-[#418BBB]  font-semibold">Progress Achieve</span>
+                        </div>
+                        <div className="flex gap-2"> <span><RxDividerVertical size={20} color="gray" /></span><span><FaBrain size={20} color="gray" /></span><span className="bg-gradient-to-r font-semibold from-blue-400 to-pink-400 bg-clip-text text-transparent">
+                          Test
+                        </span>
+                        </div>
+                        <div className="flex gap-2"> <span><RxDividerVertical size={20} color="gray" /></span><span><FaRegEdit size={20} color="gray" /></span><span className="bg-gradient-to-r font-semibold from-blue-400 to-pink-400 bg-clip-text text-transparent">
+                          Notes
+                        </span></div>
+                      </div>
+                      <div className="text-sm font-semibold ">
+                        {parseFloat(getChapterProgress(chapter.id).toFixed(2))}/100
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+
                   </div>
                 </div>
 

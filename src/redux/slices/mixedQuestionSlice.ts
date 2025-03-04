@@ -49,14 +49,14 @@ interface MixedExamState {
 interface FetchMixedQuestionsParams {
     class_name: string;
     subject_name: string;
-    chapter_name: string;
-    topic_name: string;
+    chapters: {
+        chapter_name: string;
+        topics: string[];
+    }[];
     num_questions: number;
     difficulty: string;
     question_distribution: {
-        objective: number;
-        true_false: number;
-        descriptive: number;
+        [key: string]: number; // To allow dynamic properties like additionalProp1, additionalProp2, etc.
     };
 }
 
@@ -68,6 +68,7 @@ export const fetchMixedQuestions = createAsyncThunk<
     'exams/fetchMixedQuestions',
     async (params, thunkAPI) => {
         try {
+            console.log("params in api",params)
             const response = await axiosApi.post<MixedQuestionsResponse>('/exams/mixed', params);
          
             return response.data;

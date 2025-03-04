@@ -10,15 +10,22 @@ import { RootState, AppDispatch } from "../../redux/store";
 import { fetchTopicsByChapterId } from "../../redux/slices/topicSlice";
 import Layout from "@/components/HomeLayout";
 import { BsChatLeftText } from "react-icons/bs";
-import { RiVoiceAiLine } from "react-icons/ri";
+import { RxDividerVertical } from "react-icons/rx";
 import { IoMdMic } from "react-icons/io";
 import { IoChatbubbles } from "react-icons/io5";
+import { FaBrain } from "react-icons/fa6";
 import { MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { BsArrowUpRight } from "react-icons/bs";
+import { FaRegEdit } from "react-icons/fa";
+import { FaReadme } from "react-icons/fa";
 import { Line } from "rc-progress";
 import TestBar from "@/components/TestBar";
-
+import TopicPicker from "../ExamModal/TopicPicker"
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import "../modal/custom-styling.css"
+import { RiVoiceAiLine } from "react-icons/ri";
 const TopicScreen = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -46,7 +53,7 @@ const TopicScreen = () => {
   const [topicName, setTopicName] = useState<string>('');
   const [className, setClassName] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
-  
+  const [open, setOpen] = useState(false);
 
   // Generate random progress for each topic when topics are fetched
   useEffect(() => {
@@ -65,33 +72,33 @@ const TopicScreen = () => {
       dispatch(fetchTopicsByChapterId(chapterId as string));
     }
   }, [dispatch, chapterId]);
-    // Fetch topics when chapterId changes
-   
+  // Fetch topics when chapterId changes
 
-    useEffect(() => {
-      const initializeSession = async () => {
-        try {
-          await dispatch(resetSessionState()); // Reset session state
-          let newSessionId:any = sessionId;
-          
-          if (!newSessionId) {
-            const result = await dispatch(createSession()); // Ensure session is created
-            newSessionId = result.payload; // Get the new session ID
-           
-          }
-    
-          // Reset chat only after ensuring session is set
-          await dispatch(resetChat());
-        } catch (error) {
-          console.error("Error initializing session:", error);
+
+  useEffect(() => {
+    const initializeSession = async () => {
+      try {
+        await dispatch(resetSessionState()); // Reset session state
+        let newSessionId: any = sessionId;
+
+        if (!newSessionId) {
+          const result = await dispatch(createSession()); // Ensure session is created
+          newSessionId = result.payload; // Get the new session ID
+
         }
-      };
-    
-      if (!sessionId) {
-        initializeSession();
+
+        // Reset chat only after ensuring session is set
+        await dispatch(resetChat());
+      } catch (error) {
+        console.error("Error initializing session:", error);
       }
-    }, [dispatch, sessionId]); // ✅ Added sessionId dependency to avoid multiple resets
-    
+    };
+
+    if (!sessionId) {
+      initializeSession();
+    }
+  }, [dispatch, sessionId]); // ✅ Added sessionId dependency to avoid multiple resets
+
 
   // Set visible topics when topics are fetched
   useEffect(() => {
@@ -111,9 +118,9 @@ const TopicScreen = () => {
   }, [chapters, chapterId]);
   // Update display names for subject, chapter, topic, and handle subtopics
   useEffect(() => {
-    
+
     if (profile) {
-      
+
       if (profile.name) {
         setUserName(profile.name);
 
@@ -129,10 +136,10 @@ const TopicScreen = () => {
 
     }
   }, [subjectId, chapterId, subjects, chapters, topics]);
-  
+
   // Function to navigate when topic is selected
   const handleTopicChat = async (topicId: string) => {
-   
+
     if (!sessionId) {
       console.error("Session ID is null, waiting for session...");
       return;
@@ -142,7 +149,7 @@ const TopicScreen = () => {
   };
 
   const handleSubTopicChat = async (topicId: string, subTopicId: number) => {
-   
+
     if (!sessionId) {
       console.error("Session ID is null, waiting for session...");
       return;
@@ -212,14 +219,18 @@ const TopicScreen = () => {
           </div>
           <div className="flex w-full  justify-end items-center">
             <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
-              onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}`)}
+              //onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}`)}
+              onClick={() => setOpen(true)}
             >
               Take a Test
             </button>
           </div>
 
         </div>
-
+        {/* Modal for ExamPicker */}
+        <Modal open={open} onClose={() => setOpen(false)} classNames={{ modal: 'customModalGoogle' }} center>
+          <TopicPicker subjectId={subjectId} chapterId={chapterId} />
+        </Modal>
         {currentChapter && (
 
 
@@ -255,8 +266,8 @@ const TopicScreen = () => {
                         <span className="w-full">
                           <Line
                             percent={progressValues[topic.id] || 10} // Default to 10% if missing
-                            strokeWidth={1.5}
-                            trailWidth={1.5}
+                            strokeWidth={1}
+                            trailWidth={1}
                             strokeColor="#63A7D4"
                             trailColor="#CDE6F7"
                           />
@@ -269,35 +280,51 @@ const TopicScreen = () => {
                     </div>
 
                     <div className="flex w-full justify-start">
-                      {topic.subtopics?.length > 0 && (
-                        <button
-                          onClick={() => handleExpand(topic.id)}
-                          className="py-2 text-[#418BBB] text-sm sm:text-md font-semibold tracking-widest underline flex items-center gap-1"
-                        >
-                          {expandedTopics[topic.id] ? (
-                            <>
-                              Expand Less  <MdKeyboardDoubleArrowUp size={16} />
-                            </>
-                          ) : (
-                            <>
-                              Expand More<MdKeyboardDoubleArrowDown size={16} />
-                            </>
-                          )}
-                        </button>
-                      )}
+                      <div>
+                        {topic.subtopics?.length > 0 && (
+                          <button
+                            onClick={() => handleExpand(topic.id)}
+                            className="py-2 text-[#418BBB] text-sm sm:text-md font-semibold tracking-widest underline flex items-center gap-1"
+                          >
+                            {expandedTopics[topic.id] ? (
+                              <>
+                                Expand Less  <MdKeyboardDoubleArrowUp size={16} />
+                              </>
+                            ) : (
+                              <>
+                                Expand More<MdKeyboardDoubleArrowDown size={16} />
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 ">
+
+
+                        <div className="flex gap-2"> <span><RxDividerVertical size={20} color="gray" /></span><span><FaBrain size={20} color="gray" /></span><span className="bg-gradient-to-r font-semibold from-blue-400 to-pink-400 bg-clip-text text-transparent">
+                          Test
+                        </span>
+                        </div>
+                        <div className="flex gap-2"> <span><RxDividerVertical size={20} color="gray" /></span><span><FaRegEdit size={20} color="gray" /></span><span className="bg-gradient-to-r font-semibold from-blue-400 to-pink-400 bg-clip-text text-transparent">
+                          Notes
+                        </span></div>
+                        <div className="flex gap-2 items-center cursor-pointer" onClick={()=>router.push("/Learn")}> <span><RxDividerVertical size={20} color="gray" /></span><span><FaReadme size={20} color="gray" /></span><span className="bg-gradient-to-r font-semibold from-blue-400 to-pink-400 bg-clip-text text-transparent">
+                          Learn
+                        </span></div>
+                      </div>
                     </div>
                   </div>
 
                   <div className="flex justify-end items-center p-2 gap-4">
-                    {/* <BsChatLeftText  onClick={() => handleTopicChat(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105"/>
-                  <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" /> */}
+                    <BsChatLeftText  onClick={() => handleTopicChat(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105"/>
+                  <RiVoiceAiLine onClick={()=>launchChatGPT(topic.id)} size={25} color="#418BBB" className="cursor-pointer hover:scale-105" />
 
-                    <button
+                    {/* <button
                       onClick={() => handleTopicChat(topic.id)}
                       className="py-2 bg-[#418BBB] px-4 rounded-lg shadow-lg flex justify-center items-center text-white  font-semibold tracking-widest "
                     >
                       <span className="flex px-2 gap-2 justify-center items-center"><BsChatLeftText size={20} /> <span>Chat</span></span>
-                    </button>
+                    </button> */}
 
                   </div>
                 </div>
@@ -325,8 +352,8 @@ const TopicScreen = () => {
                           className="flex  text-[#51AAD4] transition-all gap-8"
                         >
                           <IoChatbubbles size={25} onClick={() => handleSubTopicChat(topic.id, subIndex)} className="cursor-pointer hover:scale-105" />
-                          {/* <IoMdMic size={25} onClick={() => launchChatGPT(topic.id, subIndex)} className="cursor-pointer" /> */}
-                          <IoMdMic size={25} className="cursor-pointer " />
+                          <IoMdMic size={25} onClick={() => launchChatGPT(topic.id, subIndex)} className="cursor-pointer" />
+                          {/* <IoMdMic size={25} className="cursor-pointer " /> */}
                         </div>
                       </div>
                     ))}

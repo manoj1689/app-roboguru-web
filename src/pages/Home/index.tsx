@@ -17,8 +17,8 @@ import ImageChat from "../ImageChat";
 import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ExamPicker from "../ExamModal/ExamPicker";
-
+import ExamPicker from "../ExamModal/subjectPicker";
+import "../modal/custom-styling.css"
 const HomePage = () => {
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
@@ -73,7 +73,7 @@ const HomePage = () => {
               </div>
 
               {/* Modal for ExamPicker */}
-              <Modal open={open} onClose={() => setOpen(false)} center>
+              <Modal open={open} onClose={() => setOpen(false)} classNames={{ modal: 'customModalGoogle' }} center>
                 <ExamPicker />
               </Modal>
             </section>

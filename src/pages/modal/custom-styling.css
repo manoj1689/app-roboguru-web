@@ -1,0 +1,15 @@
+
+
+/* Modal with purple background, rounded corners, and max-width */
+.customModalGoogle {
+  background:white; 
+  border-radius: 10px; /* Rounded corners */
+  padding: 0px;
+  min-width: 300px; /* Maximum width for the modal */
+  width: 100%; /* Full width within the max-width constraint */
+  height: auto;
+  margin: auto;
+  box-shadow: none;
+ 
+}
+

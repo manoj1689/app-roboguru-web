@@ -44,8 +44,12 @@ const ExamOptions: React.FC = () => {
     const params = {
       class_name: className,
       subject_name: subjectName,
-      chapter_name: chapterName,
-      topic_name: topicName,
+      chapters: [
+        {
+          chapter_name: chapterName,
+          topics: [topicName],
+        },
+      ],
       num_questions: 5,
       difficulty: "medium",
       question_distribution: {
@@ -54,8 +58,9 @@ const ExamOptions: React.FC = () => {
         descriptive: 1,
       },
     };
+
     dispatch(fetchMixedQuestions(params));
-  }, [dispatch, className, subjectName, chapterName, topicName]);
+  }, [className, subjectName, chapterName, topicName, dispatch]);
 
   const handleStartExam = () => {
     if (response) {

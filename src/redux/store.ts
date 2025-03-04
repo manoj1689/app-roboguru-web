@@ -19,7 +19,7 @@ import examModuleSliceReducer from './slices/examModuleSlice';
 import examAnalysisSliceReducer from './slices/examAnalysisSlice';
 import trueFalseSliceReducer from './slices/trueFalseExamSlice';
 import mixedQuestionSliceReducer from './slices/mixedQuestionSlice';
-
+import smartLearningSliceReducer from './slices/smartLearningSlice'
 // 🔹 Define the persist config for specific slices
 const persistConfig = {
     key: 'root',
@@ -47,6 +47,7 @@ const appReducer = combineReducers({
     examAnalysis: examAnalysisSliceReducer,
     trueFalseExam: trueFalseSliceReducer,
     mixedQuestionExam: mixedQuestionSliceReducer,
+    smartLearning:smartLearningSliceReducer
 });
 
 // 🔹 Apply persistReducer only to specific slices

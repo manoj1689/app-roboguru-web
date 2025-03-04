@@ -1,5 +1,5 @@
 "use client"
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import HomeNavbar from "@/components/HomeNavbar"
@@ -28,6 +28,10 @@ import { fetchChatHistory } from "../../redux/slices/chatSessionHistorySlice";
 import { updateUserTopicProgress } from '../../redux/slices/progressSlice';
 import { resetChat } from '../../redux/slices/chatSlice';
 import { RootState, AppDispatch } from '../../redux/store';
+import ChatExamPicker from "../ExamModal/chatExamPicker"
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import "../modal/custom-styling.css"
 import { RiArrowDownSLine } from "react-icons/ri";
 import { HiMiniSpeakerWave } from "react-icons/hi2";
 import { HiMiniSpeakerXMark } from "react-icons/hi2";
@@ -59,7 +63,7 @@ const AiChatComponent = () => {
   const chatSessionId = searchParams?.get('chatSessionId') || '';
   const imageChatSessionId = searchParams?.get('imageChatSessionId') || '';
   const previousChatSessionId = searchParams?.get('previousChatSessionId') || '';
-  
+
 
   // State for display data and input field
   const [subjectName, setSubjectName] = useState<string>('');
@@ -72,8 +76,9 @@ const AiChatComponent = () => {
   >([]);
 
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
- 
+
   const { chat_summary, answer, suggested_questions, loading: chatLoading, error: chatError } = useSelector(
     (state: RootState) => state.chat
   );
@@ -86,8 +91,8 @@ const AiChatComponent = () => {
     (state: RootState) => state.chatHistory // Correct state reference
   );
   const { images, customQuestion } = useSelector((state: RootState) => state.image);
-  const { aiResponse, loading:imageChatLoading, error:imageChatError } = useSelector((state: RootState) => state.imageUpload);
-  
+  const { aiResponse, loading: imageChatLoading, error: imageChatError } = useSelector((state: RootState) => state.imageUpload);
+
   useEffect(() => {
     if ((images.length > 0 || customQuestion) && currentChatHistory.length === 0) {
       setCurrentChatHistory((prev) => [
@@ -102,32 +107,32 @@ const AiChatComponent = () => {
   }, [images, customQuestion]);
 
 
- useEffect(() => {
+  useEffect(() => {
     if (images.length > 0) {
       dispatch(processImagesWithAI({ imageUrls: images, prompt: customQuestion || "", languageCode: "en" }));
     }
   }, [images, customQuestion, dispatch]); // Dependency array
 
   useEffect(() => {
-  if (aiResponse) {
-    setCurrentChatHistory((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: aiResponse.text_response, // Add the AI's text response
-      },
-    ]);
-  }
-}, [aiResponse]);
+    if (aiResponse) {
+      setCurrentChatHistory((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: aiResponse.text_response, // Add the AI's text response
+        },
+      ]);
+    }
+  }, [aiResponse]);
 
- const { profile } = useSelector((state: RootState) => state.profile);
+  const { profile } = useSelector((state: RootState) => state.profile);
   const { classes } = useSelector((state: RootState) => state.class);
   const { chapters } = useSelector((state: RootState) => state.chapters);
   const { topics } = useSelector((state: RootState) => state.topics);
   const { subjects } = useSelector((state: RootState) => state.subjects);
 
 
- 
+
 
 
   // Fetch chat history when previousChatSessionId  is available
@@ -153,7 +158,7 @@ const AiChatComponent = () => {
 
   }, [previousChatSessionId, answer]);
 
- 
+
 
   useEffect(() => {
     if (chatHistory) {
@@ -175,20 +180,20 @@ const AiChatComponent = () => {
   }, [chatHistory]);
 
 
- 
-useEffect(() => {
-  if (profile) {
-    // Fetch subjects based on user's class
-    if (profile.user_class) {
-      dispatch(fetchSubjectsByClassId(profile.user_class));
-    }
 
-    // Fetch classes based on education level
-    if (profile.education_level) {
-      dispatch(fetchClassesByLevel(profile.education_level));
+  useEffect(() => {
+    if (profile) {
+      // Fetch subjects based on user's class
+      if (profile.user_class) {
+        dispatch(fetchSubjectsByClassId(profile.user_class));
+      }
+
+      // Fetch classes based on education level
+      if (profile.education_level) {
+        dispatch(fetchClassesByLevel(profile.education_level));
+      }
     }
-  }
-}, [dispatch, profile]);
+  }, [dispatch, profile]);
 
   useEffect(() => {
     if (profile?.user_class && classes?.length > 0) {
@@ -198,8 +203,8 @@ useEffect(() => {
   }, [classes, profile]);
 
 
- 
-  
+
+
   // Fetch chapters based on subject
   useEffect(() => {
     if (subjectId) {
@@ -227,14 +232,14 @@ useEffect(() => {
   useEffect(() => {
     if (trendingTopicId && trendingTopics.length > 0) {
       const topic = trendingTopics.find((trendingTopic) => trendingTopic.id === trendingTopicId);
-      
+
       if (topic) {
         setTopicName(topic.name); // Set the topic name
         setChapterName(topic.chapter_name); // Set chapter name
         setSubjectName(topic.subject_name); // Set subject name
 
       }
-     
+
     }
   }, [trendingTopicId]);
 
@@ -265,7 +270,7 @@ useEffect(() => {
   }, [subjectId, chapterId, topicId, subtopicId, subjects, chapters, topics]);
 
   const handleSendQuestion = () => {
-    const userMessage = { role: 'user', content: question || ''  };
+    const userMessage = { role: 'user', content: question || '' };
 
     // If there's no valid input, return early
     if (!userMessage.content.trim()) return;
@@ -274,7 +279,7 @@ useEffect(() => {
     setCurrentChatHistory(updatedChatHistory);
 
     const payload = {
-      session_id: chatSessionId|| previousChatSessionId || '',
+      session_id: chatSessionId || previousChatSessionId || '',
       class_name: className,
       subject_name: subjectName,
       chapter_name: chapterName,
@@ -285,12 +290,12 @@ useEffect(() => {
 
 
 
-  
+
     dispatch(sendChatQuestion(payload));
 
     // Reset transcript after sending
     setQuestion('')
-   
+
   };
 
   const handleSuggestedQuestionClick = (suggestedQuestion: string) => {
@@ -308,12 +313,12 @@ useEffect(() => {
       question: suggestedQuestion,
       chat_summary,
     };
-    
+
     dispatch(sendChatQuestion(payload));
   };
 
 
-  
+
 
   const goBack = () => {
     dispatch(resetChat()); // Clear chat history
@@ -321,7 +326,7 @@ useEffect(() => {
     setCurrentChatHistory([]); // Clear local chat history
     router.back(); // Navigate back
   };
-  
+
 
   return (
     < >
@@ -336,8 +341,8 @@ useEffect(() => {
 
         <div className='flex w-full flex-col sm:px-8 '>
 
-        <div className="flex mt-20 flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
-        <div className="flex flex-col mb-2 w-full">
+          <div className="flex mt-20 flex-col sm:flex-row w-full justify-between rounded bg-gradient-to-r from-[#63A7D4] to-[#F295BE] text-white p-5  transition-transform">
+            <div className="flex flex-col mb-2 w-full">
               <p><strong>Class:</strong> {className}</p>
               <p><strong>Subject:</strong> {subjectName}</p>
               <p><strong>Chapter:</strong> {chapterName}</p>
@@ -345,15 +350,21 @@ useEffect(() => {
             </div>
             <div className='flex w-full justify-end'>
               <div className='self-center'>
-              <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
-              onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}`)}
-            >
-              Take a Test
-            </button>
-              </div>
-           
+                <button className="px-4 py-2 font-medium text-gray-200 rounded-lg bg-gradient-to-t from-[#7A4F9F] to-[#F15A97] transition-all duration-300 hover:opacity-80"
+                 // onClick={() => router.push(`/ExamModule?subjectId=${subjectId}&chapterId=${chapterId}&topicId=${topicId}`)}
+                
+                   onClick={() => setOpen(true)}
+              >
+                Take a Test
+              </button>
             </div>
-           
+
+          </div>
+           {/* Modal for ExamPicker */}
+           <Modal open={open} onClose={() => setOpen(false)} classNames={{ modal: 'customModalGoogle' }} center>
+                <ChatExamPicker />
+              </Modal>
+
           </div>
 
           <div className=" w-full    rounded-lg"  >
@@ -379,7 +390,7 @@ useEffect(() => {
                     >
                       {entry.role === "user" ? (
                         <div className="flex flex-col bg-[#CAE0EF] px-4 py-2 text-black text-right rounded-t-xl rounded-l-xl">
-                         
+
                           {/* Render images */}
                           {entry.images?.length ? (
                             <div className="flex flex-wrap gap-2 mt-2">
@@ -393,8 +404,8 @@ useEffect(() => {
                               ))}
                             </div>
                           ) : null}
-                           {/* Render text */}
-                           {entry.content && <Markdown>{entry.content}</Markdown>}
+                          {/* Render text */}
+                          {entry.content && <Markdown>{entry.content}</Markdown>}
 
                         </div>
                       ) : (
@@ -408,7 +419,7 @@ useEffect(() => {
 
                             <div className="flex w-full justify-start items-center gap-2 text-black  p-2">
                               {/* Play/Stop Button */}
-                            
+
                               {/* Like Button */}
                               <div>
                                 <AiOutlineLike size={25} className="text-[#4F87CC]" />
@@ -427,7 +438,7 @@ useEffect(() => {
                   </div>
                 ))}
                 <div>
-                  {chatLoading ||imageChatLoading ? (
+                  {chatLoading || imageChatLoading ? (
                     <div className="ai-responding px-8">
                       <span className='text-md font-semibold text-gray-500 '> Ai is typing</span><span className="dot"></span><span className="dot"></span><span className="dot"></span>
                     </div>
@@ -461,7 +472,7 @@ useEffect(() => {
 
 
 
-           
+
           </div>
 
           {/* <div className='flex  py-4 justify-center'>

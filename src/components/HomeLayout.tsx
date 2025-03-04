@@ -22,7 +22,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Sidebar />
                 </div>
                 {/* Page Content */}
-                <main className="flex mt-20 container mx-auto gap-4  px-4">
+                <main className="flex  mt-20 container mx-auto gap-4  px-4">
                     <div className="max-lg:hidden block">
                         <Sidebar />
                     </div>
